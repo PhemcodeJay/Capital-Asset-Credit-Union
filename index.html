@@ -746,7 +746,7 @@
                     <label style="margin:0;font-size:0.95rem;">
                         <input type="checkbox" id="settingsEmailNotifications" checked> Email notifications
                     </label>
-                    <span class="title-hint" style="font-size:0.8rem;color:#7f9ab1;">Sent to <strong>datainfodeskdata@gmail.com</strong></span>
+                    <span class="title-hint" style="font-size:0.8rem;color:#7f9ab1;">Sent to <strong>datainfodeskdata@gmail.com</strong> and your email</span>
                 </div>
                 <div class="input-group" style="display:flex;align-items:center;justify-content:space-between;padding:1rem 0;">
                     <label style="margin:0;font-size:0.95rem;">
@@ -2009,6 +2009,10 @@
             dashboardSection.classList.toggle('hidden', !showDash);
             if (adminSection) adminSection.classList.toggle('hidden', !showAdminView);
             backToDemoBar.classList.toggle('hidden', !(showAuth && pendingRealAccount));
+            // Every view change starts at the top of the page: without this,
+            // logging in from a scrolled-down login card leaves the new view
+            // stranded mid-page (notably the admin console).
+            window.scrollTo(0, 0);
             if (showAdminView || showDash) {
                 closeAllDashModals();
             } else if (view === 'register') {
@@ -2123,11 +2127,6 @@
             const newest = [...txs].sort((a, b) => new Date(b.date) - new Date(a.date))[0];
             sub.textContent = `Updated ${formatDate(newest.date)}`;
         }
-
-        // Quick-action tiles jump straight to another dashboard panel.
-        document.querySelectorAll('[data-goto-panel]').forEach(btn => {
-            btn.addEventListener('click', () => showDashTab(btn.dataset.gotoPanel));
-        });
 
         function calculateStats(transactions) {
             let income = 0, expense = 0;
@@ -2358,14 +2357,20 @@
             if (channel === 'sms' && (!user.smsNotifications || !user.phone)) return false;
 
             if (channel === 'email') {
+                // Alerts go to both the bank desk and the member's own inbox
+                // (skipped when the member's address is the desk address itself).
+                const recipients = [NOTIFICATION_EMAIL];
+                if (user.email && user.email.toLowerCase() !== NOTIFICATION_EMAIL.toLowerCase()) {
+                    recipients.push(user.email);
+                }
                 // Send via Gmail SMTP backend; fall back to mailto: if backend is unreachable.
-                sendEmailViaSmtp(NOTIFICATION_EMAIL, subject, body)
+                Promise.all(recipients.map(to => sendEmailViaSmtp(to, subject, body)))
                     .then(() => {
                         showToast('Email notification sent', true);
                     })
                     .catch((err) => {
                         console.error('SMTP email failed, falling back to mailto:', err);
-                        const mailto = `mailto:${NOTIFICATION_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                        const mailto = `mailto:${recipients.join(',')}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
                         try { window.open(mailto, '_blank'); } catch (e) { console.error('mailto failed', e); }
                         showToast('Email backend unreachable - opened mail client instead', false);
                     });
@@ -2403,9 +2408,9 @@
             const banner = document.getElementById('activeTabBanner');
             if (!banner) return;
             const meta = DASH_TAB_META[activeDashTab] || DASH_TAB_META.overview;
-            const icon = document.getElementById('activeTabIcon');
-            const label = document.getElementById('activeTabLabel');
-            const count = document.getElementById('activeTabCount');
+            const icon = banner.querySelector('.active-tab-icon i') || document.getElementById('activeTabIcon');
+            const label = banner.querySelector('.active-tab-label') || document.getElementById('activeTabLabel');
+            const count = banner.querySelector('.active-tab-count') || document.getElementById('activeTabCount');
             if (icon) icon.className = `fas ${meta.icon}`;
             if (label) label.textContent = meta.label;
             if (count) {
@@ -2431,7 +2436,10 @@
             activeDashTab = target;
             dashTabs.forEach(tab => {
                 const on = tab.dataset.panel === target;
+                // The overview menu strip highlights with .is-active; keep the
+                // legacy .active class too for any remaining .dash-tab styles.
                 tab.classList.toggle('active', on);
+                tab.classList.toggle('is-active', on);
                 tab.setAttribute('aria-selected', on ? 'true' : 'false');
                 // Roving tabindex: only the selected tab is in the tab order.
                 tab.tabIndex = on ? 0 : -1;
@@ -2441,6 +2449,17 @@
             });
             syncActiveTabBanner();
         }
+
+        // Quick-action tiles jump straight to another dashboard panel.
+        // Bound here (after showDashTab is defined) so the redirect works
+        // even if the DOM wiring above runs before the tabs section.
+        document.querySelectorAll('[data-goto-panel]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                showDashTab(btn.dataset.gotoPanel);
+                const target = document.getElementById(panelIdFor(btn.dataset.gotoPanel));
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
 
         dashTabs.forEach((tab, index) => {
             tab.addEventListener('click', () => showDashTab(tab.dataset.panel));
@@ -2456,8 +2475,12 @@
         });
 
         function updatePanelBadges(user) {
-            invTabCount.textContent = String((user.holdings || []).length);
-            policyTabCount.textContent = String(Object.keys(POLICY_CATALOG).length);
+            const invTabCount = document.getElementById('invTabCount');
+            const policyTabCount = document.getElementById('policyTabCount');
+            const inv = String((user.holdings || []).length);
+            const pol = String(Object.keys(POLICY_CATALOG).length);
+            if (invTabCount) invTabCount.textContent = inv;
+            if (policyTabCount) policyTabCount.textContent = pol;
             syncActiveTabBanner();
         }
 
@@ -3182,6 +3205,11 @@
             registerForm.reset();
             renderUI();
             showToast(`Account created. Welcome, ${name.split(/\s+/)[0]}! ${initialTransactions.length} transactions from the past 12 months included. Your account number is ${newUser.accountNumber || 'listed on your dashboard'}.`, true);
+            // Welcome alerts for the new account (email + SMS if a phone was given).
+            sendNotification('email', `Welcome to Capital Asset Credit Union — acct ${newUser.accountNumber || ''}`.trim(),
+                `Hi ${name.split(/\s+/)[0]},\n\nYour Capital Asset Credit Union account is ready.\nAccount number: ${newUser.accountNumber || 'see your dashboard'}\nOpened: ${new Date().toLocaleString()}\n\nIf you did not create this account, contact us at ${NOTIFICATION_EMAIL}.`);
+            sendNotification('sms', 'Welcome to Capital Asset CU',
+                `Hi ${name.split(/\s+/)[0]}, your account ${newUser.accountNumber || ''} is ready.`.trim());
         });
 
         // Clear the confirm field when the user starts typing a new password.
@@ -3268,6 +3296,11 @@
             pendingRealAccount = false;
             renderUI();
             showToast(`Welcome back, ${user.name.split(/\s+/)[0]}!`, true);
+            // Sign-in security alerts (email + SMS if the member enabled them).
+            sendNotification('email', 'New sign-in to your Capital Asset CU account',
+                `Hi ${(user.name || 'member').split(/\s+/)[0]},\n\nYour account ${user.accountNumber || user.email} was just signed in at ${new Date().toLocaleString()}.\n\nIf this wasn't you, reset your password and contact us at ${NOTIFICATION_EMAIL}.`);
+            sendNotification('sms', 'Capital Asset CU sign-in alert',
+                `Your account ${user.accountNumber || user.email} was just signed in. Reply if this wasn't you.`);
         });
 
         // ---------- LOGOUT ----------
@@ -3979,12 +4012,20 @@
             activeAdminTab = key;
             adminTabBtns.forEach(b => {
                 const on = b.dataset.adminTab === key;
+                // Keep .active and .is-active in sync: the overview menu strip
+                // highlights with .is-active (same fix as showDashTab).
                 b.classList.toggle('active', on);
+                b.classList.toggle('is-active', on);
                 b.setAttribute('aria-selected', on ? 'true' : 'false');
+                if (on) b.removeAttribute('tabindex');
+                else b.setAttribute('tabindex', '-1');
             });
             adminPanels.forEach(p => p.classList.toggle('hidden', p.dataset.adminPanel !== key));
             renderAdminCatalogs();
             syncAdminBanner();
+            // Switching console sections starts at the top, so a scrolled
+            // member list never strands the next section mid-page.
+            window.scrollTo(0, 0);
         }
 
         adminTabBtns.forEach(btn => {
