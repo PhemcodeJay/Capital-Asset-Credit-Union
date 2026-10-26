@@ -4131,3 +4131,70 @@
     .ov-stats { grid-template-columns: 1fr; }
     .ov-hero { padding: 1.5rem 1rem; }
 }
+
+/* Keep the administrator console centered and its section menu in the page flow. */
+.admin-section > .admin-header,
+.admin-section > .admin-stats,
+.admin-section > .admin-ov-menu,
+.admin-section > .active-tab-banner,
+.admin-section > .dashboard-body,
+.admin-section > .app-footer {
+    width: min(100%, 1180px);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.admin-section > .admin-ov-menu {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.9rem;
+    margin-bottom: 0;
+}
+
+.admin-ov-menu .ov-menu-kicker {
+    grid-column: 1 / -1;
+}
+
+.admin-ov-menu .admin-tablist {
+    display: contents;
+}
+
+.admin-ov-menu .ov-menu-card {
+    width: 100%;
+    min-width: 0;
+    min-height: 4.75rem;
+}
+
+.admin-ov-menu .ov-menu-mail {
+    overflow-wrap: anywhere;
+    word-break: normal;
+}
+
+.admin-section > .active-tab-banner {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.admin-section .admin-dash-content {
+    width: 100%;
+}
+
+@media (max-width: 1000px) {
+    .admin-section > .admin-ov-menu {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .admin-section > .admin-ov-menu {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .admin-section .admin-stat {
+        min-width: 0;
+    }
+
+    .admin-section .admin-stat strong {
+        font-size: clamp(0.82rem, 4.3vw, 1.15rem);
+    }
+}
