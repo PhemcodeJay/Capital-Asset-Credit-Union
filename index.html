@@ -40,29 +40,30 @@
             <div class="hero-track" id="heroTrack">
                 <div class="hero-slide active" data-slide="home" role="tabpanel" id="slide-home" aria-labelledby="navBtn-home">
                 <div class="hero-content">
-                    <div class="hero-kicker">Built around you</div>
-                    <h1>Your Goals.<span>Our Priority.</span></h1>
+                    <div class="hero-kicker">Account request portal</div>
+                    <h1>Manage your<span>account requests.</span></h1>
                     <p>
-                        Bank smarter, grow faster. Capital Asset Credit Union is here to
-                        help you build a stronger financial future with secure, simple International banking.
+                        This application stores account records and submits requests for review. It is not connected
+                        to a bank, payment processor, or investment custodian; it does not move money or execute trades.
+                        Balances shown here are not bank deposits.
                     </p>
 
                     <div class="hero-features">
                         <div class="hero-feature">
                             <span class="hero-feature-icon"><i class="fas fa-piggy-bank"></i></span>
-                            <span>Better<br>Savings Rates</span>
+                            <span>Server-stored<br>accounts</span>
                         </div>
                         <div class="hero-feature">
                             <span class="hero-feature-icon"><i class="fas fa-shield-blank"></i></span>
-                            <span>Secure<br>&amp; Reliable</span>
+                            <span>Request<br>tracking</span>
                         </div>
                         <div class="hero-feature">
                             <span class="hero-feature-icon"><i class="fas fa-users"></i></span>
-                            <span>Member<br>Focused</span>
+                            <span>Admin<br>review</span>
                         </div>
                         <div class="hero-feature">
                             <span class="hero-feature-icon"><i class="fas fa-chart-line"></i></span>
-                            <span>Financial<br>Growth</span>
+                            <span>No payment<br>provider</span>
                         </div>
                     </div>
 
@@ -249,11 +250,6 @@
         <!-- RIGHT: LOGIN -->
         <section class="auth-side">
             <div class="auth-panel-wrap">
-                <div id="backToDemoBar" class="back-to-demo hidden">
-                    <span><i class="fas fa-flask"></i> Creating a real account from your demo session?</span>
-                    <button type="button" class="btn" id="backToDemoBtn">Back to demo dashboard</button>
-                </div>
-
                 <!-- Login Card -->
                 <div id="loginCard" class="auth-card">
                     <div class="auth-brand">
@@ -302,9 +298,7 @@
                         </button>
                     </form>
 
-                    <button type="button" class="demo-badge" id="demoFillBtn">
-                        <i class="fas fa-flask"></i> Try the demo account
-                    </button>
+
 
                     <div class="auth-footer">
                         Don't have an account? <a id="showRegisterLink">Enroll Now</a>
@@ -343,7 +337,7 @@
                             <label for="regPassword">Password</label>
                             <div class="input-wrap">
                                 <i class="fas fa-lock"></i>
-                                <input type="password" id="regPassword" placeholder="Create password" required autocomplete="new-password" minlength="6">
+                                <input type="password" id="regPassword" placeholder="Use at least 12 characters" required autocomplete="new-password" minlength="12">
                             </div>
                         </div>
                         <div class="input-group">
@@ -355,7 +349,7 @@
                         </div>
 
                         <div class="input-group">
-                            <label for="regPhone">Phone number (SMS notifications)</label>
+                            <label for="regPhone">Phone number (optional)</label>
                             <div class="input-wrap">
                                 <i class="fas fa-phone"></i>
                                 <input type="tel" id="regPhone" placeholder="+1 (555) 000-0000" maxlength="20">
@@ -426,19 +420,11 @@
             </div>
         </header>
 
-        <!-- Demo banner (only for demo user) -->
-        <div id="demoBanner" class="demo-banner hidden">
-            <span><i class="fas fa-flask"></i> You are using a <strong>demo account</strong>. Feel free to deposit and withdraw — changes are only saved in this browser.</span>
-            <span class="demo-banner-actions">
-                <button class="btn" id="resetDemoBtn"><i class="fas fa-rotate-left"></i> Reset demo</button>
-                <button class="btn" id="createRealAccountBtn"><i class="fas fa-user-plus"></i> Create real account</button>
-            </span>
-        </div>
-
         <!-- Shown when an administrator has frozen the account -->
-        <div id="frozenBanner" class="demo-banner frozen-banner hidden">
+        <div id="frozenBanner" class="status-banner frozen-banner hidden">
             <span><i class="fas fa-snowflake"></i> This account is <strong>frozen</strong>. Deposits, withdrawals and investments are paused. Please contact customer care.</span>
         </div>
+        <div id="pendingRequestsBanner" class="status-banner hidden" role="status" aria-live="polite"></div>
 
         <div class="dashboard-header">
             <div class="user-info">
@@ -741,18 +727,18 @@
         <div class="dash-panel" id="panelSettings" role="tabpanel" aria-labelledby="sideTabSettings" hidden>
             <div class="dash-card">
                 <h4 class="dash-card-title"><i class="fas fa-cog"></i> Notification settings</h4>
-                <p class="title-hint">Choose how you receive account alerts.</p>
+                <p class="title-hint">Email alerts are available when email delivery is configured. SMS is not currently available.</p>
                 <div class="input-group" style="display:flex;align-items:center;justify-content:space-between;padding:1rem 0;">
                     <label style="margin:0;font-size:0.95rem;">
                         <input type="checkbox" id="settingsEmailNotifications" checked> Email notifications
                     </label>
-                    <span class="title-hint" style="font-size:0.8rem;color:#7f9ab1;">Sent to <strong>capitalassetscreditunions@gmail.com</strong> and your email</span>
+                    <span class="title-hint" style="font-size:0.8rem;color:#7f9ab1;">Sent to your registered email address</span>
                 </div>
                 <div class="input-group" style="display:flex;align-items:center;justify-content:space-between;padding:1rem 0;">
                     <label style="margin:0;font-size:0.95rem;">
-                        <input type="checkbox" id="settingsSmsNotifications"> SMS notifications
+                        <input type="checkbox" id="settingsSmsNotifications" disabled> SMS notifications
                     </label>
-                    <span class="title-hint" style="font-size:0.8rem;color:#7f9ab1;">Sent to your phone</span>
+                    <span class="title-hint" style="font-size:0.8rem;color:#7f9ab1;">Unavailable until an SMS provider is configured</span>
                 </div>
                 <div class="input-group">
                     <label for="settingsPhone">Phone number</label>
@@ -828,7 +814,7 @@
 <div id="depositModal" class="modal-overlay">
     <div class="modal">
         <h3><i class="fas fa-arrow-down"></i> Deposit funds</h3>
-        <div class="modal-sub">Transfer money into your Capital Asset Credit Union account by bank transfer.</div>
+        <div class="modal-sub">Submit a deposit request for review. No payment or bank transfer is initiated by this site.</div>
         <form id="depositForm" novalidate>
             <div class="input-group">
                 <label for="depositAmount">Amount (USD)</label>
@@ -843,26 +829,9 @@
             </div>
             <div class="fee-summary" id="depositFeeSummary">
                 <div class="fee-row"><span>Transfer amount</span><span id="feeGross">$0.00</span></div>
-                <div class="fee-row"><span>International banking fee (5%)</span><span class="fee-amount" id="feeCharge">-$0.00</span></div>
+                <div class="fee-row"><span>Processing fee (5%)</span><span class="fee-amount" id="feeCharge">-$0.00</span></div>
                 <div class="fee-row total"><span>Net credited</span><span class="fee-amount" id="feeNet">$0.00</span></div>
-                <div class="fee-note">A 5% International banking charge is deducted from every deposit.</div>
-            </div>
-            <div class="care-contact">
-                <div class="care-contact-head"><i class="fas fa-headset"></i> Step 1 — Contact customer care</div>
-                <p>Email <span class="care-email">data</span> with your transfer details.</p>
-                <button type="button" class="btn" id="depositCareBtn"><i class="fas fa-envelope"></i> Email customer care</button>
-            </div>
-            <div class="care-contact care-locked" id="depositChannelWrap">
-                <div class="care-contact-head"><i class="fas fa-lock"></i> Step 2 — Your deposit channel</div>
-                <div class="channel-body" aria-hidden="true">
-                    <p>Send your transfer to <span class="care-email">capitalassetscreditunions@gmail.com</span> quoting your reference and the net amount shown above.</p>
-                </div>
-                <div class="channel-locked-hint" id="depositLockHint"><i class="fas fa-lock"></i> Email customer care first — the deposit channel is disclosed after they confirm your request.</div>
-            </div>
-            <div class="input-group">
-                <label for="depositSource">Transfer from (bank account)</label>
-                <input type="text" id="depositSource" placeholder="e.g., Northbridge Bank •••• 1234" required maxlength="60">
-                <div class="no-card-note"><i class="fas fa-circle-info"></i> No debit or credit card is charged.</div>
+                <div class="fee-note">The fee is applied only if a deposit request is approved.</div>
             </div>
             <div class="modal-actions">
                 <button type="button" class="btn btn-cancel" id="cancelDeposit">Cancel</button>
@@ -876,7 +845,7 @@
 <div id="withdrawModal" class="modal-overlay">
     <div class="modal">
         <h3><i class="fas fa-arrow-up"></i> Withdraw funds</h3>
-        <div class="modal-sub">Transfer money out of your Capital Asset Credit Union account by bank transfer.</div>
+        <div class="modal-sub">Submit a withdrawal request for review. No bank transfer is initiated by this site.</div>
         <form id="withdrawForm" novalidate>
             <div class="input-group">
                 <label for="withdrawAmount">Amount (USD)</label>
@@ -887,23 +856,6 @@
                     <button type="button" data-amount="200">-$200</button>
                     <button type="button" data-amount="500">-$500</button>
                 </div>
-            </div>
-            <div class="care-contact">
-                <div class="care-contact-head"><i class="fas fa-headset"></i> Step 1 — Contact customer care</div>
-                <p>Email <span class="care-email">capitalassetscreditunions@gmail.com</span> with your transfer details.</p>
-                <button type="button" class="btn" id="withdrawCareBtn"><i class="fas fa-envelope"></i> Email customer care</button>
-            </div>
-            <div class="care-contact care-locked" id="withdrawChannelWrap">
-                <div class="care-contact-head"><i class="fas fa-lock"></i> Step 2 — Your withdrawal channel</div>
-                <div class="channel-body" aria-hidden="true">
-                    <p>We will email your withdrawal channel and reference to <span class="care-email">capitalassetscreditunions@gmail.com</span> once customer care approves the request.</p>
-                </div>
-                <div class="channel-locked-hint" id="withdrawLockHint"><i class="fas fa-lock"></i> Email customer care first — the withdrawal channel is disclosed after they confirm your request.</div>
-            </div>
-            <div class="input-group">
-                <label for="withdrawDestination">Transfer to (bank account)</label>
-                <input type="text" id="withdrawDestination" placeholder="e.g., Meridian Bank •••• 5678" required maxlength="60">
-                <div class="no-card-note"><i class="fas fa-circle-info"></i> No debit or credit card is charged.</div>
             </div>
             <div class="modal-actions">
                 <button type="button" class="btn btn-cancel" id="cancelWithdraw">Cancel</button>
@@ -920,7 +872,7 @@
             <i class="fas fa-user-shield" aria-hidden="true"></i>
             <div>
                 <h3>Administrator console</h3>
-                <p>Manage the member accounts stored in this browser</p>
+                <p>Manage member accounts stored on the server</p>
             </div>
         </div>
         <div class="admin-header-actions">
@@ -1000,14 +952,20 @@
             <li class="admin-empty">No customer accounts yet.</li>
         </ul>
         <p class="admin-result-count" id="adminResultCount" role="status" aria-live="polite"></p>
+        <div class="admin-toolbar">
+            <strong class="admin-card-heading"><i class="fas fa-hourglass-half" aria-hidden="true"></i> Pending money requests</strong>
+            <button type="button" class="btn admin-btn" id="adminRequestsRefreshBtn"><i class="fas fa-rotate"></i> Refresh</button>
+            <span class="admin-card-note">Approve money requests only after external settlement is independently verified. Investment requests cannot be settled here.</span>
+        </div>
+        <ul class="admin-customer-list" id="adminRequestList">
+            <li class="admin-empty">No pending requests.</li>
+        </ul>
     </div>
 
     <div class="admin-card hidden" id="adminPanelInvestments" role="tabpanel" aria-labelledby="adminTabInvestments" tabindex="0" data-admin-panel="investments">
         <div class="admin-toolbar">
             <strong class="admin-card-heading"><i class="fas fa-chart-line" aria-hidden="true"></i> Investment products</strong>
-            <button type="button" class="btn admin-btn" data-catalog-reset="investments"><i class="fas fa-clock-rotate-left" aria-hidden="true"></i> Restore defaults</button>
-            <button type="button" class="btn btn-primary" data-catalog-add="investments"><i class="fas fa-plus" aria-hidden="true"></i> Add investment</button>
-            <span class="admin-card-note">Added here for everyone; investable from the member Services tab.</span>
+            <span class="admin-card-note">Read-only catalog. Investment execution and custody are not configured.</span>
         </div>
         <ul class="admin-customer-list" id="adminInvList">
             <li class="admin-empty">No investment products.</li>
@@ -1018,9 +976,7 @@
     <div class="admin-card hidden" id="adminPanelPolicies" role="tabpanel" aria-labelledby="adminTabPolicies" tabindex="0" data-admin-panel="policies">
         <div class="admin-toolbar">
             <strong class="admin-card-heading"><i class="fas fa-file-contract" aria-hidden="true"></i> Policies &amp; documents</strong>
-            <button type="button" class="btn admin-btn" data-catalog-reset="policies"><i class="fas fa-clock-rotate-left" aria-hidden="true"></i> Restore defaults</button>
-            <button type="button" class="btn btn-primary" data-catalog-add="policies"><i class="fas fa-plus" aria-hidden="true"></i> Add policy</button>
-            <span class="admin-card-note">Shown to every member; each member tracks their own acceptance.</span>
+            <span class="admin-card-note">Read-only built-in documents.</span>
         </div>
         <ul class="admin-customer-list" id="adminPolList">
             <li class="admin-empty">No policies.</li>
@@ -1031,9 +987,7 @@
     <div class="admin-card hidden" id="adminPanelServices" role="tabpanel" aria-labelledby="adminTabServices" tabindex="0" data-admin-panel="services">
         <div class="admin-toolbar">
             <strong class="admin-card-heading"><i class="fas fa-layer-group" aria-hidden="true"></i> Banking services</strong>
-            <button type="button" class="btn admin-btn" data-catalog-reset="services"><i class="fas fa-clock-rotate-left" aria-hidden="true"></i> Restore defaults</button>
-            <button type="button" class="btn btn-primary" data-catalog-add="services"><i class="fas fa-plus" aria-hidden="true"></i> Add service</button>
-            <span class="admin-card-note">Cards on the member Services tab; investment cards are generated automatically.</span>
+            <span class="admin-card-note">Read-only built-in service information.</span>
         </div>
         <ul class="admin-customer-list" id="adminSvcList">
             <li class="admin-empty">No services.</li>
@@ -1080,7 +1034,7 @@
                 <label for="adminCreatePassword">Password</label>
                 <div class="input-wrap">
                     <i class="fas fa-lock"></i>
-                    <input type="password" id="adminCreatePassword" placeholder="Create password" required autocomplete="new-password" minlength="6">
+                    <input type="password" id="adminCreatePassword" placeholder="Use at least 12 characters" required autocomplete="new-password" minlength="12">
                 </div>
             </div>
             <div class="input-group">
@@ -1158,10 +1112,6 @@
 <script>
     (function() {
         // ---------- CONSTANTS ----------
-        const USERS_KEY = 'capitalasset_users_v1';
-        const SESSION_KEY = 'capitalasset_session_v1';
-        const DEMO_EMAIL = 'john@demo.com';
-        const DEMO_PASSWORD = 'demo123';
         const CARE_EMAIL = 'capitalassetscreditunions@gmail.com';
         const NOTIFICATION_EMAIL = 'capitalassetscreditunions@gmail.com';
         const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -1170,11 +1120,7 @@
         const DEPOSIT_FEE_RATE = 0.05;
 
         // ---------- BANKING CATALOGS ----------
-        // The investment, policy and service catalogs are seeded from the
-        // defaults below and then persisted to localStorage, so anything an
-        // administrator adds, edits or deletes survives reloads for every
-        // member. Member-specific state (holdings, accepted policy ids) still
-        // lives on the user record - see normaliseUser.
+        // Catalog data is read-only until it has a server-backed management API.
         const INVEST_FEE_RATE = 0.0075;
 
         const CATALOG_KEYS = {
@@ -1183,32 +1129,9 @@
             services: 'capitalasset_catalog_services_v1'
         };
 
-        // readItem/writeItem/removeItem are function declarations further down
-        // the script, so they are hoisted and safe to call while this section
-        // initialises.
         function loadCatalog(key, fallback) {
-            const raw = readItem(key);
-            if (!raw) return JSON.parse(JSON.stringify(fallback));
-            try {
-                const parsed = JSON.parse(raw);
-                if (!isPlainObject(parsed)) throw new TypeError('Expected an object of catalog entries');
-                return parsed;
-            } catch (err) {
-                console.error('Capital Asset CU: stored catalog was unreadable and has been reset -', err);
-                removeItem(key);
-                return JSON.parse(JSON.stringify(fallback));
-            }
-        }
-
-        function saveCatalog(key, data) {
-            return writeItem(key, JSON.stringify(data));
-        }
-
-        // Drop every live entry and re-seed from the built-in defaults, keeping
-        // the same object identity so existing references stay valid.
-        function reloadCatalogEntry(store, fallback) {
-            Object.keys(store).forEach(k => delete store[k]);
-            Object.assign(store, JSON.parse(JSON.stringify(fallback)));
+            removeItem(key);
+            return JSON.parse(JSON.stringify(fallback));
         }
 
         const DEFAULT_INVESTMENT_CATALOG = {
@@ -1239,22 +1162,9 @@
         };
 
         const INVESTMENT_CATALOG = loadCatalog(CATALOG_KEYS.investments, DEFAULT_INVESTMENT_CATALOG);
-        function saveInvestmentCatalog() {
-            return saveCatalog(CATALOG_KEYS.investments, INVESTMENT_CATALOG);
-        }
 
-        // Deterministic pseudo-random walk so the "price as of today" figure
-        // moves between visits without needing a network call. Seeded from the
-        // day number, so the same date always yields the same price.
-        function priceAsOf(id, date) {
-            const base = INVESTMENT_CATALOG[id].price;
-            const day = Math.floor(date.getTime() / 86400000);
-            let seed = day;
-            for (let i = 0; i < id.length; i++) {
-                seed = (seed * 31 + id.charCodeAt(i)) % 100000;
-            }
-            const wobble = ((seed % 1000) / 1000 - 0.5) * 0.08;
-            return toMoney(base * (1 + wobble));
+        function priceAsOf(id) {
+            return toMoney(INVESTMENT_CATALOG[id].price);
         }
 
         const DEFAULT_POLICY_CATALOG = {
@@ -1327,9 +1237,6 @@
         };
 
         const POLICY_CATALOG = loadCatalog(CATALOG_KEYS.policies, DEFAULT_POLICY_CATALOG);
-        function savePolicyCatalog() {
-            return saveCatalog(CATALOG_KEYS.policies, POLICY_CATALOG);
-        }
 
         const DEFAULT_SERVICE_CATALOG = {
             // Icon names must exist in the free Font Awesome 6 build loaded from
@@ -1338,24 +1245,24 @@
             deposit: {
                 name: 'Deposit funds',
                 icon: 'fa-arrow-down',
-                blurb: 'Move money in by bank transfer.',
-                rates: [['Minimum deposit', '$1,000.00'], ['International banking fee', '5% of transfer'], ['Settlement', '1-2 business days']],
+                blurb: 'Submit a deposit request for review.',
+                rates: [['Minimum request', '$1,000.00'], ['Processing fee on approval', '5%'], ['Payment provider', 'Not configured']],
                 points: [
-                    'Transfers are requested by email to customer care, who disclose the channel.',
-                    'The 5% fee is itemised before you confirm anything.',
-                    'No card is ever charged - deposits arrive by bank transfer.'
+                    'This site does not initiate or receive bank transfers.',
+                    'A request does not add funds to your account balance.',
+                    'No bank account or card details should be entered or emailed.'
                 ],
                 action: 'deposit'
             },
             withdraw: {
                 name: 'Withdraw funds',
                 icon: 'fa-arrow-up',
-                blurb: 'Send money out to any account.',
-                rates: [['Fee', 'None'], ['Same-day limit', '$25,000.00'], ['Settlement', 'Instant to 1 day']],
+                blurb: 'Submit a withdrawal request for review.',
+                rates: [['Transfer provider', 'Not configured'], ['Settlement', 'Not available']],
                 points: [
-                    'Withdrawals are checked against your available balance immediately.',
-                    'Destination details appear in your confirmation receipt.',
-                    'Tell us before travelling if you plan a large transfer.'
+                    'This site does not initiate bank transfers.',
+                    'Approved requests update only this application’s internal ledger.',
+                    'Do not enter or email bank account details.'
                 ],
                 action: 'withdraw'
             },
@@ -1445,7 +1352,7 @@
                 blurb: 'Download a statement of your activity.',
                 rates: [['Format', 'CSV'], ['History', 'All stored activity'], ['Includes', 'Deposits, withdrawals, trades']],
                 points: [
-                    'Your statement is generated from the activity stored in this browser.',
+                    'Your statement is generated from activity stored on the server.',
                     'The file downloads straight to your device - nothing is emailed.',
                     'Columns match your transaction history exactly.'
                 ],
@@ -1465,22 +1372,8 @@
             }
         };
 
-        // The editable service entries an administrator manages are stored
-        // separately from the live SERVICE_CATALOG, which also carries a
-        // generated card for every investment product (see rebuild below).
+        // Built-in service entries are shown alongside generated investment cards.
         const BASE_SERVICE_CATALOG = loadCatalog(CATALOG_KEYS.services, DEFAULT_SERVICE_CATALOG);
-        function saveServiceCatalog() {
-            return saveCatalog(CATALOG_KEYS.services, BASE_SERVICE_CATALOG);
-        }
-        let addedDefaultServices = false;
-        Object.keys(DEFAULT_SERVICE_CATALOG).forEach(key => {
-            if (Object.prototype.hasOwnProperty.call(BASE_SERVICE_CATALOG, key)) return;
-            BASE_SERVICE_CATALOG[key] = JSON.parse(JSON.stringify(DEFAULT_SERVICE_CATALOG[key]));
-            addedDefaultServices = true;
-        });
-        if (addedDefaultServices && !saveServiceCatalog()) {
-            console.warn('Capital Asset CU: new default services could not be saved; they are available for this session only.');
-        }
 
         const SERVICE_CATALOG = {};
 
@@ -1495,16 +1388,16 @@
                 SERVICE_CATALOG[id] = {
                     name: fund.name,
                     icon: 'fa-chart-line',
-                    blurb: `${fund.category} · invest from $1.00`,
+                    blurb: `${fund.category} · informational only`,
                     rates: [
                         ['Category', fund.category],
-                        ['Price today', `${formatMoney(priceAsOf(id, new Date()))}`],
-                        ['Platform fee', `${(INVEST_FEE_RATE * 100).toFixed(2)}%`]
+                        ['Illustrative reference price', `${formatMoney(priceAsOf(id))}`],
+                        ['Execution and custody', 'Not configured']
                     ],
                     points: [
-                        'Priced once per day and held until the next business day.',
-                        'Sell back into your available balance at the same price.',
-                        'Minimum investment is $1.00, so you can start small.'
+                        'Reference pricing is illustrative and is not live market data.',
+                        'This application has no investment execution or custody provider.',
+                        'Submitting a request does not purchase or sell any assets.'
                     ]
                 };
             });
@@ -1512,22 +1405,6 @@
         rebuildServiceCatalog();
 
         // ---------- HELPERS ----------
-        function isPlainObject(value) {
-            return !!value && typeof value === 'object' && !Array.isArray(value);
-        }
-
-        // localStorage can be disabled (private mode / strict settings) or hold
-        // corrupted data. Never let a throw here break the whole app.
-        function readItem(key) {
-            try { return localStorage.getItem(key); }
-            catch (err) { console.warn('Capital Asset CU: localStorage unavailable -', err); return null; }
-        }
-
-        function writeItem(key, value) {
-            try { localStorage.setItem(key, value); return true; }
-            catch (err) { console.warn('Capital Asset CU: could not save to localStorage -', err); return false; }
-        }
-
         function removeItem(key) {
             try {
                 localStorage.removeItem(key);
@@ -1566,381 +1443,6 @@
             return d && !isNaN(d.getTime()) ? d.toLocaleDateString() : '';
         }
 
-        // Normalise a stored transaction. Legacy records used the type
-        // 'withdrawal'; everything now uses the canonical 'deposit' / 'withdraw'.
-        function normaliseTx(tx) {
-            if (!isPlainObject(tx)) return null;
-            const amount = toMoney(tx.amount);
-            if (amount <= 0) return null;
-            const type = tx.type === 'deposit' ? 'deposit' : 'withdraw';
-            const date = new Date(tx.date);
-            return {
-                type,
-                amount,
-                description: typeof tx.description === 'string' ? tx.description.slice(0, 120) : '',
-                date: isNaN(date.getTime()) ? new Date().toISOString() : date.toISOString(),
-                id: typeof tx.id === 'string' && tx.id ? tx.id : createId()
-            };
-        }
-
-        // Normalise a stored investment holding. Units and cost basis are
-        // coerced the same way as money so a corrupted record can never
-        // render NaN into the portfolio figures.
-        function normaliseHolding(h) {
-            if (!isPlainObject(h)) return null;
-            const id = typeof h.id === 'string' && h.id ? h.id : '';
-            if (!INVESTMENT_CATALOG[id]) return null;
-            const units = toMoney(h.units);
-            if (units <= 0) return null;
-            return {
-                id,
-                units,
-                costBasis: toMoney(h.costBasis) || units * INVESTMENT_CATALOG[id].price
-            };
-        }
-
-        // Normalise a stored user record, coercing every field to a safe shape.
-        // Transaction history is capped at the most recent 12 months for every
-        // account - not an option, enforced here on every load and save.
-        const HISTORY_WINDOW_MS = 365 * 86400000;
-        function pruneToOneYear(txs) {
-            const cutoff = Date.now() - HISTORY_WINDOW_MS;
-            return (txs || []).filter(tx => {
-                const ms = new Date(tx.date).getTime();
-                return isNaN(ms) || ms >= cutoff;
-            });
-        }
-
-        function normaliseUser(user) {
-            if (!isPlainObject(user) || typeof user.email !== 'string' || !user.email) return null;
-            const transactions = pruneToOneYear(Array.isArray(user.transactions)
-                ? user.transactions.map(normaliseTx).filter(Boolean)
-                : []);
-            const holdings = Array.isArray(user.holdings)
-                ? user.holdings.map(normaliseHolding).filter(Boolean)
-                : [];
-            // Policy ids the member has accepted; anything unrecognised is
-            // dropped so a removed policy cannot linger as a false "accepted".
-            const accepted = Array.isArray(user.acceptedPolicies)
-                ? user.acceptedPolicies.filter(id => typeof id === 'string' && POLICY_CATALOG[id])
-                : [];
-            return {
-                id: typeof user.id === 'string' && user.id ? user.id : createId(),
-                name: typeof user.name === 'string' && user.name.trim() ? user.name.trim().slice(0, 60) : 'User',
-                email: user.email.trim().toLowerCase(),
-                accountNumber: isAccountNumber(user.accountNumber) ? user.accountNumber : '',
-                password: typeof user.password === 'string' ? user.password : '',
-                balance: toMoney(user.balance),
-                isDemo: user.isDemo === true,
-                frozen: user.frozen === true,
-                createdAt: typeof user.createdAt === 'string' ? user.createdAt : new Date().toISOString(),
-                transactions: transactions.sort((a, b) => new Date(a.date) - new Date(b.date)),
-                holdings,
-                acceptedPolicies: [...new Set(accepted)],
-                emailNotifications: user.emailNotifications !== false,
-                smsNotifications: user.smsNotifications === true,
-                phone: typeof user.phone === 'string' ? user.phone.trim().slice(0, 20) : ''
-            };
-        }
-
-        let idCounter = 0;
-        function createId() {
-            idCounter += 1;
-            return `id_${Date.now().toString(36)}_${idCounter}`;
-        }
-
-        // Ten-digit account numbers (1000000000 - 9999999999) for every
-        // registered user. Collisions are vanishingly rare, but the
-        // generator checks the supplied set before returning a number.
-        function createAccountNumber(taken) {
-            for (let attempt = 0; attempt < 25; attempt += 1) {
-                const num = String(1000000000 + Math.floor(Math.random() * 9000000000));
-                if (!taken || !taken.has(num)) return num;
-            }
-            return `${Date.now()}`.slice(-10).padStart(10, '1');
-        }
-
-        function isAccountNumber(value) {
-            return typeof value === 'string' && /^[0-9]{10}$/.test(value);
-        }
-
-        // Every stored user must carry a ten-digit account number. Records
-        // created before the field existed get one here and are persisted
-        // immediately, so registration, demo seeding and admin creation all
-        // converge on numbered accounts.
-        function ensureAccountNumbers(users) {
-            const taken = new Set((users || []).map(u => u.accountNumber).filter(isAccountNumber));
-            let changed = false;
-            (users || []).forEach(u => {
-                if (!isAccountNumber(u.accountNumber)) {
-                    u.accountNumber = createAccountNumber(taken);
-                    taken.add(u.accountNumber);
-                    changed = true;
-                }
-            });
-            return changed;
-        }
-
-        function loadUsers() {
-            const stored = readItem(USERS_KEY);
-            if (!stored) return [];
-            try {
-                const parsed = JSON.parse(stored);
-                if (!Array.isArray(parsed)) throw new TypeError('Expected an array of users');
-                const users = parsed.map(normaliseUser).filter(Boolean);
-                if (ensureAccountNumbers(users)) saveUsers(users);
-                return users;
-            } catch (err) {
-                console.error('Capital Asset CU: saved data was unreadable and has been reset -', err);
-                removeItem(USERS_KEY);
-                return [];
-            }
-        }
-
-        function saveUsers(users) {
-            return writeItem(USERS_KEY, JSON.stringify(users));
-        }
-
-        // ---------- SESSION ----------
-        // "Remember me" picks where the session is kept: localStorage survives a
-        // browser restart, sessionStorage dies with the tab. readItem/writeItem/
-        // removeItem are localStorage-only, so mirror them for sessionStorage.
-        function readSessionItem(key) {
-            try { return sessionStorage.getItem(key); }
-            catch (err) { console.warn('Capital Asset CU: sessionStorage unavailable -', err); return null; }
-        }
-
-        function writeSessionItem(key, value) {
-            try { sessionStorage.setItem(key, value); return true; }
-            catch (err) { console.warn('Capital Asset CU: could not save to sessionStorage -', err); return false; }
-        }
-
-        function removeSessionItem(key) {
-            try { sessionStorage.removeItem(key); } catch (err) { /* ignore */ }
-        }
-
-        // Start a session in the scope the user asked for. Always clears both
-        // scopes first so a previous session can never leak through.
-        function startSession(email, remember) {
-            removeItem(SESSION_KEY);
-            removeSessionItem(SESSION_KEY);
-            const saved = remember
-                ? writeItem(SESSION_KEY, email)
-                : writeSessionItem(SESSION_KEY, email);
-            if (!saved) {
-                // One scope is blocked (private mode / strict settings). Fall back
-                // to the other so the sign-in still works for this page view.
-                const fallback = remember
-                    ? writeSessionItem(SESSION_KEY, email)
-                    : writeItem(SESSION_KEY, email);
-                return fallback;
-            }
-            return true;
-        }
-
-        function endSession() {
-            removeItem(SESSION_KEY);
-            removeSessionItem(SESSION_KEY);
-        }
-
-        function getSessionEmail() {
-            // sessionStorage is checked first so an unchecked "Remember me"
-            // always wins over a stale persisted session.
-            const tab = readSessionItem(SESSION_KEY);
-            if (typeof tab === 'string' && tab.trim()) return tab.trim().toLowerCase();
-            const stored = readItem(SESSION_KEY);
-            return typeof stored === 'string' && stored.trim()
-                ? stored.trim().toLowerCase()
-                : null;
-        }
-
-        function getCurrentUser() {
-            const email = getSessionEmail();
-            if (!email) return null;
-            return loadUsers().find(u => u.email === email) || null;
-        }
-
-        function updateCurrentUser(updatedUser) {
-            const users = loadUsers();
-            const idx = users.findIndex(u => u.email === updatedUser.email);
-            if (idx === -1) return false;
-            users[idx] = normaliseUser(updatedUser);
-            return saveUsers(users);
-        }
-
-        // Build a fresh copy of the demo user.
-        function buildDemoUser() {
-            const day = 86400000;
-            const transactions = [
-                { type: 'deposit',   amount: 1500.00, description: 'Transfer from Northbridge Bank •••• 1234', date: new Date(Date.now() - day * 3).toISOString() },
-                { type: 'withdraw',  amount: 200.00,  description: 'Transfer to Meridian Bank •••• 5678', date: new Date(Date.now() - day * 2).toISOString() },
-                { type: 'deposit',   amount: 1150.75, description: 'Transfer from Northbridge Bank •••• 1234', date: new Date(Date.now() - day).toISOString() }
-            ];
-            return normaliseUser({
-                id: 'demo_user',
-                name: 'John Demo',
-                email: DEMO_EMAIL,
-                password: DEMO_PASSWORD,
-                // 1500 + 1150.75 - 200 = 2450.75, matching the seeded history.
-                balance: 224700000.75,
-                isDemo: true,
-                createdAt: new Date().toISOString(),
-                transactions,
-                // Seed a small portfolio so the Investments tab is not empty on a
-                // first visit. Cost basis is deliberately below today's price so
-                // the demo shows a positive return.
-                holdings: [
-                    { id: 'cap-growth', units: 6, costBasis: 6 * 131.4 },
-                    { id: 'stable-income', units: 9, costBasis: 9 * 98.75 },
-                    { id: 'green-transition', units: 4, costBasis: 4 * 69.2 }
-                ],
-                acceptedPolicies: ['International-banking-agreement', 'deposit-protection']
-            });
-        }
-
-        // Generate ~30 transactions across the last 12 months so a new real
-        // account opens with a full year of history. Balances are computed so
-        // the running total never goes negative and ends at `balance`.
-        function buildOneYearHistory() {
-            const day = 86400000;
-            const now = Date.now();
-            const txs = [];
-            let running = 2500; // opening balance
-            const months = ['January', 'February', 'March', 'April', 'May', 'June',
-                'July', 'August', 'September', 'October', 'November', 'December'];
-            // Two entries per month on average: one deposit, one withdrawal.
-            for (let m = 11; m >= 0; m--) {
-                const monthStart = new Date(now - day * 30 * (m + 1)).toISOString();
-                const monthMid   = new Date(now - day * 30 * m - day * 15).toISOString();
-                // Deposit (paycheck / transfer)
-                const depAmount = toMoney(900 + Math.floor(Math.random() * 700));
-                txs.push(normaliseTx({
-                    type: 'deposit',
-                    amount: depAmount,
-                    description: `Direct deposit - ${months[m]}`,
-                    date: monthStart
-                }));
-                running = toMoney(running + depAmount);
-                // Withdrawal (bill / purchase)
-                const wdAmount = toMoney(40 + Math.floor(Math.random() * 360));
-                if (running - wdAmount > 0) {
-                    txs.push(normaliseTx({
-                        type: 'withdraw',
-                        amount: wdAmount,
-                        description: `Bill payment - ${months[m]}`,
-                        date: monthMid
-                    }));
-                    running = toMoney(running - wdAmount);
-                }
-            }
-            return { transactions: txs, balance: running };
-        }
-
-        // Build a much richer one-year history for Rick Carl (~150+ transactions:
-        // weekly paychecks, recurring bills, grocery runs, ATM withdrawals, and
-        // occasional large transfers). The running balance starts at
-        // 22,500,728.00 and stays comfortably positive.
-        function buildRickCarlHistory() {
-            const day = 86400000;
-            const week = day * 7;
-            const now = Date.now();
-            const txs = [];
-            let running = 22500728; // Rick's opening balance
-
-            const depositDescs = [
-                'Payroll deposit - Acme Corp',
-                'Direct deposit - Freelance project',
-                'Transfer from savings',
-                'Tax refund - IRS',
-                'Client payment - Northbridge LLC',
-                'Dividend payout - Index Fund',
-                'Rental income - Unit 4B',
-                'Reimbursement - travel expenses'
-            ];
-            const withdrawDescs = [
-                'Grocery - Whole Foods',
-                'Utility bill - City Power',
-                'Internet bill - NetFast',
-                'ATM withdrawal',
-                'Gas station - Shell',
-                'Dining - Olive Garden',
-                'Streaming subs - Netflix/Spotify',
-                'Mobile bill - Verizon',
-                'Insurance premium - StateFarm',
-                'Pharmacy - CVS'
-            ];
-
-            // ~3 transactions per week for the last 52 weeks
-            for (let w = 51; w >= 0; w--) {
-                const weekStart = new Date(now - week * (w + 1)).toISOString();
-
-                // Weekly paycheck (every week)
-                const pay = toMoney(3200 + Math.floor(Math.random() * 800));
-                txs.push(normaliseTx({
-                    type: 'deposit',
-                    amount: pay,
-                    description: depositDescs[Math.floor(Math.random() * depositDescs.length)],
-                    date: weekStart
-                }));
-                running = toMoney(running + pay);
-
-                // Mid-week bill / purchase
-                const midDate = new Date(now - week * w - day * 3).toISOString();
-                const bill = toMoney(25 + Math.floor(Math.random() * 475));
-                txs.push(normaliseTx({
-                    type: 'withdraw',
-                    amount: bill,
-                    description: withdrawDescs[Math.floor(Math.random() * withdrawDescs.length)],
-                    date: midDate
-                }));
-                running = toMoney(running - bill);
-
-                // Weekend spend (every other week)
-                if (w % 2 === 0) {
-                    const wdDate = new Date(now - week * w - day * 5).toISOString();
-                    const spend = toMoney(15 + Math.floor(Math.random() * 235));
-                    txs.push(normaliseTx({
-                        type: 'withdraw',
-                        amount: spend,
-                        description: 'Weekend purchase - ' + withdrawDescs[Math.floor(Math.random() * withdrawDescs.length)],
-                        date: wdDate
-                    }));
-                    running = toMoney(running - spend);
-                }
-
-                // Occasional large transfer (once every 6 weeks)
-                if (w % 6 === 0) {
-                    const bigDate = new Date(now - week * w - day * 1).toISOString();
-                    const big = toMoney(500 + Math.floor(Math.random() * 4500));
-                    txs.push(normaliseTx({
-                        type: 'deposit',
-                        amount: big,
-                        description: 'Large transfer - investment maturity',
-                        date: bigDate
-                    }));
-                    running = toMoney(running + big);
-                }
-            }
-
-            // Sort newest first so the most recent activity shows at the top.
-            txs.sort((a, b) => new Date(b.date) - new Date(a.date));
-            return { transactions: txs, balance: running };
-        }
-
-        // Ensure the demo account exists. `force` recreates it from scratch.
-        function seedDemoData(force) {
-            const users = loadUsers();
-            const idx = users.findIndex(u => u.email === DEMO_EMAIL);
-            if (force) {
-                if (idx !== -1) users[idx] = buildDemoUser();
-                else users.push(buildDemoUser());
-            } else {
-                if (idx === -1) users.push(buildDemoUser());
-                else if (users[idx].isDemo !== true) users[idx].isDemo = true;
-            }
-            saveUsers(users);
-        }
-
         // ---------- DOM ----------
         const appContainer = document.getElementById('appContainer');
         const authSection = document.getElementById('authSection');
@@ -1968,11 +1470,7 @@
         const logoutBtn = document.getElementById('logoutBtn');
         const totalIncome = document.getElementById('totalIncome');
         const totalExpense = document.getElementById('totalExpense');
-        const demoBanner = document.getElementById('demoBanner');
-        const createRealAccountBtn = document.getElementById('createRealAccountBtn');
-        const resetDemoBtn = document.getElementById('resetDemoBtn');
-        const backToDemoBar = document.getElementById('backToDemoBar');
-        const backToDemoBtn = document.getElementById('backToDemoBtn');
+        const pendingRequestsBanner = document.getElementById('pendingRequestsBanner');
 
         // Investments
         const invTotalValue = document.getElementById('invTotalValue');
@@ -1996,10 +1494,6 @@
         const settingsPhone = document.getElementById('settingsPhone');
         const settingsSaveBtn = document.getElementById('settingsSaveBtn');
 
-        // True while a demo session is being converted into a real account, so the
-        // user can abandon the flow and return to the demo dashboard.
-        let pendingRealAccount = false;
-
         const depositModal = document.getElementById('depositModal');
         const withdrawModal = document.getElementById('withdrawModal');
         const depositBtn = document.getElementById('depositBtn');
@@ -2009,22 +1503,13 @@
         const depositForm = document.getElementById('depositForm');
         const withdrawForm = document.getElementById('withdrawForm');
         const depositAmount = document.getElementById('depositAmount');
-        const depositSource = document.getElementById('depositSource');
         const withdrawAmount = document.getElementById('withdrawAmount');
-        const withdrawDestination = document.getElementById('withdrawDestination');
-        const depositCareBtn = document.getElementById('depositCareBtn');
-        const withdrawCareBtn = document.getElementById('withdrawCareBtn');
-        const depositChannelWrap = document.getElementById('depositChannelWrap');
-        const withdrawChannelWrap = document.getElementById('withdrawChannelWrap');
-        const depositLockHint = document.getElementById('depositLockHint');
-        const withdrawLockHint = document.getElementById('withdrawLockHint');
         const feeGross = document.getElementById('feeGross');
         const feeCharge = document.getElementById('feeCharge');
         const feeNet = document.getElementById('feeNet');
 
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toastMessage');
-        const demoFillBtn = document.getElementById('demoFillBtn');
 
         // ---------- AUTH UI ----------
         function showLogin() {
@@ -2063,7 +1548,6 @@
             authSection.classList.toggle('hidden', !showAuth);
             dashboardSection.classList.toggle('hidden', !showDash);
             if (adminSection) adminSection.classList.toggle('hidden', !showAdminView);
-            backToDemoBar.classList.toggle('hidden', !(showAuth && pendingRealAccount));
             if (showAdminView) {
                 window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
                 requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: 'instant' }));
@@ -2086,8 +1570,7 @@
         function renderUI(view) {
             // An administrator session takes precedence: it shares the page but
             // not the member dashboard.
-            if (adminSession()) {
-                pendingRealAccount = false;
+            if (currentAdmin) {
                 setView('admin');
                 renderAdminDashboard();
                 renderAdminCatalogs();
@@ -2096,13 +1579,9 @@
             }
             const user = getCurrentUser();
             if (user) {
-                // Returning to the dashboard means the "create real account" flow is over.
-                pendingRealAccount = false;
                 setView('dashboard');
                 updateDashboard(user);
             } else {
-                // Drop any session pointing at a user that no longer exists.
-                if (getSessionEmail()) endSession();
                 setView(view === 'register' ? 'register' : 'login');
                 loginForm.reset();
                 registerForm.reset();
@@ -2110,11 +1589,13 @@
         }
 
         function updateDashboard(user, highlightNew = false) {
-            // Set avatar class based on demo status
-            avatarInitial.classList.toggle('demo', !!user.isDemo);
-            avatarInitial.classList.toggle('real', !user.isDemo);
-            demoBanner.classList.toggle('hidden', !user.isDemo);
+            avatarInitial.classList.add('real');
             if (frozenBanner) frozenBanner.classList.toggle('hidden', !isFrozen(user));
+            const pendingRequests = user.pendingRequests || [];
+            pendingRequestsBanner.classList.toggle('hidden', pendingRequests.length === 0);
+            pendingRequestsBanner.textContent = pendingRequests.length
+                ? `${pendingRequests.length} request${pendingRequests.length === 1 ? '' : 's'} awaiting review. Requests are not transfers and do not change your balance until verified and settled.`
+                : '';
 
             const firstName = (user.name || 'User').trim().split(/\s+/)[0] || 'User';
             welcomeName.textContent = `Welcome, ${firstName}`;
@@ -2391,16 +1872,17 @@
 
         // Send a notification to the member via the requested channel.
         // Email is sent via the Gmail SMTP backend (POST /api/send-email).
-        // SMS is simulated (no gateway configured in this demo).
+        // SMS delivery is unavailable until a gateway is configured.
         // Same-origin by default: works on localhost AND on Render, where
         // Express serves this page and the /api route from one domain.
         const API_BASE = window.location.origin;
 
-        async function sendEmailViaSmtp(to, subject, body) {
-            const resp = await fetch(`${API_BASE}/api/send-email`, {
+        async function sendEmailViaSmtp(subject, body) {
+            const resp = await fetch(`${API_BASE}/api/notifications/email`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ to, subject, body }),
+                credentials: 'same-origin',
+                body: JSON.stringify({ subject, body }),
             });
             if (!resp.ok) {
                 const err = await resp.json().catch(() => ({}));
@@ -2416,6 +1898,7 @@
             const response = await fetch(`${API_BASE}/api/application-requests`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'same-origin',
                 body: JSON.stringify(application)
             });
             const result = await response.json().catch(() => ({}));
@@ -2429,31 +1912,16 @@
             const user = getCurrentUser();
             if (!user) return false;
             if (channel === 'email' && !user.emailNotifications) return false;
-            if (channel === 'sms' && (!user.smsNotifications || !user.phone)) return false;
-
             if (channel === 'email') {
-                // Alerts go to both the bank desk and the member's own inbox
-                // (skipped when the member's address is the desk address itself).
-                const recipients = [NOTIFICATION_EMAIL];
-                if (user.email && user.email.toLowerCase() !== NOTIFICATION_EMAIL.toLowerCase()) {
-                    recipients.push(user.email);
-                }
-                // Send via Gmail SMTP backend; fall back to mailto: if backend is unreachable.
-                Promise.all(recipients.map(to => sendEmailViaSmtp(to, subject, body)))
+                // The server derives the recipient from the authenticated account.
+                sendEmailViaSmtp(subject, body)
                     .then(() => {
                         showToast('Email notification sent', true);
                     })
                     .catch((err) => {
-                        console.error('SMTP email failed, falling back to mailto:', err);
-                        const mailto = `mailto:${recipients.join(',')}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-                        try { window.open(mailto, '_blank'); } catch (e) { console.error('mailto failed', e); }
-                        showToast('Email backend unreachable - opened mail client instead', false);
+                        console.error('SMTP email failed:', err);
+                        showToast(err.message || 'Email notification could not be sent.', false);
                     });
-                return true;
-            }
-            if (channel === 'sms') {
-                showToast(`SMS sent to ${user.phone}`, true);
-                console.log(`[SIMULATED SMS] To: ${user.phone}\nSubject: ${subject}\n${body}`);
                 return true;
             }
             return false;
@@ -2779,28 +2247,26 @@
             if (acceptBtn) acceptPolicy(acceptBtn.dataset.policyAccept);
         });
 
-        function acceptPolicy(id) {
+        async function acceptPolicy(id) {
             const user = getCurrentUser();
             if (!user) { renderUI(); return; }
             // Guard against a stale attribute naming a policy that no longer exists.
             if (!POLICY_CATALOG[id]) return;
 
-            const accepted = new Set(user.acceptedPolicies || []);
-            const wasAccepted = accepted.has(id);
-            if (wasAccepted) accepted.delete(id);
-            else accepted.add(id);
-            user.acceptedPolicies = [...accepted];
-
-            if (!updateCurrentUser(user)) {
-                showToast('Could not save your acceptance. Check browser storage.', false);
+            const wasAccepted = (user.acceptedPolicies || []).includes(id);
+            try {
+                const result = await apiRequest('/api/member/policies', {
+                    method: 'PATCH',
+                    body: { policyId: id, accepted: !wasAccepted }
+                });
+                currentUser = result.user;
+            } catch (error) {
+                showToast(error.message, false);
                 return;
             }
 
-            const fresh = getCurrentUser();
-            if (fresh) {
-                renderPolicies(fresh);
-                updatePanelBadges(fresh);
-            }
+            renderPolicies(currentUser);
+            updatePanelBadges(currentUser);
             showToast(
                 wasAccepted
                     ? `Acceptance withdrawn: ${POLICY_CATALOG[id].title}`
@@ -3133,8 +2599,8 @@
 
             tradeModalHeading.textContent = side === 'buy' ? `Buy ${meta.name}` : `Sell ${meta.name}`;
             tradeModalSub.textContent = side === 'buy'
-                ? `Moves money from your available balance into this holding at today's price of ${formatMoney(price)}.`
-                : `Moves money from this holding back into your available balance at today's price of ${formatMoney(price)}.`;
+                ? 'This submits a review request only. No investment execution or custody provider is configured, so no assets will be purchased.'
+                : 'Investment sales are unavailable until an execution provider is configured.';
 
             const fee = (INVEST_FEE_RATE * 100).toFixed(2);
             tradeHint.textContent = side === 'buy'
@@ -3158,148 +2624,45 @@
             }
         }
 
-        // Live preview of what the trade will do to the figures.
+        // Prices are illustrative only and are never used for settlement.
         function updateTradePreview() {
             if (!tradeContext) { tradePreview.innerHTML = ''; return; }
-            const { id, side, price } = tradeContext;
-            const user = getCurrentUser();
-            const gross = toMoney(tradeAmount.value);
-            const fee = toMoney(gross * INVEST_FEE_RATE);
-            const holding = user && (user.holdings || []).find(h => h.id === id);
-            const heldUnits = holding ? holding.units : 0;
-
-            if (!(gross > 0)) {
-                tradePreview.innerHTML = `
-                    <div class="rate-row"><span>Price per unit</span><b>${formatMoney(price)}</b></div>
-                    <div class="rate-row"><span>Units held</span><b>${heldUnits}</b></div>`;
-                return;
-            }
-
-            const units = gross / price;
-            const net = side === 'buy' ? toMoney(gross + fee) : toMoney(gross - fee);
-            const cashAfter = user
-                ? toMoney(toMoney(user.balance) + (side === 'buy' ? -net : net))
-                : 0;
-            const unitsAfter = side === 'buy'
-                ? toMoney(heldUnits + units)
-                : toMoney(Math.max(0, heldUnits - units));
-
-            const rows = [
-                ['Price per unit', `${formatMoney(price)}`],
-                ['Units', units.toFixed(4)],
-                [`Platform fee (${(INVEST_FEE_RATE * 100).toFixed(2)}%)`, `-${formatMoney(fee)}`],
-                [side === 'buy' ? 'Total debited' : 'Total credited', `${formatMoney(net)}`],
-                ['Units after', unitsAfter.toFixed(4)],
-                ['Cash balance after', `${formatMoney(cashAfter)}`]
-            ];
-
-            // Warn when the amount is more than they hold, since the sale is
-            // clamped to the holding rather than rejected.
-            const warn = side === 'sell' && units > heldUnits
-                ? `<div class="channel-locked-hint" style="margin-top:.5rem;">
-                       <i class="fas fa-triangle-exclamation"></i>
-                       You only hold ${heldUnits} units, so this sells your entire holding.
-                   </div>`
-                : '';
-
-            tradePreview.innerHTML = rows
-                .map(([label, value]) => `<div class="rate-row"><span>${label}</span><b>${value}</b></div>`)
-                .join('') + warn;
+            const { price } = tradeContext;
+            const amount = toMoney(tradeAmount.value);
+            tradePreview.innerHTML = `
+                <div class="rate-row"><span>Indicative unit price</span><b>${formatMoney(price)}</b></div>
+                <div class="rate-row"><span>Request amount</span><b>${formatMoney(amount)}</b></div>
+                <div class="channel-locked-hint">Reference pricing is not live market data. No assets will be bought or sold.</div>`;
         }
 
         tradeAmount.addEventListener('input', updateTradePreview);
 
-        tradeForm.addEventListener('submit', (e) => {
+        tradeForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const user = getCurrentUser();
-            if (!user) { closeTradeModal(); renderUI(); return; }
+            if (!getCurrentUser()) { closeTradeModal(); renderUI(); return; }
             if (!tradeContext) { closeTradeModal(); return; }
-
-            const { id, side, price } = tradeContext;
-            const meta = INVESTMENT_CATALOG[id];
-            const gross = toMoney(tradeAmount.value);
-            const balance = toMoney(user.balance);
-
-            if (!(gross > 0)) {
+            const { id, side } = tradeContext;
+            const amount = toMoney(tradeAmount.value);
+            if (!(amount > 0)) {
                 showToast('Please enter an amount greater than zero', false);
                 tradeAmount.focus();
                 return;
             }
-
-            if (!Array.isArray(user.holdings)) user.holdings = [];
-            const index = user.holdings.findIndex(h => h.id === id);
-            const holding = index === -1 ? { id, units: 0, costBasis: 0 } : user.holdings[index];
-            const fee = toMoney(gross * INVEST_FEE_RATE);
-            let summary;
-
-            if (side === 'buy') {
-                const total = toMoney(gross + fee);
-                if (total > balance) {
-                    showToast(`Insufficient funds. Available: ${formatMoney(balance)}`, false);
-                    tradeAmount.focus();
-                    return;
-                }
-                holding.units = toMoney(holding.units + gross / price);
-                // Cost basis grows by what was actually paid, fee included.
-                holding.costBasis = toMoney(holding.costBasis + total);
-                user.balance = toMoney(balance - total);
-                if (index === -1) user.holdings.push(holding);
-                if (!Array.isArray(user.transactions)) user.transactions = [];
-                // Buying is a debit from the cash balance, so it records as a
-                // withdrawal to keep the transaction list consistent with it.
-                user.transactions.push(normaliseTx({
-                    type: 'withdraw',
-                    amount: total,
-                    description: `Investment purchase - ${meta.name}`,
-                    date: new Date().toISOString()
-                }));
-                summary = `Invested ${formatMoney(gross)} in ${meta.name} (fee ${formatMoney(fee)})`;
-            } else {
-                if (holding.units <= 0) {
-                    showToast(`You do not hold ${meta.name}`, false);
-                    closeTradeModal();
-                    return;
-                }
-                // Clamp to what is actually held rather than rejecting outright.
-                const units = Math.min(gross / price, holding.units);
-                const proceeds = toMoney(units * price - fee);
-                const remaining = toMoney(holding.units - units);
-                holding.units = remaining;
-                // Removing cost basis proportionally keeps the gain accurate
-                // instead of freezing it at the original purchase price.
-                holding.costBasis = remaining > 0
-                    ? toMoney(holding.costBasis * (remaining / (remaining + units)))
-                    : 0;
-                user.balance = toMoney(balance + proceeds);
-                if (index !== -1 && remaining <= 0) user.holdings.splice(index, 1);
-                if (!Array.isArray(user.transactions)) user.transactions = [];
-                user.transactions.push(normaliseTx({
-                    type: 'deposit',
-                    amount: proceeds,
-                    description: `Investment sale - ${meta.name}`,
-                    date: new Date().toISOString()
-                }));
-                summary = `Sold ${meta.name} for ${formatMoney(proceeds)} (fee ${formatMoney(fee)})`;
-            }
-
-            if (!updateCurrentUser(user)) {
-                showToast('Could not save the trade. Check browser storage.', false);
+            if (side === 'sell') {
+                showToast('Investment sales are unavailable until an execution provider is configured.', false);
                 return;
             }
-
-            const fresh = getCurrentUser();
-            if (fresh) {
-                updateDashboard(fresh, true);
-                flashBalance();
-            }
-            showToast(summary, true);
-            const tradeType = side === 'buy' ? 'purchase' : 'sale';
-            const tradeAmountStr = side === 'buy' ? formatMoney(gross + fee) : formatMoney(proceeds);
-            sendNotification('email', `Investment ${tradeType} — ${meta.name}`,
-                `You ${tradeType}ed ${meta.name} for ${tradeAmountStr} (fee ${formatMoney(fee)}). ${summary}.`);
-            if (user.smsNotifications && user.phone) {
-                sendNotification('sms', `Investment ${tradeType}`,
-                    `${meta.name} ${tradeType} for ${tradeAmountStr}.`);
+            try {
+                const result = await apiRequest('/api/member/requests', {
+                    method: 'POST',
+                    body: { type: 'investment_buy', amount, assetId: id }
+                });
+                currentUser = result.user;
+                updateDashboard(currentUser);
+                showToast('Investment request submitted for review. No assets were purchased.', true);
+            } catch (error) {
+                showToast(error.message, false);
+                return;
             }
             closeTradeModal();
             tradeForm.reset();
@@ -3317,33 +2680,8 @@
         tradeCancel.addEventListener('click', closeTradeModal);
         tradeModal.addEventListener('click', (e) => { if (e.target === tradeModal) closeTradeModal(); });
 
-        // ---------- DEMO ----------
-        // Signs straight into the demo account - one click, no typing required.
-        demoFillBtn.addEventListener('click', () => {
-            const users = loadUsers();
-            const demo = users.find(u => u.email === DEMO_EMAIL);
-            if (!demo) {
-                seedDemoData(true);
-                showToast('Demo account restored. Please try again.', true);
-                return;
-            }
-            pendingRealAccount = false;
-            // The demo shortcut respects  + ''Remember me + ' like any other sign-in.
-            const remember = document.getElementById('rememberMe');
-            startSession(demo.email, !!(remember && remember.checked));
-            renderUI();
-            showToast(`Signed in to the demo account (${DEMO_EMAIL} / ${DEMO_PASSWORD})`, true);
-        });
-
-        resetDemoBtn.addEventListener('click', () => {
-            seedDemoData(true);
-            const user = getCurrentUser();
-            if (user) updateDashboard(user, true);
-            showToast('Demo account restored to its original state', true);
-        });
-
         // ---------- REGISTER ----------
-        registerForm.addEventListener('submit', (e) => {
+        registerForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const name = regName.value.trim();
             const email = regEmail.value.trim().toLowerCase();
@@ -3359,8 +2697,8 @@
                 regEmail.focus();
                 return;
             }
-            if (password.length < 6) {
-                showToast('Password must be at least 6 characters', false);
+            if (password.length < 12) {
+                showToast('Password must be at least 12 characters', false);
                 regPassword.focus();
                 return;
             }
@@ -3371,46 +2709,27 @@
                 return;
             }
 
-            const users = loadUsers();
-            if (users.some(u => u.email === email)) {
-                showToast('Email already registered. Try logging in.', false);
+            try {
+                const result = await apiRequest('/api/auth/register', {
+                    method: 'POST',
+                    body: {
+                        name,
+                        email,
+                        password,
+                        phone: regPhone ? regPhone.value.trim() : ''
+                    }
+                });
+                currentUser = result.user;
+            } catch (error) {
+                showToast(error.message, false);
                 return;
             }
 
-            // Every account opens with up to one year of transaction history.
-            const seeded = buildOneYearHistory();
-            const initialTransactions = seeded.transactions;
-            const initialBalance = 22500728; // real account opening balance
-            const existingNumbers = new Set(users.map(u => u.accountNumber).filter(isAccountNumber));
-            const newUser = normaliseUser({
-                name,
-                email,
-                password,
-                accountNumber: createAccountNumber(existingNumbers),
-                balance: initialBalance,
-                isDemo: false,
-                transactions: initialTransactions,
-                phone: regPhone ? regPhone.value.trim() : '',
-                emailNotifications: true,
-                smsNotifications: regPhone ? regPhone.value.trim() !== '' : false
-            });
-            users.push(newUser);
-            if (!saveUsers(users)) {
-                showToast('Could not save your account. Check browser storage.', false);
-                return;
-            }
-
-            // A freshly enrolled account always behaves like  + ''Remember me + ' checked.
-            startSession(newUser.email, true);
-            pendingRealAccount = false;
             registerForm.reset();
             renderUI();
-            showToast(`Account created. Welcome, ${name.split(/\s+/)[0]}! ${initialTransactions.length} transactions from the past 12 months included. Your account number is ${newUser.accountNumber || 'listed on your dashboard'}.`, true);
-            // Welcome alerts for the new account (email + SMS if a phone was given).
-            sendNotification('email', `Welcome to Capital Asset Credit Union — acct ${newUser.accountNumber || ''}`.trim(),
-                `Hi ${name.split(/\s+/)[0]},\n\nYour Capital Asset Credit Union account is ready.\nAccount number: ${newUser.accountNumber || 'see your dashboard'}\nOpened: ${new Date().toLocaleString()}\n\nIf you did not create this account, contact us at ${NOTIFICATION_EMAIL}.`);
-            sendNotification('sms', 'Welcome to Capital Asset CU',
-                `Hi ${name.split(/\s+/)[0]}, your account ${newUser.accountNumber || ''} is ready.`.trim());
+            showToast(`Account created. Welcome, ${name.split(/\s+/)[0]}! Your account number is ${currentUser.accountNumber}.`, true);
+            sendNotification('email', 'Welcome to Capital Asset Credit Union',
+                `Hi ${name.split(/\s+/)[0]},\n\nYour Capital Asset Credit Union account is ready.\nAccount number: ${currentUser.accountNumber}\nOpened: ${new Date().toLocaleString()}\n\nIf you did not create this account, contact customer care.`);
         });
 
         // Clear the confirm field when the user starts typing a new password.
@@ -3444,7 +2763,7 @@
         loginEmail.addEventListener('input', () => setFieldError(loginEmail, loginEmailError, ''));
         loginPassword.addEventListener('input', () => setFieldError(loginPassword, loginPasswordError, ''));
 
-        loginForm.addEventListener('submit', (e) => {
+        loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = loginEmail.value.trim().toLowerCase();
             const password = loginPassword.value;
@@ -3471,84 +2790,62 @@
                 return;
             }
 
-            const users = loadUsers();
-            const user = users.find(u => u.email === email);
-            // One generic message for both "no such user" and "wrong password"
-            // so the form can't be used to discover which emails are registered.
-            if (!user || user.password !== password) {
-                setFieldError(loginPassword, loginPasswordError, 'Invalid email or password.');
+            const remember = document.getElementById('rememberMe');
+            try {
+                const result = await apiRequest('/api/auth/login', {
+                    method: 'POST',
+                    body: { email, password, remember: !!(remember && remember.checked) }
+                });
+                currentUser = result.user;
+                currentAdmin = false;
+            } catch (error) {
+                const frozen = /frozen/i.test(error.message);
+                setFieldError(loginPassword, loginPasswordError, frozen
+                    ? 'This account is frozen. Please contact customer care.'
+                    : error.message);
                 loginPassword.value = '';
                 loginPassword.focus();
-                showToast('Invalid email or password', false);
-                return;
-            }
-            // A frozen account cannot sign in until an administrator unfreezes it.
-            if (isFrozen(user)) {
-                setFieldError(loginPassword, loginPasswordError, 'This account is frozen. Please contact customer care.');
-                loginPassword.value = '';
-                loginPassword.focus();
-                showToast('This account is frozen', false);
+                showToast(error.message, false);
                 return;
             }
 
             clearLoginErrors();
-            const remember = document.getElementById('rememberMe');
-            startSession(user.email, !!(remember && remember.checked));
-            pendingRealAccount = false;
             renderUI();
-            showToast(`Welcome back, ${user.name.split(/\s+/)[0]}!`, true);
-            // Sign-in security alerts (email + SMS if the member enabled them).
+            showToast(`Welcome back, ${currentUser.name.split(/\s+/)[0]}!`, true);
+            // Sign-in alerts are emailed only when email delivery is configured.
             sendNotification('email', 'New sign-in to your Capital Asset CU account',
-                `Hi ${(user.name || 'member').split(/\s+/)[0]},\n\nYour account ${user.accountNumber || user.email} was just signed in at ${new Date().toLocaleString()}.\n\nIf this wasn't you, reset your password and contact us at ${NOTIFICATION_EMAIL}.`);
-            sendNotification('sms', 'Capital Asset CU sign-in alert',
-                `Your account ${user.accountNumber || user.email} was just signed in. Reply if this wasn't you.`);
+                `Hi ${(currentUser.name || 'member').split(/\s+/)[0]},\n\nYour account ${currentUser.accountNumber || currentUser.email} was just signed in at ${new Date().toLocaleString()}.\n\nIf this wasn't you, contact customer care.`);
         });
 
         // ---------- LOGOUT ----------
-        logoutBtn.addEventListener('click', () => {
-            endSession();
-            pendingRealAccount = false;
+        logoutBtn.addEventListener('click', async () => {
+            try {
+                await apiRequest('/api/auth/session', { method: 'DELETE' });
+            } catch (error) {
+                showToast(error.message, false);
+                return;
+            }
+            currentUser = null;
             renderUI();
             showToast('Logged out successfully', true);
         });
 
-        // ---------- CREATE REAL ACCOUNT (from demo) ----------
-        // The demo session is kept so the user can go back; the register card is
-        // layered on top instead of silently logging them out.
-        createRealAccountBtn.addEventListener('click', () => {
-            const user = getCurrentUser();
-            if (!user) {
-                renderUI();
-                return;
-            }
-            pendingRealAccount = true;
-            setView('register');
-            registerForm.reset();
-            regName.value = user.name;
-            regEmail.focus();
-            showToast('Enter a new email and password. You can go back to the demo anytime.', true);
-        });
-
-        backToDemoBtn.addEventListener('click', () => {
-            pendingRealAccount = false;
-            registerForm.reset();
-            if (getCurrentUser()) {
-                setView('dashboard');
-            } else {
-                setView('login');
-            }
-            showToast('Back on the demo account', true);
-        });
-
         // ---------- SETTINGS SAVE ----------
-        settingsSaveBtn.addEventListener('click', () => {
+        settingsSaveBtn.addEventListener('click', async () => {
             const user = getCurrentUser();
             if (!user) { showToast('Please log in first', false); return; }
-            user.emailNotifications = settingsEmailNotifications.checked;
-            user.smsNotifications = settingsSmsNotifications.checked;
-            user.phone = settingsPhone ? settingsPhone.value.trim() : '';
-            if (!updateCurrentUser(user)) {
-                showToast('Could not save settings. Check browser storage.', false);
+            try {
+                const result = await apiRequest('/api/member/profile', {
+                    method: 'PATCH',
+                    body: {
+                        emailNotifications: settingsEmailNotifications.checked,
+                        smsNotifications: false,
+                        phone: settingsPhone ? settingsPhone.value.trim() : ''
+                    }
+                });
+                currentUser = result.user;
+            } catch (error) {
+                showToast(error.message, false);
                 return;
             }
             showToast('Notification settings saved', true);
@@ -3561,8 +2858,6 @@
             if (isFrozen(current)) { showToast('This account is frozen. Please contact customer care.', false); return; }
             depositForm.reset();
             updateFeeSummary();
-            // Each visit starts locked: customer care must be emailed again.
-            lockChannel(depositChannelWrap, depositLockHint);
             depositModal.classList.add('active');
             depositAmount.focus();
         }
@@ -3572,7 +2867,6 @@
             if (!current) { showToast('Please log in first', false); renderUI(); return; }
             if (isFrozen(current)) { showToast('This account is frozen. Please contact customer care.', false); return; }
             withdrawForm.reset();
-            lockChannel(withdrawChannelWrap, withdrawLockHint);
             withdrawModal.classList.add('active');
             withdrawAmount.focus();
         }
@@ -3602,24 +2896,6 @@
             });
         });
 
-        // ---------- CUSTOMER CARE ----------
-        // The transfer channel stays locked (blurred) until the user has emailed
-        // customer care for their type of request.
-        function unlockChannel(wrap, hint) {
-            wrap.classList.remove('care-locked');
-            const body = wrap.querySelector('.channel-body');
-            if (body) body.setAttribute('aria-hidden', 'false');
-            hint.classList.add('unlocked');
-            hint.innerHTML = '<i class="fas fa-circle-check"></i> Request sent — customer care will disclose your channel by email.';
-        }
-
-        function lockChannel(wrap, hint) {
-            wrap.classList.add('care-locked');
-            const body = wrap.querySelector('.channel-body');
-            if (body) body.setAttribute('aria-hidden', 'true');
-            hint.classList.remove('unlocked');
-        }
-
         // Deposit fee maths: 5% of the gross amount is charged, the rest is credited.
         function depositFee(gross) {
             const fee = toMoney(toMoney(gross) * DEPOSIT_FEE_RATE);
@@ -3635,164 +2911,61 @@
 
         depositAmount.addEventListener('input', updateFeeSummary);
 
-        // Opens the user's mail client with a pre-filled transfer request so they
-        // can send it to customer care. No card details are requested or stored.
-        function sendToCustomerCare(type, amount, accountLabel, accountValue) {
-            const user = getCurrentUser();
-            const feeLine = type === 'deposit'
-                ? `International banking fee (${DEPOSIT_FEE_RATE * 100}%): USD ${formatMoney(depositFee(amount).fee)}\nNet amount to be credited: USD ${formatMoney(depositFee(amount).net)}`
-                : 'International banking fee: not applicable';
-            const lines = [
-                `Capital Asset Credit Union ${type} request`,
-                '',
-                `Name: ${user ? user.name : ''}`,
-                `Registered email: ${user ? user.email : ''}`,
-                `Amount: USD ${formatMoney(amount)}`,
-                feeLine,
-                `${accountLabel}: ${accountValue}`,
-                '',
-                `Please confirm this ${type} request and disclose the transfer channel.`,
-                'This request is made by bank transfer - no debit or credit card is charged.'
-            ];
-            const href = `mailto:${CARE_EMAIL}?subject=${encodeURIComponent(`Capital Asset Credit Union ${type} request - USD ${formatMoney(amount)}`)}&body=${encodeURIComponent(lines.join('\n'))}`;
-            window.location.href = href;
-        }
+        // ---------- DEPOSIT ----------
+        depositForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!getCurrentUser()) { showToast('Session expired, please log in', false); closeDepositModal(); renderUI(); return; }
 
-        depositCareBtn.addEventListener('click', () => {
             const amount = toMoney(depositAmount.value);
-            const source = depositSource.value.trim();
             if (amount < DEPOSIT_MIN) {
                 showToast(`Minimum deposit is ${formatMoney(DEPOSIT_MIN)}`, false);
                 depositAmount.focus();
                 return;
             }
-            if (!source) { showToast('Please enter the transferring bank account', false); depositSource.focus(); return; }
-            sendToCustomerCare('deposit', amount, 'Transfer from', source);
-            unlockChannel(depositChannelWrap, depositLockHint);
-        });
-
-        withdrawCareBtn.addEventListener('click', () => {
-            const amount = toMoney(withdrawAmount.value);
-            const destination = withdrawDestination.value.trim();
-            if (!(amount > 0)) { showToast('Please enter an amount first', false); withdrawAmount.focus(); return; }
-            if (!destination) { showToast('Please enter the destination bank account', false); withdrawDestination.focus(); return; }
-            sendToCustomerCare('withdrawal', amount, 'Transfer to', destination);
-            unlockChannel(withdrawChannelWrap, withdrawLockHint);
-        });
-
-        // ---------- DEPOSIT ----------
-        depositForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const user = getCurrentUser();
-            if (!user) { showToast('Session expired, please log in', false); closeDepositModal(); renderUI(); return; }
-
-            const gross = toMoney(depositAmount.value);
-            const source = depositSource.value.trim();
-
-            if (gross < DEPOSIT_MIN) {
-                showToast(`Minimum deposit is ${formatMoney(DEPOSIT_MIN)}`, false);
-                depositAmount.focus();
+            try {
+                const result = await apiRequest('/api/member/requests', {
+                    method: 'POST',
+                    body: { type: 'deposit', amount }
+                });
+                currentUser = result.user;
+            } catch (error) {
+                showToast(error.message, false);
                 return;
             }
-            if (!source) { showToast('Please provide a source', false); depositSource.focus(); return; }
-
-            // The customer pays the 5% International banking charge; only the net is credited.
-            const { fee, net } = depositFee(gross);
-            user.balance = toMoney(toMoney(user.balance) + net);
-            if (!Array.isArray(user.transactions)) user.transactions = [];
-            user.transactions.push(normaliseTx({
-                type: 'deposit',
-                amount: net,
-                description: `Transfer from ${source} (less 5% fee)`,
-                date: new Date().toISOString()
-            }));
-            if (!updateCurrentUser(user)) {
-                showToast('Could not save the deposit. Check browser storage.', false);
-                return;
-            }
-
-            updateDashboard(getCurrentUser(), true);
-            flashBalance();
-            showToast(`Transfer of ${formatMoney(gross)} received — ${formatMoney(fee)} fee charged, ${formatMoney(net)} credited`, true);
-            sendNotification('email', `Deposit received — ${formatMoney(net)}`,
-                `A deposit of ${formatMoney(net)} (gross ${formatMoney(gross)}, fee ${formatMoney(fee)}) has been credited to your Capital Asset Credit Union account from ${source}.`);
-            if (user.smsNotifications && user.phone) {
-                sendNotification('sms', 'Deposit received',
-                    `${formatMoney(net)} deposited to your Capital Asset account from ${source}.`);
-            }
+            updateDashboard(currentUser);
+            showToast('Deposit request submitted. Funds will be credited only after verification and settlement.', true);
+            sendNotification('email', 'Deposit request received',
+                `Your deposit request for ${formatMoney(amount)} was received. It has not been credited; customer care must verify and settle it first.`);
             closeDepositModal();
             depositForm.reset();
         });
 
         // ---------- WITHDRAWAL ----------
-        withdrawForm.addEventListener('submit', (e) => {
+        withdrawForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const user = getCurrentUser();
-            if (!user) { showToast('Session expired, please log in', false); closeWithdrawModal(); renderUI(); return; }
+            if (!getCurrentUser()) { showToast('Session expired, please log in', false); closeWithdrawModal(); renderUI(); return; }
 
             const amount = toMoney(withdrawAmount.value);
-            const destination = withdrawDestination.value.trim();
-            const balance = toMoney(user.balance);
-
             if (!(amount > 0)) { showToast('Please enter a valid amount', false); withdrawAmount.focus(); return; }
-            if (!destination) { showToast('Please provide a destination', false); withdrawDestination.focus(); return; }
-
-            // Comparing against a coerced balance: an invalid stored balance
-            // becomes 0 and is correctly rejected here instead of yielding NaN.
-            if (amount > balance) {
-                showToast(`Insufficient funds. Available: ${formatMoney(balance)}`, false);
-                withdrawAmount.focus();
+            try {
+                const result = await apiRequest('/api/member/requests', {
+                    method: 'POST',
+                    body: { type: 'withdrawal', amount }
+                });
+                currentUser = result.user;
+            } catch (error) {
+                showToast(error.message, false);
                 return;
             }
-
-            user.balance = toMoney(balance - amount);
-            if (!Array.isArray(user.transactions)) user.transactions = [];
-            user.transactions.push(normaliseTx({
-                type: 'withdraw',
-                amount,
-                description: `Transfer to ${destination}`,
-                date: new Date().toISOString()
-            }));
-            if (!updateCurrentUser(user)) {
-                showToast('Could not save the withdrawal. Check browser storage.', false);
-                return;
-            }
-
-            updateDashboard(getCurrentUser(), true);
-            flashBalance();
-            showToast(`Transfer of ${formatMoney(amount)} to ${destination} confirmed`, true);
-            sendNotification('email', `Withdrawal confirmed — ${formatMoney(amount)}`,
-                `A withdrawal of ${formatMoney(amount)} has been sent from your Capital Asset Credit Union account to ${destination}.`);
-            if (user.smsNotifications && user.phone) {
-                sendNotification('sms', 'Withdrawal confirmed',
-                    `${formatMoney(amount)} withdrawn from your Capital Asset account to ${destination}.`);
-            }
+            updateDashboard(currentUser);
+            showToast('Withdrawal request submitted. Funds will not be debited until the transfer is verified and settled.', true);
+            sendNotification('email', 'Withdrawal request received',
+                `Your withdrawal request for ${formatMoney(amount)} was received. It has not been debited; customer care must verify and settle it first.`);
             closeWithdrawModal();
             withdrawForm.reset();
         });
 
         // ---------- ADMINISTRATOR ----------
-        // NOTE: this is a client-only single-page app, so the administrator
-        // credentials live in the page and are visible to anyone who reads the
-        // source. That is acceptable for a demo, but it must never be reused in
-        // a real system, where the check belongs on the server.
-        const ADMIN_SESSION_KEY = 'capitalasset_admin_v1';
-        const ADMIN_USERNAME = 'admin';
-        const ADMIN_PASSWORD = 'admin456';
-
-        function adminSession() {
-            try { return readItem(ADMIN_SESSION_KEY) === 'true'; }
-            catch (err) { return false; }
-        }
-
-        function startAdminSession() {
-            return writeItem(ADMIN_SESSION_KEY, 'true');
-        }
-
-        function endAdminSession() {
-            removeItem(ADMIN_SESSION_KEY);
-        }
-
         // An administrator can freeze an account; every entry point into the
         // member's money movement checks this flag.
         function isFrozen(user) {
@@ -3809,6 +2982,8 @@
         const adminSection = document.getElementById('adminSection');
         const adminLogoutBtn = document.getElementById('adminLogoutBtn');
         const adminCustomerList = document.getElementById('adminCustomerList');
+        const adminRequestList = document.getElementById('adminRequestList');
+        const adminRequestsRefreshBtn = document.getElementById('adminRequestsRefreshBtn');
         const adminSearch = document.getElementById('adminSearch');
         const adminRefreshBtn = document.getElementById('adminRefreshBtn');
         const adminResultCount = document.getElementById('adminResultCount');
@@ -3842,6 +3017,7 @@
 
         let adminAdjustTarget = null;   // { email, mode }
         let adminConfirmAction = null;  // callback invoked when the dialog is confirmed
+        let adminCustomers = [];
 
         if (showAdminLink) {
             showAdminLink.addEventListener('click', (e) => {
@@ -3882,7 +3058,7 @@
             if (e.target === adminCreateModal) closeAdminCreateModal();
         });
 
-        adminCreateForm.addEventListener('submit', (e) => {
+        adminCreateForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const name = adminCreateName.value.trim();
             const email = adminCreateEmail.value.trim().toLowerCase();
@@ -3908,51 +3084,34 @@
                 adminCreateEmail.focus();
                 return;
             }
-            if (password.length < 6) {
+            if (password.length < 12) {
                 adminCreateError.hidden = false;
-                adminCreateError.textContent = 'Password must be at least 6 characters.';
+                adminCreateError.textContent = 'Password must be at least 12 characters.';
                 adminCreatePassword.focus();
                 return;
             }
-
-            const users = loadUsers();
-            if (users.some(u => u.email === email)) {
+            try {
+                await apiRequest('/api/admin/customers', {
+                    method: 'POST',
+                    body: { name, email, password, balance }
+                });
+            } catch (error) {
                 adminCreateError.hidden = false;
-                adminCreateError.textContent = 'A customer with this email already exists.';
-                adminCreateEmail.focus();
-                return;
-            }
-
-            const createdNumbers = new Set(users.map(u => u.accountNumber).filter(isAccountNumber));
-            const newUser = normaliseUser({
-                name,
-                email,
-                password,
-                accountNumber: createAccountNumber(createdNumbers),
-                balance,
-                isDemo: false,
-                transactions: [],
-                emailNotifications: true,
-                smsNotifications: false
-            });
-            users.push(newUser);
-            if (!saveUsers(users)) {
-                adminCreateError.hidden = false;
-                adminCreateError.textContent = 'Could not save the customer. Check browser storage.';
+                adminCreateError.textContent = error.message;
                 return;
             }
 
             adminCreateModal.classList.remove('active');
             adminCreateForm.reset();
             adminCreateError.hidden = true;
-            renderAdminDashboard();
+            await renderAdminDashboard();
             showToast(`Customer created: ${name} (${email})`, true);
         });
 
         adminUser.addEventListener('input', () => setFieldError(adminPassword, adminError, ''));
         adminPassword.addEventListener('input', () => setFieldError(adminPassword, adminError, ''));
 
-        adminForm.addEventListener('submit', (e) => {
+        adminForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const username = adminUser.value.trim().toLowerCase();
             const password = adminPassword.value;
@@ -3962,28 +3121,36 @@
                 (username ? adminPassword : adminUser).focus();
                 return;
             }
-            if (username !== ADMIN_USERNAME || password !== ADMIN_PASSWORD) {
-                setFieldError(adminPassword, adminError, 'Invalid administrator credentials.');
+            try {
+                await apiRequest('/api/auth/admin/login', {
+                    method: 'POST',
+                    body: { username, password }
+                });
+            } catch (error) {
+                setFieldError(adminPassword, adminError, error.message);
                 adminPassword.value = '';
                 adminPassword.focus();
-                showToast('Invalid administrator credentials', false);
+                showToast(error.message, false);
                 return;
             }
-
+            currentAdmin = true;
+            currentUser = null;
             setFieldError(adminPassword, adminError, '');
             adminForm.reset();
-            if (!startAdminSession()) {
-                showToast('Could not start the administrator session. Check browser storage.', false);
-                return;
-            }
             renderUI();
             showAdminTab('members');
             showToast('Administrator signed in', true);
         });
 
         if (adminLogoutBtn) {
-            adminLogoutBtn.addEventListener('click', () => {
-                endAdminSession();
+            adminLogoutBtn.addEventListener('click', async () => {
+                try {
+                    await apiRequest('/api/auth/session', { method: 'DELETE' });
+                } catch (error) {
+                    showToast(error.message, false);
+                    return;
+                }
+                currentAdmin = false;
                 closeAdminAdjustModal();
                 closeAdminConfirmModal();
                 closeAdminCatalogModal();
@@ -3995,79 +3162,100 @@
         function buildAdminCustomerRow(user) {
             const li = document.createElement('li');
             li.className = 'admin-customer';
-            li.dataset.email = user.email;
-
+            li.dataset.id = user.id;
             const initial = ((user.name || 'U').trim().charAt(0) || 'U').toUpperCase();
-            const badges = [];
-            if (user.isDemo) badges.push('<span class="admin-badge demo"><i class="fas fa-flask"></i> Demo</span>');
-            if (isFrozen(user)) badges.push('<span class="admin-badge frozen"><i class="fas fa-snowflake"></i> Frozen</span>');
-
+            const frozenBadge = user.frozen
+                ? '<span class="admin-badge frozen"><i class="fas fa-snowflake"></i> Frozen</span>'
+                : '';
             const email = escapeHtml(user.email);
-            const txCount = (user.transactions || []).length;
-
-            li.innerHTML = `
-                <div class="admin-customer-main">
-                    <div class="avatar ${user.isDemo ? 'demo' : 'real'}" aria-hidden="true">${escapeHtml(initial)}</div>
-                    <div class="admin-customer-id">
-                        <strong>${escapeHtml(user.name)}</strong>
-                        <span>${email}</span>
-                        <span class="admin-acct">Acct ${escapeHtml(user.accountNumber || '—')}</span>
-                        <span class="admin-badges">${badges.join('')}</span>
-                    </div>
-                </div>
-                <div class="admin-customer-balance">
-                    <span class="admin-balance-label">Balance</span>
-                    <strong>${formatMoney(user.balance)}</strong>
-                    <span class="admin-tx-count">${txCount} transaction${txCount === 1 ? '' : 's'}</span>
-                </div>
-                <div class="admin-row-actions">
-                    <button type="button" class="btn admin-btn" data-action="credit" data-email="${email}"><i class="fas fa-plus"></i> Credit</button>
-                    <button type="button" class="btn admin-btn" data-action="debit" data-email="${email}"><i class="fas fa-minus"></i> Debit</button>
-                    <button type="button" class="btn admin-btn" data-action="freeze" data-email="${email}"><i class="fas fa-snowflake"></i> ${isFrozen(user) ? 'Unfreeze' : 'Freeze'}</button>
-                    <button type="button" class="btn admin-btn" data-action="reset" data-email="${email}"><i class="fas fa-rotate-left"></i> Reset</button>
-                    <button type="button" class="btn admin-btn admin-btn-danger" data-action="delete" data-email="${email}"><i class="fas fa-trash"></i> Delete</button>
-                </div>`;
+            const transactionCount = Number(user.transactionCount) || 0;
+            li.innerHTML = '<div class="admin-customer-main">' +
+                '<div class="avatar real" aria-hidden="true">' + escapeHtml(initial) + '</div>' +
+                '<div class="admin-customer-id"><strong>' + escapeHtml(user.name) + '</strong>' +
+                '<span>' + email + '</span><span class="admin-acct">Acct ' + escapeHtml(user.accountNumber || '?') + '</span>' +
+                '<span class="admin-badges">' + frozenBadge + '</span></div></div>' +
+                '<div class="admin-customer-balance"><span class="admin-balance-label">Balance</span>' +
+                '<strong>' + formatMoney(user.balance) + '</strong><span class="admin-tx-count">' + transactionCount +
+                ' transaction' + (transactionCount === 1 ? '' : 's') + '</span></div>' +
+                '<div class="admin-row-actions">' +
+                '<button type="button" class="btn admin-btn" data-action="credit"><i class="fas fa-plus"></i> Credit</button>' +
+                '<button type="button" class="btn admin-btn" data-action="debit"><i class="fas fa-minus"></i> Debit</button>' +
+                '<button type="button" class="btn admin-btn" data-action="freeze"><i class="fas fa-snowflake"></i> ' + (user.frozen ? 'Unfreeze' : 'Freeze') + '</button>' +
+                '<button type="button" class="btn admin-btn" data-action="reset"><i class="fas fa-rotate-left"></i> Reset</button>' +
+                '<button type="button" class="btn admin-btn admin-btn-danger" data-action="delete"><i class="fas fa-trash"></i> Delete</button>' +
+                '</div>';
             return li;
         }
 
-        function renderAdminDashboard() {
-            if (!adminCustomerList) return;
-            const users = loadUsers();
-            const term = (adminSearch.value || '').trim().toLowerCase();
-
-            const totalBalance = users.reduce((sum, u) => sum + toMoney(u.balance), 0);
-            const frozenCount = users.filter(isFrozen).length;
-            const txCount = users.reduce((sum, u) => sum + (u.transactions ? u.transactions.length : 0), 0);
-            adminStatMembers.textContent = String(users.length);
-            adminStatBalance.textContent = `${formatMoney(totalBalance)}`;
-            adminStatFrozen.textContent = String(frozenCount);
-            adminStatTx.textContent = String(txCount);
-
-            const filtered = users
-                .filter(u => !term || u.name.toLowerCase().includes(term) || u.email.includes(term) || (u.accountNumber || '').includes(term))
-                .sort((a, b) => String(b.createdAt || '').localeCompare(String(a.createdAt || '')));
-
-            adminCustomerList.innerHTML = '';
-            if (!filtered.length) {
-                adminCustomerList.innerHTML = '<li class="admin-empty">No matching customer accounts.</li>';
-            } else {
-                filtered.forEach(u => adminCustomerList.appendChild(buildAdminCustomerRow(u)));
+        async function renderAdminDashboard() {
+            if (!adminCustomerList || !currentAdmin) return;
+            try {
+                const result = await apiRequest('/api/admin/customers');
+                adminCustomers = result.customers;
+                const users = adminCustomers;
+                const term = (adminSearch.value || '').trim().toLowerCase();
+                const totalBalance = users.reduce((sum, user) => sum + toMoney(user.balance), 0);
+                const frozenCount = users.filter(user => user.frozen).length;
+                const transactionCount = users.reduce((sum, user) => sum + user.transactionCount, 0);
+                adminStatMembers.textContent = String(users.length);
+                adminStatBalance.textContent = formatMoney(totalBalance);
+                adminStatFrozen.textContent = String(frozenCount);
+                adminStatTx.textContent = String(transactionCount);
+                const filtered = users.filter(user => !term || user.name.toLowerCase().includes(term) ||
+                    user.email.includes(term) || (user.accountNumber || '').includes(term));
+                adminCustomerList.innerHTML = '';
+                if (!filtered.length) {
+                    adminCustomerList.innerHTML = '<li class="admin-empty">No matching customer accounts.</li>';
+                } else {
+                    filtered.forEach(user => adminCustomerList.appendChild(buildAdminCustomerRow(user)));
+                }
+                adminResultCount.textContent = filtered.length + ' of ' + users.length + ' accounts shown';
+                await renderAdminRequests();
+            } catch (error) {
+                showToast(error.message, false);
             }
-            adminResultCount.textContent = `${filtered.length} of ${users.length} account${users.length === 1 ? '' : 's'} shown`;
         }
 
-        // One delegated listener survives every innerHTML rebuild of the list.
-        adminCustomerList.addEventListener('click', (e) => {
-            const btn = e.target.closest('button[data-action]');
-            if (!btn) return;
-            const action = btn.dataset.action;
-            const email = btn.dataset.email;
-            const user = loadUsers().find(u => u.email === email);
+        async function renderAdminRequests() {
+            if (!adminRequestList || !currentAdmin) return;
+            const result = await apiRequest('/api/admin/requests');
+            adminRequestList.innerHTML = '';
+            if (!result.requests.length) {
+                adminRequestList.innerHTML = '<li class="admin-empty">No pending requests.</li>';
+                return;
+            }
+            const labels = {
+                deposit: 'Deposit',
+                withdrawal: 'Withdrawal',
+                investment_buy: 'Investment purchase request',
+                investment_sell: 'Investment sale request'
+            };
+            result.requests.forEach(request => {
+                const li = document.createElement('li');
+                li.className = 'admin-customer';
+                li.innerHTML = '<div class="admin-customer-main"><div class="admin-customer-id">' +
+                    '<strong>' + escapeHtml(labels[request.type] || 'Money request') + ' ? ' + formatMoney(request.amount) + '</strong>' +
+                    '<span>' + escapeHtml(request.user.name) + ' ? ' + escapeHtml(request.user.email) + '</span>' +
+                    '<span class="admin-acct">' + escapeHtml(request.description || request.user.accountNumber) + '</span>' +
+                    '<span class="admin-tx-count">Submitted ' + escapeHtml(new Date(request.createdAt).toLocaleString()) + '</span></div></div>' +
+                    '<div class="admin-customer-balance"><span class="admin-balance-label">Current balance</span><strong>' +
+                    formatMoney(request.user.balance) + '</strong></div><div class="admin-row-actions">' +
+                    (request.type.startsWith('investment_') ? '' : '<button type="button" class="btn admin-btn" data-request-action="approve" data-request-id="' + escapeHtml(request.id) + '">Mark settled</button>') +
+                    '<button type="button" class="btn admin-btn admin-btn-danger" data-request-action="reject" data-request-id="' + escapeHtml(request.id) + '">Reject</button></div>';
+                adminRequestList.appendChild(li);
+            });
+        }
+
+        adminCustomerList.addEventListener('click', (event) => {
+            const button = event.target.closest('button[data-action]');
+            if (!button) return;
+            const user = adminCustomers.find(customer => customer.id === button.closest('.admin-customer').dataset.id);
             if (!user) {
                 showToast('That account no longer exists', false);
                 renderAdminDashboard();
                 return;
             }
+            const action = button.dataset.action;
             if (action === 'credit') openAdminAdjust(user, 'credit');
             else if (action === 'debit') openAdminAdjust(user, 'debit');
             else if (action === 'freeze') toggleAdminFreeze(user);
@@ -4075,8 +3263,26 @@
             else if (action === 'delete') requestAdminDelete(user);
         });
 
+        adminRequestList.addEventListener('click', async (event) => {
+            const button = event.target.closest('button[data-request-action]');
+            if (!button) return;
+            button.disabled = true;
+            try {
+                await apiRequest('/api/admin/requests/' + encodeURIComponent(button.dataset.requestId) + '/resolve', {
+                    method: 'POST',
+                    body: { decision: button.dataset.requestAction }
+                });
+                showToast(button.dataset.requestAction === 'approve' ? 'Request marked as settled.' : 'Request rejected.', true);
+                await renderAdminDashboard();
+            } catch (error) {
+                button.disabled = false;
+                showToast(error.message, false);
+            }
+        });
+
         if (adminSearch) adminSearch.addEventListener('input', renderAdminDashboard);
         if (adminRefreshBtn) adminRefreshBtn.addEventListener('click', renderAdminDashboard);
+        if (adminRequestsRefreshBtn) adminRequestsRefreshBtn.addEventListener('click', renderAdminRequests);
         // ---------- ADMIN: CATALOG MANAGEMENT ----------
         // Investments, policies and services are shared reference data. Every
         // change made here is written straight to localStorage, so additions,
@@ -4110,8 +3316,6 @@
                 plural: 'investment products',
                 source: () => INVESTMENT_CATALOG,
                 defaults: DEFAULT_INVESTMENT_CATALOG,
-                storageKey: CATALOG_KEYS.investments,
-                save: saveInvestmentCatalog,
                 list: adminInvList,
                 count: adminInvCount,
                 tabCount: adminTabCountInvestments,
@@ -4130,8 +3334,6 @@
                 plural: 'policies',
                 source: () => POLICY_CATALOG,
                 defaults: DEFAULT_POLICY_CATALOG,
-                storageKey: CATALOG_KEYS.policies,
-                save: savePolicyCatalog,
                 list: adminPolList,
                 count: adminPolCount,
                 tabCount: adminTabCountPolicies,
@@ -4151,8 +3353,6 @@
                 plural: 'services',
                 source: () => BASE_SERVICE_CATALOG,
                 defaults: DEFAULT_SERVICE_CATALOG,
-                storageKey: CATALOG_KEYS.services,
-                save: saveServiceCatalog,
                 list: adminSvcList,
                 count: adminSvcCount,
                 tabCount: adminTabCountServices,
@@ -4274,15 +3474,11 @@
                                     <strong>${escapeHtml(title)}</strong>
                                     <span>${escapeHtml(def.rowMeta(key, entry))}</span>
                                 </div>
-                            </div>
-                            <div class="admin-row-actions">
-                                <button type="button" class="btn admin-btn" data-cat-action="edit" data-cat-key="${escapeHtml(key)}"><i class="fas fa-pen" aria-hidden="true"></i> Edit</button>
-                                <button type="button" class="btn admin-btn admin-btn-danger" data-cat-action="delete" data-cat-key="${escapeHtml(key)}"><i class="fas fa-trash" aria-hidden="true"></i> Delete</button>
                             </div>`;
                         def.list.appendChild(li);
                     });
                 }
-                if (def.count) def.count.textContent = `${keys.length} ${def.plural} - saved to this browser`;
+                if (def.count) def.count.textContent = `${keys.length} ${def.plural} - read-only`;
             });
         }
 
@@ -4577,7 +3773,7 @@
         });
 
         function openAdminAdjust(user, mode) {
-            adminAdjustTarget = { email: user.email, mode };
+            adminAdjustTarget = { id: user.id, email: user.email, mode };
             const isCredit = mode === 'credit';
             adminAdjustHeading.innerHTML = isCredit
                 ? '<i class="fas fa-plus"></i> Credit account'
@@ -4598,7 +3794,7 @@
         adminAdjustCancel.addEventListener('click', closeAdminAdjustModal);
         adminAdjustModal.addEventListener('click', (e) => { if (e.target === adminAdjustModal) closeAdminAdjustModal(); });
 
-        adminAdjustForm.addEventListener('submit', (e) => {
+        adminAdjustForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             if (!adminAdjustTarget) return;
             const amount = toMoney(adminAdjustAmount.value);
@@ -4607,55 +3803,37 @@
                 adminAdjustAmount.focus();
                 return;
             }
-            const users = loadUsers();
-            const idx = users.findIndex(u => u.email === adminAdjustTarget.email);
-            if (idx === -1) {
-                showToast('That account no longer exists', false);
-                closeAdminAdjustModal();
-                renderAdminDashboard();
+            try {
+                await apiRequest('/api/admin/customers/' + encodeURIComponent(adminAdjustTarget.id) + '/adjust', {
+                    method: 'POST',
+                    body: {
+                        type: adminAdjustTarget.mode,
+                        amount,
+                        description: adminAdjustDesc.value.trim()
+                    }
+                });
+            } catch (error) {
+                showToast(error.message, false);
                 return;
             }
-            const isCredit = adminAdjustTarget.mode === 'credit';
-            const user = users[idx];
-            const balance = toMoney(user.balance);
-            if (!isCredit && amount > balance) {
-                showToast(`Insufficient funds. Balance is ${formatMoney(balance)}`, false);
-                adminAdjustAmount.focus();
-                return;
-            }
-            // Record the movement as a normal transaction so the member's own
-            // activity feed stays consistent with the balance.
-            user.balance = toMoney(isCredit ? balance + amount : balance - amount);
-            if (!Array.isArray(user.transactions)) user.transactions = [];
-            user.transactions.push(normaliseTx({
-                type: isCredit ? 'deposit' : 'withdraw',
-                amount,
-                description: (adminAdjustDesc.value.trim() || (isCredit ? 'Administrative credit' : 'Administrative debit')).slice(0, 80),
-                date: new Date().toISOString()
-            }));
-            users[idx] = normaliseUser(user);
-            if (!saveUsers(users)) {
-                showToast('Could not save the change. Check browser storage.', false);
-                return;
-            }
+            const mode = adminAdjustTarget.mode;
+            const email = adminAdjustTarget.email;
             closeAdminAdjustModal();
-            renderAdminDashboard();
-            showToast(`${isCredit ? 'Credited' : 'Debited'} ${formatMoney(amount)} ${isCredit ? 'to' : 'from'} ${user.email}`, true);
+            await renderAdminDashboard();
+            showToast((mode === 'credit' ? 'Credited ' : 'Debited ') + formatMoney(amount) + ' ' + email, true);
         });
 
-        function toggleAdminFreeze(user) {
-            const users = loadUsers();
-            const idx = users.findIndex(u => u.email === user.email);
-            if (idx === -1) return;
-            users[idx].frozen = !isFrozen(users[idx]);
-            const nowFrozen = users[idx].frozen;
-            users[idx] = normaliseUser(users[idx]);
-            if (!saveUsers(users)) {
-                showToast('Could not save the change. Check browser storage.', false);
-                return;
+        async function toggleAdminFreeze(user) {
+            try {
+                await apiRequest('/api/admin/customers/' + encodeURIComponent(user.id) + '/frozen', {
+                    method: 'PATCH',
+                    body: { frozen: !user.frozen }
+                });
+                await renderAdminDashboard();
+                showToast(user.email + (user.frozen ? ' has been unfrozen' : ' has been frozen'), true);
+            } catch (error) {
+                showToast(error.message, false);
             }
-            renderAdminDashboard();
-            showToast(nowFrozen ? `${user.email} has been frozen` : `${user.email} has been unfrozen`, true);
         }
 
         function openAdminConfirm(title, message, confirmLabel, onConfirm) {
@@ -4684,21 +3862,16 @@
         function requestAdminReset(user) {
             openAdminConfirm(
                 'Reset account activity',
-                `Clear every transaction and set the balance to $0.00 for ${user.name} (${user.email})? Sign-in details stay unchanged.`,
+                'Clear every transaction and set the balance to $0.00 for ' + user.name + ' (' + user.email + ')? Sign-in details stay unchanged.',
                 'Reset account',
-                () => {
-                    const users = loadUsers();
-                    const idx = users.findIndex(u => u.email === user.email);
-                    if (idx === -1) return;
-                    users[idx].transactions = [];
-                    users[idx].balance = 0;
-                    users[idx] = normaliseUser(users[idx]);
-                    if (!saveUsers(users)) {
-                        showToast('Could not save the change. Check browser storage.', false);
-                        return;
+                async () => {
+                    try {
+                        await apiRequest('/api/admin/customers/' + encodeURIComponent(user.id) + '/reset', { method: 'POST' });
+                        await renderAdminDashboard();
+                        showToast(user.email + ' activity reset', true);
+                    } catch (error) {
+                        showToast(error.message, false);
                     }
-                    renderAdminDashboard();
-                    showToast(`${user.email} activity reset`, true);
                 }
             );
         }
@@ -4706,18 +3879,16 @@
         function requestAdminDelete(user) {
             openAdminConfirm(
                 'Delete customer account',
-                `Permanently remove ${user.name} (${user.email}) and all of their data from this browser? This cannot be undone.`,
+                'Permanently remove ' + user.name + ' (' + user.email + ') and all of their account data? This cannot be undone.',
                 'Delete account',
-                () => {
-                    const users = loadUsers().filter(u => u.email !== user.email);
-                    if (!saveUsers(users)) {
-                        showToast('Could not save the change. Check browser storage.', false);
-                        return;
+                async () => {
+                    try {
+                        await apiRequest('/api/admin/customers/' + encodeURIComponent(user.id), { method: 'DELETE' });
+                        await renderAdminDashboard();
+                        showToast('Deleted ' + user.email, true);
+                    } catch (error) {
+                        showToast(error.message, false);
                     }
-                    // Never leave a member session pointing at a deleted account.
-                    if (getSessionEmail() === user.email) endSession();
-                    renderAdminDashboard();
-                    showToast(`Deleted ${user.email}`, true);
                 }
             );
         }
@@ -4732,36 +3903,24 @@
             else if (adminCreateModal.classList.contains('active')) closeAdminCreateModal();
         });
 
-        // Seed the real account for Rick Carl (carl123) if it does not exist.
-        function seedRickCarlAccount() {
-            const users = loadUsers();
-            if (users.some(u => u.email === 'rick.carl@gmail.com')) return;
-            const seeded = buildRickCarlHistory();
-            const rickNumbers = new Set(users.map(u => u.accountNumber).filter(isAccountNumber));
-            const rickUser = {
-                name: 'Rick Carl',
-                email: 'rick.carl@gmail.com',
-                password: 'carl123',
-                accountNumber: createAccountNumber(rickNumbers),
-                balance: seeded.balance,
-                isDemo: false,
-                transactions: seeded.transactions,
-                phone: '',
-                emailNotifications: true,
-                smsNotifications: false
-            };
-            users.push(normaliseUser(rickUser));
-            saveUsers(users);
+        // ---------- INIT ----------
+        removeItem('capitalasset_users_v1');
+        removeItem('capitalasset_session_v1');
+        removeItem('capitalasset_admin_v1');
+
+        async function restoreSession() {
+            try {
+                const result = await apiRequest('/api/auth/session');
+                currentUser = result.authenticated && result.role === 'member' ? result.user : null;
+                currentAdmin = result.authenticated && result.role === 'admin';
+                renderUI();
+            } catch (error) {
+                showToast(error.message, false);
+                renderUI();
+            }
         }
 
-        // ---------- INIT ----------
-        seedDemoData(false);
-        seedRickCarlAccount();
-        renderUI();
-
-        window.addEventListener('storage', (e) => {
-            if (e.key === USERS_KEY || e.key === SESSION_KEY) renderUI();
-        });
+        restoreSession();
 
         document.addEventListener('keydown', (e) => {
             if (e.key !== 'Escape') return;
