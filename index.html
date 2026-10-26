@@ -1877,6 +1877,42 @@
         // Express serves this page and the /api route from one domain.
         const API_BASE = window.location.origin;
 
+        async function apiRequest(endpoint, { method = 'GET', body } = {}) {
+            if (window.location.protocol === 'file:') {
+                throw new Error('Open this page through the server at http://localhost:3000 to use account features.');
+            }
+
+            const headers = {};
+            const options = {
+                method,
+                headers,
+                credentials: 'same-origin'
+            };
+            if (body !== undefined) {
+                headers['Content-Type'] = 'application/json';
+                options.body = JSON.stringify(body);
+            }
+
+            const response = await fetch(`${API_BASE}${endpoint}`, options);
+            if (response.status === 204) {
+                if (!response.ok) throw new Error(`Request failed (HTTP ${response.status}).`);
+                return null;
+            }
+
+            let result;
+            try {
+                result = await response.json();
+            } catch {
+                throw new Error(response.ok
+                    ? 'The server returned an invalid response.'
+                    : `Request failed (HTTP ${response.status}).`);
+            }
+            if (!response.ok) {
+                throw new Error(result.error || `Request failed (HTTP ${response.status}).`);
+            }
+            return result;
+        }
+
         async function sendEmailViaSmtp(subject, body) {
             const resp = await fetch(`${API_BASE}/api/notifications/email`, {
                 method: 'POST',
