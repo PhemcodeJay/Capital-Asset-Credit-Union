@@ -1392,6 +1392,42 @@
                     'Existing members get the discount applied automatically.'
                 ]
             },
+            'loan-application': {
+                name: 'Apply for a loan',
+                icon: 'fa-file-signature',
+                blurb: 'Request a personal, vehicle, or home-improvement loan review.',
+                rates: [['Personal loan', 'Terms provided after review'], ['Vehicle loan', 'Terms provided after review'], ['Home improvement', 'Terms provided after review']],
+                points: [
+                    'Submitting a request does not guarantee approval or create a loan.',
+                    'A team member will contact you to discuss eligibility and terms.',
+                    'Do not include passwords, PINs, Social Security numbers, or account numbers.'
+                ],
+                action: 'loan-application'
+            },
+            'credit-card-application': {
+                name: 'Apply for a credit card',
+                icon: 'fa-credit-card',
+                blurb: 'Request a credit card and have the available options reviewed.',
+                rates: [['Card options', 'Eligibility and terms confirmed after review'], ['Annual fee', 'Provided with your offer']],
+                points: [
+                    'Submitting a request is not a credit approval or an offer of credit.',
+                    'A team member will contact you about eligibility, rates, and fees.',
+                    'Do not include passwords, PINs, Social Security numbers, or card details.'
+                ],
+                action: 'credit-card-application'
+            },
+            'debit-card-application': {
+                name: 'Apply for a debit card',
+                icon: 'fa-credit-card',
+                blurb: 'Request a debit card for your member account.',
+                rates: [['Card options', 'Availability confirmed by customer care'], ['Delivery', 'Details provided after review']],
+                points: [
+                    'A team member will confirm account eligibility and delivery options.',
+                    'Submitting a request does not order or activate a card.',
+                    'Never send your PIN, password, or full account/card number by email.'
+                ],
+                action: 'debit-card-application'
+            },
             cards: {
                 name: 'Cards & security',
                 icon: 'fa-credit-card',
@@ -1435,6 +1471,15 @@
         const BASE_SERVICE_CATALOG = loadCatalog(CATALOG_KEYS.services, DEFAULT_SERVICE_CATALOG);
         function saveServiceCatalog() {
             return saveCatalog(CATALOG_KEYS.services, BASE_SERVICE_CATALOG);
+        }
+        let addedDefaultServices = false;
+        Object.keys(DEFAULT_SERVICE_CATALOG).forEach(key => {
+            if (Object.prototype.hasOwnProperty.call(BASE_SERVICE_CATALOG, key)) return;
+            BASE_SERVICE_CATALOG[key] = JSON.parse(JSON.stringify(DEFAULT_SERVICE_CATALOG[key]));
+            addedDefaultServices = true;
+        });
+        if (addedDefaultServices && !saveServiceCatalog()) {
+            console.warn('Capital Asset CU: new default services could not be saved; they are available for this session only.');
         }
 
         const SERVICE_CATALOG = {};
@@ -1897,6 +1942,7 @@
         }
 
         // ---------- DOM ----------
+        const appContainer = document.getElementById('appContainer');
         const authSection = document.getElementById('authSection');
         const dashboardSection = document.getElementById('dashboardSection');
         const loginCard = document.getElementById('loginCard');
@@ -2013,14 +2059,17 @@
             const showAdminView = view === 'admin';
             const showDash = view === 'dashboard';
             const showAuth = !showAdminView && !showDash;
+            if (appContainer) appContainer.classList.toggle('hidden', showAdminView);
             authSection.classList.toggle('hidden', !showAuth);
             dashboardSection.classList.toggle('hidden', !showDash);
             if (adminSection) adminSection.classList.toggle('hidden', !showAdminView);
             backToDemoBar.classList.toggle('hidden', !(showAuth && pendingRealAccount));
-            // Every view change starts at the top of the page: without this,
-            // logging in from a scrolled-down login card leaves the new view
-            // stranded mid-page (notably the admin console).
-            window.scrollTo(0, 0);
+            if (showAdminView) {
+                window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+                requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: 'instant' }));
+            } else {
+                window.scrollTo(0, 0);
+            }
             if (showAdminView || showDash) {
                 closeAllDashModals();
             } else if (view === 'register') {
@@ -2358,6 +2407,22 @@
                 throw new Error(err.error || `HTTP ${resp.status}`);
             }
             return resp.json();
+        }
+
+        async function sendApplicationRequest(application) {
+            if (window.location.protocol === 'file:') {
+                throw new Error('Open this page through the server at http://localhost:3000 to submit an application.');
+            }
+            const response = await fetch(`${API_BASE}/api/application-requests`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(application)
+            });
+            const result = await response.json().catch(() => ({}));
+            if (!response.ok) {
+                throw new Error(result.error || `Request failed (HTTP ${response.status}).`);
+            }
+            return result;
         }
 
         function sendNotification(channel, subject, body) {
@@ -2790,6 +2855,7 @@
 
             svcModalHeading.textContent = svc.name;
             svcModalSub.textContent = svc.blurb;
+            const user = getCurrentUser();
 
             const rates = (svc.rates || [])
                 .map(([label, value]) => `<div class="rate-row"><span>${escapeHtml(label)}</span><b>${escapeHtml(value)}</b></div>`)
@@ -2798,10 +2864,72 @@
                 .map(pt => `<li><i class="fas fa-check" aria-hidden="true"></i><span>${escapeHtml(pt)}</span></li>`)
                 .join('');
 
+            const applicationKind = ['loan-application', 'credit-card-application', 'debit-card-application']
+                .includes(svc.action) ? svc.action : null;
+            let applicationForm = '';
+            if (applicationKind) {
+                const member = user || { name: '', email: '' };
+                const commonFields = `
+                    <div class="input-group">
+                        <label for="serviceApplicantName">Full name</label>
+                        <input id="serviceApplicantName" name="name" type="text" value="${escapeHtml(member.name)}" maxlength="60" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="serviceApplicantEmail">Email</label>
+                        <input id="serviceApplicantEmail" name="email" type="email" value="${escapeHtml(member.email)}" maxlength="254" required>
+                    </div>`;
+                let applicationFields = '';
+                if (applicationKind === 'loan-application') {
+                    applicationFields = `
+                        <div class="input-group">
+                            <label for="serviceLoanType">Loan type</label>
+                            <select id="serviceLoanType" name="loanType" required>
+                                <option value="">Select a loan type</option>
+                                <option>Personal loan</option>
+                                <option>Vehicle loan</option>
+                                <option>Home improvement loan</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="serviceLoanAmount">Requested amount (USD)</label>
+                            <input id="serviceLoanAmount" name="amount" type="number" min="1" max="100000000" step="0.01" inputmode="decimal" placeholder="e.g. 5000.00" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="serviceLoanPurpose">What will the loan be used for?</label>
+                            <textarea id="serviceLoanPurpose" name="purpose" rows="3" maxlength="240" required></textarea>
+                        </div>`;
+                } else {
+                    const cardLabel = applicationKind === 'credit-card-application' ? 'Credit card option' : 'Debit card request';
+                    const cardOptions = applicationKind === 'credit-card-application'
+                        ? '<option>Standard credit card</option><option>Rewards credit card</option>'
+                        : '<option>New debit card</option><option>Replacement debit card</option>';
+                    applicationFields = `
+                        <div class="input-group">
+                            <label for="serviceCardOption">${cardLabel}</label>
+                            <select id="serviceCardOption" name="cardOption" required>
+                                <option value="">Select an option</option>
+                                ${cardOptions}
+                            </select>
+                        </div>`;
+                }
+                applicationForm = `
+                    <form class="service-application" data-service-application="${applicationKind}">
+                        <h4>Application request</h4>
+                        ${commonFields}
+                        ${applicationFields}
+                        <p class="service-application-notice">This request is not an approval or an order. It will be sent to customer care for review. Do not include passwords, PINs, Social Security numbers, or full account or card numbers.</p>
+                        <p class="service-application-status" role="status" aria-live="polite"></p>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane" aria-hidden="true"></i> Submit request</button>
+                    </form>`;
+            }
+
             // Investment products carry a live "invest now" action; the transfer
             // services deep-link to their existing modal instead.
             let action = '';
-            if (INVESTMENT_CATALOG[key]) {
+            if (applicationForm) {
+                action = applicationForm;
+            } else if (INVESTMENT_CATALOG[key]) {
                 action = `<div class="modal-actions">
                     <button type="button" class="btn btn-logout" data-svc-close>Close</button>
                     <button type="button" class="btn btn-primary" data-inv-open="${escapeHtml(key)}">
@@ -2873,6 +3001,69 @@
             else if (kind === 'statement') downloadStatement();
             else if (kind === 'contact') {
                 window.location.href = `mailto:${CARE_EMAIL}?subject=${encodeURIComponent('Capital Asset Credit Union enquiry')}`;
+            }
+        });
+
+        svcModalBody.addEventListener('submit', async (e) => {
+            const form = e.target.closest('form[data-service-application]');
+            if (!form) return;
+            e.preventDefault();
+            if (form.dataset.submitting === 'true') return;
+            const user = getCurrentUser();
+            if (!user) {
+                showToast('Please log in to submit an application request.', false);
+                closeServiceModal();
+                renderUI();
+                return;
+            }
+            const formData = new FormData(form);
+            const applicantName = String(formData.get('name') || '').trim();
+            const applicantEmail = String(formData.get('email') || '').trim();
+            if (!applicantName || !EMAIL_RE.test(applicantEmail)) {
+                showToast('Enter a valid name and email address.', false);
+                return;
+            }
+
+            const kind = form.dataset.serviceApplication;
+            const application = { type: kind, name: applicantName, email: applicantEmail };
+            if (kind === 'loan-application') {
+                const amount = Number(formData.get('amount'));
+                const purpose = String(formData.get('purpose') || '').trim();
+                const loanType = String(formData.get('loanType') || '').trim();
+                if (!Number.isFinite(amount) || amount <= 0 || amount > 100000000 || !loanType || !purpose) {
+                    showToast('Complete the loan type, amount, and purpose.', false);
+                    return;
+                }
+                application.loanType = loanType;
+                application.amount = amount;
+                application.purpose = purpose;
+            } else {
+                const cardOption = String(formData.get('cardOption') || '').trim();
+                if (!cardOption) {
+                    showToast('Select a card option.', false);
+                    return;
+                }
+                application.cardOption = cardOption;
+            }
+            const submitButton = form.querySelector('button[type="submit"]');
+            const status = form.querySelector('.service-application-status');
+            const originalButtonContent = submitButton.innerHTML;
+            form.dataset.submitting = 'true';
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Sending...';
+            if (status) status.textContent = 'Sending your request to customer care...';
+            try {
+                await sendApplicationRequest(application);
+                closeServiceModal();
+                showToast('Application request sent to customer care.', true);
+            } catch (error) {
+                console.error('Application request failed:', error);
+                if (status) status.textContent = error.message;
+                showToast(error.message, false);
+            } finally {
+                form.dataset.submitting = 'false';
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalButtonContent;
             }
         });
 
@@ -3979,7 +4170,10 @@
                         { value: 'deposit', label: 'Make a deposit' },
                         { value: 'withdraw', label: 'Make a withdrawal' },
                         { value: 'statement', label: 'Download statement' },
-                        { value: 'contact', label: 'Contact us' }
+                        { value: 'contact', label: 'Contact us' },
+                        { value: 'loan-application', label: 'Loan application request' },
+                        { value: 'credit-card-application', label: 'Credit card application request' },
+                        { value: 'debit-card-application', label: 'Debit card application request' }
                     ] }
                 ]
             }
