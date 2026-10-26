@@ -155,71 +155,6 @@
             text-decoration: underline;
         }
 
-        .demo-badge {
-            margin-top: 1.2rem;
-            text-align: center;
-            background: #1e3142;
-            padding: 0.7rem 1rem;
-            border-radius: 2rem;
-            font-size: 0.82rem;
-            color: #a0c0dc;
-            border: 1px dashed #4fc3ff60;
-            cursor: pointer;
-            transition: all 0.2s;
-            width: 100%;
-            font-family: inherit;
-        }
-
-        .demo-badge:focus-visible {
-            outline: 2px solid #4fc3ff;
-            outline-offset: 2px;
-        }
-
-        .demo-badge i {
-            color: #4fc3ff;
-            margin-right: 0.4rem;
-        }
-
-        .demo-badge:hover {
-            background: #253d52;
-            border-color: #4fc3ff;
-        }
-
-        .back-to-demo {
-            width: 100%;
-            max-width: 420px;
-            margin-bottom: 1.2rem;
-            background: #1e3142;
-            border: 1px dashed #4fc3ff60;
-            border-radius: 1.5rem;
-            padding: 0.8rem 1.1rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 0.7rem;
-            color: #c6e2ff;
-            font-size: 0.85rem;
-        }
-
-        .back-to-demo i {
-            color: #4fc3ff;
-            margin-right: 0.4rem;
-        }
-
-        .back-to-demo .btn {
-            padding: 0.45rem 1rem;
-            font-size: 0.8rem;
-            border-radius: 2rem;
-            background: #4fc3ff20;
-            border: 1px solid #4fc3ff60;
-            color: #c6e2ff;
-        }
-
-        .back-to-demo .btn:hover {
-            background: #4fc3ff40;
-        }
-
         /* ---------- DASHBOARD ---------- */
         /* The panel is laid out with flex; visibility is driven purely by the
            `.hidden` utility class (display:none !important) so renderUI() can
@@ -230,8 +165,7 @@
             gap: 1.8rem;
         }
 
-        /* Demo banner */
-        .demo-banner {
+        .status-banner {
             background: linear-gradient(90deg, #4fc3ff20, #4fc3ff05);
             border: 1px solid #4fc3ff40;
             border-radius: 1.5rem;
@@ -245,28 +179,9 @@
             font-size: 0.9rem;
         }
 
-        .demo-banner i {
+        .status-banner i {
             color: #4fc3ff;
             margin-right: 0.5rem;
-        }
-
-        .demo-banner .btn {
-            padding: 0.5rem 1.2rem;
-            font-size: 0.82rem;
-            border-radius: 2rem;
-            background: #4fc3ff20;
-            border: 1px solid #4fc3ff60;
-            color: #c6e2ff;
-        }
-
-        .demo-banner .btn:hover {
-            background: #4fc3ff40;
-        }
-
-        .demo-banner-actions {
-            display: flex;
-            gap: 0.6rem;
-            flex-wrap: wrap;
         }
 
         .dashboard-header {
@@ -302,11 +217,6 @@
         .avatar.real {
             background: linear-gradient(145deg, #1e88e5, #0b5ed7);
             box-shadow: 0 10px 20px -5px #0d6efd;
-        }
-
-        .avatar.demo {
-            background: linear-gradient(145deg, #00b894, #009432);
-            box-shadow: 0 10px 20px -5px #009432;
         }
 
         .avatar:hover {
@@ -1727,15 +1637,6 @@
             box-shadow: 0 16px 30px rgba(0,120,220,.35);
         }
 
-        .demo-badge {
-            margin-top: clamp(.55rem, 1.6vh, 1rem);
-            border: 1px dashed rgba(24,169,255,.4);
-            background: rgba(24,169,255,.05);
-            color: #9ec5df;
-            border-radius: 12px;
-            padding: .75rem 1rem;
-        }
-
         .auth-footer {
             margin-top: clamp(.8rem, 2.2vh, 1.5rem);
             padding-top: clamp(.7rem, 2vh, 1.4rem);
@@ -1745,11 +1646,6 @@
 
         .auth-footer a {
             color: #18a9ff;
-        }
-
-        .back-to-demo {
-            max-width: none;
-            margin-bottom: 1rem;
         }
 
         /* Registration uses the same right-hand panel */
@@ -3230,11 +3126,6 @@
             display: inline-flex;
             align-items: center;
             gap: 0.3rem;
-        }
-
-        .admin-badge.demo {
-            background: rgba(0, 184, 148, 0.15);
-            color: #4be3bd;
         }
 
         .admin-badge.frozen {
