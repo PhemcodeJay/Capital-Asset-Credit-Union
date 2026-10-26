@@ -23,11 +23,12 @@ const DEPOSIT_FEE_BPS = 500;
 const INVESTMENT_FEE_BPS = 75;
 const MAX_AMOUNT_CENTS = 10000000000;
 const scrypt = promisify(crypto.scrypt);
+const TRUST_PROXY = process.env.TRUST_PROXY === '1' || IS_PRODUCTION;
 
 if (!process.env.DATABASE_URL) {
   throw new Error('DATABASE_URL must contain the PostgreSQL connection string.');
 }
-if (process.env.TRUST_PROXY === '1') app.set('trust proxy', 1);
+if (TRUST_PROXY) app.set('trust proxy', 1);
 
 types.setTypeParser(20, value => Number(value));
 const transactionContext = new AsyncLocalStorage();
