@@ -2875,12 +2875,13 @@
         }
 
         /* ---------- HERO SLIDE DOTS ---------- */
-        .hero-dots {
+        .hero-dot {
             display: flex;
             gap: .4rem;
             align-items: center;
             flex: 0 0 auto;
         }
+
 
         .hero-dot {
             width: 30px;
@@ -2941,23 +2942,32 @@
             font-size: .92em;
         }
 
-        /* Short desktop windows: the three contact cards sit in a row instead of
-           stacked, so the whole enquiry form still clears the hero's footer. */
-        @media (max-height: 760px) {
-            .slide-contact {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            .slide-contact a {
-                align-items: center;
-            }
-
-            .slide-contact .ci {
-                width: 26px;
-                height: 26px;
-                font-size: .76rem;
-            }
+        /* Ensure the page always starts from the top, never vertically centered. */
+        html, body {
+            height: auto;
+            min-height: 100vh;
+            display: block;
+            align-items: flex-start;
+            justify-content: flex-start;
+            margin: 0;
+            padding: 0;
         }
+
+        .app-container {
+            display: block;
+            align-items: flex-start;
+            justify-content: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .admin-section,
+        .dashboard {
+            margin-top: 0;
+            padding-top: clamp(1rem, 2.4vw, 2rem);
+        }
+
         /* ===== ADMINISTRATOR CONSOLE ===== */
         .admin-brand {
             display: flex;
