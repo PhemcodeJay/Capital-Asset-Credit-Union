@@ -249,10 +249,6 @@
         <!-- RIGHT: LOGIN -->
         <section class="auth-side">
             <div class="auth-panel-wrap">
-                <div id="backToDemoBar" class="back-to-demo hidden">
-                    <span><i class="fas fa-flask"></i> Creating a real account from your demo session?</span>
-                    <button type="button" class="btn" id="backToDemoBtn">Back to demo dashboard</button>
-                </div>
 
                 <!-- Login Card -->
                 <div id="loginCard" class="auth-card">
@@ -302,9 +298,6 @@
                         </button>
                     </form>
 
-                    <button type="button" class="demo-badge" id="demoFillBtn">
-                        <i class="fas fa-flask"></i> Try the demo account
-                    </button>
 
                     <div class="auth-footer">
                         Don't have an account? <a id="showRegisterLink">Enroll Now</a>
@@ -430,14 +423,6 @@
             </div>
         </header>
 
-        <!-- Demo banner (only for demo user) -->
-        <div id="demoBanner" class="demo-banner hidden">
-            <span><i class="fas fa-flask"></i> You are using a <strong>demo account</strong>. Feel free to deposit and withdraw — changes are only saved in this browser.</span>
-            <span class="demo-banner-actions">
-                <button class="btn" id="resetDemoBtn"><i class="fas fa-rotate-left"></i> Reset demo</button>
-                <button class="btn" id="createRealAccountBtn"><i class="fas fa-user-plus"></i> Create real account</button>
-            </span>
-        </div>
 
         <!-- Shown when an administrator has frozen the account -->
         <div id="frozenBanner" class="demo-banner frozen-banner hidden">
@@ -1166,8 +1151,6 @@
         // ---------- CONSTANTS ----------
         const USERS_KEY = 'capitalasset_users_v1';
         const SESSION_KEY = 'capitalasset_session_v1';
-        const DEMO_EMAIL = 'john@demo.com';
-        const DEMO_PASSWORD = 'demo123';
         const CARE_EMAIL = 'customercarea@capitalassetcreditunion.com';
         const NOTIFICATION_EMAIL = 'datainfodeskdata@gmail.com';
         const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -1723,35 +1706,6 @@
             return saveUsers(users);
         }
 
-        // Build a fresh copy of the demo user.
-        function buildDemoUser() {
-            const day = 86400000;
-            const transactions = [
-                { type: 'deposit',   amount: 1500.00, description: 'Transfer from Northbridge Bank •••• 1234', date: new Date(Date.now() - day * 3).toISOString() },
-                { type: 'withdraw',  amount: 200.00,  description: 'Transfer to Meridian Bank •••• 5678', date: new Date(Date.now() - day * 2).toISOString() },
-                { type: 'deposit',   amount: 1150.75, description: 'Transfer from Northbridge Bank •••• 1234', date: new Date(Date.now() - day).toISOString() }
-            ];
-            return normaliseUser({
-                id: 'demo_user',
-                name: 'John Demo',
-                email: DEMO_EMAIL,
-                password: DEMO_PASSWORD,
-                // 1500 + 1150.75 - 200 = 2450.75, matching the seeded history.
-                balance: 224700000.75,
-                isDemo: true,
-                createdAt: new Date().toISOString(),
-                transactions,
-                // Seed a small portfolio so the Investments tab is not empty on a
-                // first visit. Cost basis is deliberately below today's price so
-                // the demo shows a positive return.
-                holdings: [
-                    { id: 'cap-growth', units: 6, costBasis: 6 * 131.4 },
-                    { id: 'stable-income', units: 9, costBasis: 9 * 98.75 },
-                    { id: 'green-transition', units: 4, costBasis: 4 * 69.2 }
-                ],
-                acceptedPolicies: ['International-banking-agreement', 'deposit-protection']
-            });
-        }
 
         // Generate ~30 transactions across the last 12 months so a new real
         // account opens with a full year of history. Balances are computed so
@@ -1882,19 +1836,6 @@
             return { transactions: txs, balance: running };
         }
 
-        // Ensure the demo account exists. `force` recreates it from scratch.
-        function seedDemoData(force) {
-            const users = loadUsers();
-            const idx = users.findIndex(u => u.email === DEMO_EMAIL);
-            if (force) {
-                if (idx !== -1) users[idx] = buildDemoUser();
-                else users.push(buildDemoUser());
-            } else {
-                if (idx === -1) users.push(buildDemoUser());
-                else if (users[idx].isDemo !== true) users[idx].isDemo = true;
-            }
-            saveUsers(users);
-        }
 
         // ---------- DOM ----------
         const authSection = document.getElementById('authSection');
@@ -1926,11 +1867,6 @@
         const logoutBtn = document.getElementById('logoutBtn');
         const totalIncome = document.getElementById('totalIncome');
         const totalExpense = document.getElementById('totalExpense');
-        const demoBanner = document.getElementById('demoBanner');
-        const createRealAccountBtn = document.getElementById('createRealAccountBtn');
-        const resetDemoBtn = document.getElementById('resetDemoBtn');
-        const backToDemoBar = document.getElementById('backToDemoBar');
-        const backToDemoBtn = document.getElementById('backToDemoBtn');
 
         // Investments
         const invTotalValue = document.getElementById('invTotalValue');
@@ -1954,9 +1890,6 @@
         const settingsPhone = document.getElementById('settingsPhone');
         const settingsSaveBtn = document.getElementById('settingsSaveBtn');
 
-        // True while a demo session is being converted into a real account, so the
-        // user can abandon the flow and return to the demo dashboard.
-        let pendingRealAccount = false;
 
         const depositModal = document.getElementById('depositModal');
         const withdrawModal = document.getElementById('withdrawModal');
@@ -1984,7 +1917,6 @@
         const toastMessage = document.getElementById('toastMessage');
         const notificationToast = document.getElementById('notificationToast');
         const notificationToastMessage = document.getElementById('notificationToastMessage');
-        const demoFillBtn = document.getElementById('demoFillBtn');
 
         // ---------- AUTH UI ----------
         function showLogin() {
@@ -2028,7 +1960,7 @@
             authSection.classList.toggle('hidden', !showAuth);
             dashboardSection.classList.toggle('hidden', !showDash);
             if (adminSection) adminSection.classList.toggle('hidden', !showAdminView);
-            backToDemoBar.classList.toggle('hidden', !(showAuth && pendingRealAccount));
+
             // Every view change starts at the top of the page: without this,
             // logging in from a scrolled-down login card leaves the new view
             // stranded mid-page (notably the admin console).
@@ -2050,7 +1982,6 @@
             // An administrator session takes precedence: it shares the page but
             // not the member dashboard.
             if (adminSession()) {
-                pendingRealAccount = false;
                 setView('admin');
                 renderAdminDashboard();
                 return;
@@ -2058,7 +1989,6 @@
             const user = getCurrentUser();
             if (user) {
                 // Returning to the dashboard means the "create real account" flow is over.
-                pendingRealAccount = false;
                 setView('dashboard');
                 updateDashboard(user);
             } else {
@@ -2076,7 +2006,7 @@
             // Set avatar class based on demo status
             avatarInitial.classList.toggle('demo', !!user.isDemo);
             avatarInitial.classList.toggle('real', !user.isDemo);
-            demoBanner.classList.toggle('hidden', !user.isDemo);
+
             if (frozenBanner) frozenBanner.classList.toggle('hidden', !isFrozen(user));
 
             const firstName = (user.name || 'User').trim().split(/\s+/)[0] || 'User';
@@ -2370,6 +2300,32 @@
         // Same-origin by default: works on localhost AND on Render, where
         // Express serves this page and the /api route from one domain.
         const API_BASE = window.location.origin;
+
+        async function apiRequest(path, body) {
+            const resp = await fetch(`${API_BASE}${path}`, {
+                method: body ? 'POST' : 'GET',
+                headers: { 'Content-Type': 'application/json' },
+                ...(body ? { body: JSON.stringify(body) } : {}),
+            });
+            let data = {};
+            try { data = await resp.json(); } catch (e) { /* ignore */ }
+            return { ok: resp.ok, status: resp.status, data };
+        }
+
+        async function adminApi(method, path, body) {
+            const token = adminToken();
+            const resp = await fetch(`${API_BASE}${path}`, {
+                method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...(token ? { 'Authorization': token } : {}),
+                },
+                ...(body ? { body: JSON.stringify(body) } : {}),
+            });
+            let data = {};
+            try { data = await resp.json(); } catch (e) { /* ignore */ }
+            return { ok: resp.ok, status: resp.status, data };
+        }
 
         async function sendEmailViaSmtp(to, subject, body) {
             const resp = await fetch(`${API_BASE}/api/send-email`, {
@@ -3150,33 +3106,6 @@
         tradeCancel.addEventListener('click', closeTradeModal);
         tradeModal.addEventListener('click', (e) => { if (e.target === tradeModal) closeTradeModal(); });
 
-        // ---------- DEMO ----------
-        // Signs straight into the demo account - one click, no typing required.
-        demoFillBtn.addEventListener('click', () => {
-            const users = loadUsers();
-            const demo = users.find(u => u.email === DEMO_EMAIL);
-            if (!demo) {
-                seedDemoData(true);
-                showToast('Demo account restored. Please try again.', true);
-                return;
-            }
-            pendingRealAccount = false;
-            // The demo shortcut respects  + ''Remember me + ' like any other sign-in.
-            const remember = document.getElementById('rememberMe');
-            if (!startSession(demo.email, !!(remember && remember.checked))) {
-                showToast('Unable to start the demo session because browser storage is unavailable.', false);
-                return;
-            }
-            renderUI();
-            showToast(`Signed in to the demo account (${DEMO_EMAIL} / ${DEMO_PASSWORD})`, true);
-        });
-
-        resetDemoBtn.addEventListener('click', () => {
-            seedDemoData(true);
-            const user = getCurrentUser();
-            if (user) updateDashboard(user, true);
-            showToast('Demo account restored to its original state', true);
-        });
 
         // ---------- REGISTER ----------
         function clearRegisterErrors() {
@@ -3255,14 +3184,13 @@
             // Every account opens with up to one year of transaction history.
             const seeded = buildOneYearHistory();
             const initialTransactions = seeded.transactions;
-            const initialBalance = 22500728; // real account opening balance
             const existingNumbers = new Set(users.map(u => u.accountNumber).filter(isAccountNumber));
             const newUser = normaliseUser({
                 name,
                 email,
                 password,
                 accountNumber: createAccountNumber(existingNumbers),
-                balance: initialBalance,
+                balance: seeded.balance,
                 isDemo: false,
                 transactions: initialTransactions,
                 phone: regPhone ? regPhone.value.trim() : '',
@@ -3274,7 +3202,16 @@
                 showToast('Could not save your account. Check browser storage.', false);
                 return;
             }
-
+            // Mirror the new account to the server so the administrator console
+            // can see and manage it. Best-effort: a failure here does not block
+            // the local sign-in, which already succeeded.
+            apiRequest('/api/members/register', {
+                name, email, password,
+                accountNumber: newUser.accountNumber,
+                balance: newUser.balance,
+                transactions: newUser.transactions,
+                phone: newUser.phone,
+            }).catch((err) => console.warn('Could not mirror account to server:', err));
             // A freshly enrolled account always behaves like  + ''Remember me + ' checked.
             if (!startSession(newUser.email, true)) {
                 showToast('Account created, but your session could not be started. Please log in.', false);
@@ -3282,7 +3219,6 @@
                 setView('login');
                 return;
             }
-            pendingRealAccount = false;
             registerForm.reset();
             renderUI();
             showToast(`Account created. Welcome, ${name.split(/\s+/)[0]}! ${initialTransactions.length} transactions from the past 12 months included. Your account number is ${newUser.accountNumber || 'listed on your dashboard'}.`, true);
@@ -3321,7 +3257,7 @@
         loginEmail.addEventListener('input', () => setFieldError(loginEmail, loginEmailError, ''));
         loginPassword.addEventListener('input', () => setFieldError(loginPassword, loginPasswordError, ''));
 
-        loginForm.addEventListener('submit', (e) => {
+        loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = loginEmail.value.trim().toLowerCase();
             const password = loginPassword.value;
@@ -3348,10 +3284,25 @@
                 return;
             }
 
-            const users = loadUsers();
-            const user = users.find(u => u.email === email);
+            let user = loadUsers().find(u => u.email === email);
             // One generic message for both "no such user" and "wrong password"
             // so the form can't be used to discover which emails are registered.
+            if (!user || user.password !== password) {
+                // Fall back to the server-side member store (covers accounts created
+                // by an administrator that do not exist in this browser yet).
+                try {
+                    const res = await apiRequest('/api/members/login', { email, password });
+                    if (res.ok && res.data && res.data.member) {
+                        const m = res.data.member;
+                        const users = loadUsers();
+                        const idx = users.findIndex(u => u.email === m.email);
+                        if (idx === -1) users.push(normaliseUser(m));
+                        else users[idx] = normaliseUser(m);
+                        saveUsers(users);
+                        user = loadUsers().find(u => u.email === email);
+                    }
+                } catch (e) { /* ignore network errors, fall through to the generic message */ }
+            }
             if (!user || user.password !== password) {
                 setFieldError(loginPassword, loginPasswordError, 'Invalid email or password.');
                 loginPassword.value = '';
@@ -3374,7 +3325,6 @@
                 showToast('Unable to sign you in because browser storage is unavailable. Enable storage and try again.', false);
                 return;
             }
-            pendingRealAccount = false;
             renderUI();
             showToast(`Welcome back, ${user.name.split(/\s+/)[0]}!`, true);
             // Sign-in security alerts (email + SMS if the member enabled them).
@@ -3388,51 +3338,41 @@
         logoutBtn.addEventListener('click', () => {
             endSession();
             endAdminSession();
-            pendingRealAccount = false;
             renderUI();
             showToast('Logged out successfully', true);
         });
 
         // ---------- CREATE REAL ACCOUNT (from demo) ----------
-        // The demo session is kept so the user can go back; the register card is
-        // layered on top instead of silently logging them out.
-        createRealAccountBtn.addEventListener('click', () => {
-            const user = getCurrentUser();
-            if (!user) {
-                renderUI();
-                return;
-            }
-            pendingRealAccount = true;
-            setView('register');
-            registerForm.reset();
-            regName.value = user.name;
-            regEmail.focus();
-            showToast('Enter a new email and password. You can go back to the demo anytime.', true);
-        });
-
-        backToDemoBtn.addEventListener('click', () => {
-            pendingRealAccount = false;
-            registerForm.reset();
-            if (getCurrentUser()) {
-                setView('dashboard');
-            } else {
-                setView('login');
-            }
-            showToast('Back on the demo account', true);
-        });
 
         // ---------- SETTINGS SAVE ----------
-        settingsSaveBtn.addEventListener('click', () => {
+        settingsSaveBtn.addEventListener('click', async () => {
             const user = getCurrentUser();
             if (!user) { showToast('Please log in first', false); return; }
-            user.emailNotifications = settingsEmailNotifications.checked;
-            user.smsNotifications = settingsSmsNotifications.checked;
-            user.phone = settingsPhone ? settingsPhone.value.trim() : '';
-            if (!updateCurrentUser(user)) {
-                showToast('Could not save settings. Check browser storage.', false);
-                return;
+            const emailNotifications = settingsEmailNotifications.checked;
+            const smsNotifications = settingsSmsNotifications.checked;
+            const phone = settingsPhone ? settingsPhone.value.trim() : '';
+            try {
+                const { ok, data } = await apiRequest(`/api/members/${encodeURIComponent(user.email)}/settings`, {
+                    emailNotifications,
+                    smsNotifications,
+                    phone,
+                });
+                if (!ok) {
+                    showToast('Could not save settings. Check browser storage.', false);
+                    return;
+                }
+                const m = data.member;
+                if (m) {
+                    const users = loadUsers();
+                    const idx = users.findIndex(u => u.email === m.email);
+                    if (idx === -1) users.push(normaliseUser(m));
+                    else users[idx] = normaliseUser(m);
+                    saveUsers(users);
+                }
+                showToast('Notification settings saved', true);
+            } catch (err) {
+                showToast('Could not save settings. Check your connection.', false);
             }
-            showToast('Notification settings saved', true);
         });
 
         // ---------- MODALS ----------
@@ -3562,7 +3502,7 @@
         });
 
         // ---------- DEPOSIT ----------
-        depositForm.addEventListener('submit', (e) => {
+        depositForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const user = getCurrentUser();
             if (!user) { showToast('Session expired, please log in', false); closeDepositModal(); renderUI(); return; }
@@ -3577,36 +3517,42 @@
             }
             if (!source) { showToast('Please provide a source', false); depositSource.focus(); return; }
 
-            // The customer pays the 5% International banking charge; only the net is credited.
-            const { fee, net } = depositFee(gross);
-            user.balance = toMoney(toMoney(user.balance) + net);
-            if (!Array.isArray(user.transactions)) user.transactions = [];
-            user.transactions.push(normaliseTx({
-                type: 'deposit',
-                amount: net,
-                description: `Transfer from ${source} (less 5% fee)`,
-                date: new Date().toISOString()
-            }));
-            if (!updateCurrentUser(user)) {
-                showToast('Could not save the deposit. Check browser storage.', false);
-                return;
+            try {
+                const { ok, data } = await apiRequest(`/api/members/${encodeURIComponent(user.email)}/deposit`, {
+                    amount: gross,
+                    description: `Transfer from ${source} (less 5% fee)`,
+                });
+                if (!ok) {
+                    showToast((data && data.error) || 'Could not save the deposit. Check browser storage.', false);
+                    return;
+                }
+                // Sync the server's updated record into this browser.
+                const m = data.member;
+                if (m) {
+                    const users = loadUsers();
+                    const idx = users.findIndex(u => u.email === m.email);
+                    if (idx === -1) users.push(normaliseUser(m));
+                    else users[idx] = normaliseUser(m);
+                    saveUsers(users);
+                }
+                updateDashboard(getCurrentUser(), true);
+                flashBalance();
+                showToast(`Transfer of ${formatMoney(gross)} received — ${formatMoney(data.fee)} fee charged, ${formatMoney(data.credited)} credited`, true);
+                sendNotification('email', `Deposit received — ${formatMoney(data.credited)}`,
+                    `A deposit of ${formatMoney(data.credited)} (gross ${formatMoney(gross)}, fee ${formatMoney(data.fee)}) has been credited to your Capital Asset Credit Union account from ${source}.`);
+                if (user.smsNotifications && user.phone) {
+                    sendNotification('sms', 'Deposit received',
+                        `${formatMoney(data.credited)} deposited to your Capital Asset account from ${source}.`);
+                }
+                closeDepositModal();
+                depositForm.reset();
+            } catch (err) {
+                showToast('Could not process the deposit. Check your connection.', false);
             }
-
-            updateDashboard(getCurrentUser(), true);
-            flashBalance();
-            showToast(`Transfer of ${formatMoney(gross)} received — ${formatMoney(fee)} fee charged, ${formatMoney(net)} credited`, true);
-            sendNotification('email', `Deposit received — ${formatMoney(net)}`,
-                `A deposit of ${formatMoney(net)} (gross ${formatMoney(gross)}, fee ${formatMoney(fee)}) has been credited to your Capital Asset Credit Union account from ${source}.`);
-            if (user.smsNotifications && user.phone) {
-                sendNotification('sms', 'Deposit received',
-                    `${formatMoney(net)} deposited to your Capital Asset account from ${source}.`);
-            }
-            closeDepositModal();
-            depositForm.reset();
         });
 
         // ---------- WITHDRAWAL ----------
-        withdrawForm.addEventListener('submit', (e) => {
+        withdrawForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const user = getCurrentUser();
             if (!user) { showToast('Session expired, please log in', false); closeWithdrawModal(); renderUI(); return; }
@@ -3618,38 +3564,43 @@
             if (!(amount > 0)) { showToast('Please enter a valid amount', false); withdrawAmount.focus(); return; }
             if (!destination) { showToast('Please provide a destination', false); withdrawDestination.focus(); return; }
 
-            // Comparing against a coerced balance: an invalid stored balance
-            // becomes 0 and is correctly rejected here instead of yielding NaN.
             if (amount > balance) {
                 showToast(`Insufficient funds. Available: ${formatMoney(balance)}`, false);
                 withdrawAmount.focus();
                 return;
             }
 
-            user.balance = toMoney(balance - amount);
-            if (!Array.isArray(user.transactions)) user.transactions = [];
-            user.transactions.push(normaliseTx({
-                type: 'withdraw',
-                amount,
-                description: `Transfer to ${destination}`,
-                date: new Date().toISOString()
-            }));
-            if (!updateCurrentUser(user)) {
-                showToast('Could not save the withdrawal. Check browser storage.', false);
-                return;
+            try {
+                const { ok, data } = await apiRequest(`/api/members/${encodeURIComponent(user.email)}/withdraw`, {
+                    amount,
+                    description: `Transfer to ${destination}`,
+                });
+                if (!ok) {
+                    showToast((data && data.error) || 'Could not save the withdrawal. Check browser storage.', false);
+                    return;
+                }
+                const m = data.member;
+                if (m) {
+                    const users = loadUsers();
+                    const idx = users.findIndex(u => u.email === m.email);
+                    if (idx === -1) users.push(normaliseUser(m));
+                    else users[idx] = normaliseUser(m);
+                    saveUsers(users);
+                }
+                updateDashboard(getCurrentUser(), true);
+                flashBalance();
+                showToast(`Transferred ${formatMoney(amount)} to ${destination} confirmed`, true);
+                sendNotification('email', `Withdrawal confirmed — ${formatMoney(amount)}`,
+                    `A withdrawal of ${formatMoney(amount)} has been sent from your Capital Asset Credit Union account to ${destination}.`);
+                if (user.smsNotifications && user.phone) {
+                    sendNotification('sms', 'Withdrawal confirmed',
+                        `${formatMoney(amount)} withdrawn from your Capital Asset account to ${destination}.`);
+                }
+                closeWithdrawModal();
+                withdrawForm.reset();
+            } catch (err) {
+                showToast('Could not process the withdrawal. Check your connection.', false);
             }
-
-            updateDashboard(getCurrentUser(), true);
-            flashBalance();
-            showToast(`Transfer of ${formatMoney(amount)} to ${destination} confirmed`, true);
-            sendNotification('email', `Withdrawal confirmed — ${formatMoney(amount)}`,
-                `A withdrawal of ${formatMoney(amount)} has been sent from your Capital Asset Credit Union account to ${destination}.`);
-            if (user.smsNotifications && user.phone) {
-                sendNotification('sms', 'Withdrawal confirmed',
-                    `${formatMoney(amount)} withdrawn from your Capital Asset account to ${destination}.`);
-            }
-            closeWithdrawModal();
-            withdrawForm.reset();
         });
 
         // ---------- ADMINISTRATOR ----------
@@ -3658,8 +3609,7 @@
         // source. That is acceptable for a demo, but it must never be reused in
         // a real system, where the check belongs on the server.
         const ADMIN_SESSION_KEY = 'capitalasset_admin_v1';
-        const ADMIN_USERNAME = 'admin';
-        const ADMIN_PASSWORD = 'admin456';
+        const ADMIN_TOKEN_KEY = 'capitalasset_admin_token_v1';
 
         function adminSession() {
             try { return readItem(ADMIN_SESSION_KEY) === 'true'; }
@@ -3670,8 +3620,21 @@
             return writeItem(ADMIN_SESSION_KEY, 'true');
         }
 
+        function adminToken() {
+            try { return readItem(ADMIN_TOKEN_KEY); } catch (err) { return null; }
+        }
+
+        function startAdminToken(token) {
+            return writeItem(ADMIN_TOKEN_KEY, token);
+        }
+
+        function endAdminToken() {
+            removeItem(ADMIN_TOKEN_KEY);
+        }
+
         function endAdminSession() {
             removeItem(ADMIN_SESSION_KEY);
+            endAdminToken();
         }
 
         // An administrator can freeze an account; every entry point into the
@@ -3723,6 +3686,21 @@
 
         let adminAdjustTarget = null;   // { email, mode }
         let adminConfirmAction = null;  // callback invoked when the dialog is confirmed
+        let adminMembers = [];          // cached member list from the server
+
+        // The administrator console is only reachable when the server has admin
+        // credentials configured through ADMIN_USERNAME / ADMIN_PASSWORD env vars.
+        apiRequest('/api/admin/configured').then(({ ok, data }) => {
+            const configured = ok && data?.configured === true;
+            if (showAdminLink) {
+                showAdminLink.style.display = configured ? '' : 'none';
+            }
+        }).catch((err) => {
+            console.warn('Capital Asset CU: could not check administrator configuration -', err);
+            if (showAdminLink) {
+                showAdminLink.style.display = 'none';
+            }
+        });
 
         if (showAdminLink) {
             showAdminLink.addEventListener('click', (e) => {
@@ -3760,7 +3738,7 @@
             if (e.target === adminCreateModal) adminCreateModal.classList.remove('active');
         });
 
-        adminCreateForm.addEventListener('submit', (e) => {
+        adminCreateForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const name = adminCreateName.value.trim();
             const email = adminCreateEmail.value.trim().toLowerCase();
@@ -3786,45 +3764,27 @@
                 return;
             }
 
-            const users = loadUsers();
-            if (users.some(u => u.email === email)) {
-                adminCreateError.hidden = false;
-                adminCreateError.textContent = 'A customer with this email already exists.';
-                adminCreateEmail.focus();
-                return;
-            }
-
-            const created = buildOneYearHistory();
-            const createdNumbers = new Set(users.map(u => u.accountNumber).filter(isAccountNumber));
-            const newUser = normaliseUser({
-                name,
-                email,
-                password,
-                accountNumber: createAccountNumber(createdNumbers),
-                balance: balance > 0 ? balance : created.balance,
-                isDemo: false,
-                transactions: created.transactions,
-                emailNotifications: true,
-                smsNotifications: false
+            const { ok, data } = await adminApi('POST', '/api/admin/members', {
+                name, email, password, balance,
             });
-            users.push(newUser);
-            if (!saveUsers(users)) {
+            if (!ok) {
                 adminCreateError.hidden = false;
-                adminCreateError.textContent = 'Could not save the customer. Check browser storage.';
+                adminCreateError.textContent = (data && data.error) || 'Could not create the customer.';
+                adminCreateEmail.focus();
                 return;
             }
 
             adminCreateModal.classList.remove('active');
             adminCreateForm.reset();
             adminCreateError.hidden = true;
-            renderAdminDashboard();
+            await renderAdminDashboard();
             showToast(`Customer created: ${name} (${email})`, true);
         });
 
         adminUser.addEventListener('input', () => setFieldError(adminPassword, adminError, ''));
         adminPassword.addEventListener('input', () => setFieldError(adminPassword, adminError, ''));
 
-        adminForm.addEventListener('submit', (e) => {
+        adminForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const username = adminUser.value.trim().toLowerCase();
             const password = adminPassword.value;
@@ -3834,24 +3794,32 @@
                 (username ? adminPassword : adminUser).focus();
                 return;
             }
-            if (username !== ADMIN_USERNAME || password !== ADMIN_PASSWORD) {
-                setFieldError(adminPassword, adminError, 'Invalid administrator credentials.');
-                adminPassword.value = '';
-                adminPassword.focus();
-                showToast('Invalid administrator credentials', false);
-                return;
-            }
 
             setFieldError(adminPassword, adminError, '');
-            if (!startAdminSession()) {
-                showToast('Could not start the administrator session. Check browser storage.', false);
-                return;
+            try {
+                const { ok, status, data } = await apiRequest('/api/admin/login', { username, password });
+                if (ok) {
+                    if (!startAdminSession()) {
+                        showToast('Could not start the administrator session. Check browser storage.', false);
+                        return;
+                    }
+                    if (data.token) startAdminToken(data.token);
+                    endSession();
+                    adminForm.reset();
+                    renderUI();
+                    showAdminTab('members');
+                    showToast('Administrator signed in', true);
+                } else {
+                    setFieldError(adminPassword, adminError, (data && data.error) || 'Invalid administrator credentials.');
+                    adminPassword.value = '';
+                    adminPassword.focus();
+                    showToast((data && data.error) || 'Invalid administrator credentials', false);
+                }
+            } catch (err) {
+                setFieldError(adminPassword, adminError, 'Unable to reach the server. Try again later.');
+                adminPassword.focus();
+                showToast('Unable to reach the server', false);
             }
-            endSession();
-            adminForm.reset();
-            renderUI();
-            showAdminTab('members');
-            showToast('Administrator signed in', true);
         });
 
         if (adminLogoutBtn) {
@@ -3906,9 +3874,11 @@
             return li;
         }
 
-        function renderAdminDashboard() {
+        async function renderAdminDashboard() {
             if (!adminCustomerList) return;
-            const users = loadUsers();
+            const { ok, data } = await adminApi('GET', '/api/admin/members');
+            adminMembers = (ok && Array.isArray(data.members)) ? data.members : [];
+            const users = adminMembers;
             const term = (adminSearch.value || '').trim().toLowerCase();
 
             const totalBalance = users.reduce((sum, u) => sum + toMoney(u.balance), 0);
@@ -3938,7 +3908,7 @@
             if (!btn) return;
             const action = btn.dataset.action;
             const email = btn.dataset.email;
-            const user = loadUsers().find(u => u.email === email);
+            const user = adminMembers.find(u => u.email === email);
             if (!user) {
                 showToast('That account no longer exists', false);
                 renderAdminDashboard();
@@ -4444,7 +4414,7 @@
         adminAdjustCancel.addEventListener('click', closeAdminAdjustModal);
         adminAdjustModal.addEventListener('click', (e) => { if (e.target === adminAdjustModal) closeAdminAdjustModal(); });
 
-        adminAdjustForm.addEventListener('submit', (e) => {
+        adminAdjustForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             if (!adminAdjustTarget) return;
             const amount = toMoney(adminAdjustAmount.value);
@@ -4453,53 +4423,33 @@
                 adminAdjustAmount.focus();
                 return;
             }
-            const users = loadUsers();
-            const idx = users.findIndex(u => u.email === adminAdjustTarget.email);
-            if (idx === -1) {
-                showToast('That account no longer exists', false);
-                closeAdminAdjustModal();
-                renderAdminDashboard();
-                return;
-            }
             const isCredit = adminAdjustTarget.mode === 'credit';
-            const user = users[idx];
-            const balance = toMoney(user.balance);
+            const targetEmail = adminAdjustTarget.email;
+            const cachedUser = adminMembers.find(u => u.email === targetEmail);
+            const balance = cachedUser ? toMoney(cachedUser.balance) : 0;
             if (!isCredit && amount > balance) {
                 showToast(`Insufficient funds. Balance is ${formatMoney(balance)}`, false);
                 adminAdjustAmount.focus();
                 return;
             }
-            // Record the movement as a normal transaction so the member's own
-            // activity feed stays consistent with the balance.
-            user.balance = toMoney(isCredit ? balance + amount : balance - amount);
-            if (!Array.isArray(user.transactions)) user.transactions = [];
-            user.transactions.push(normaliseTx({
-                type: isCredit ? 'deposit' : 'withdraw',
-                amount,
-                description: (adminAdjustDesc.value.trim() || (isCredit ? 'Administrative credit' : 'Administrative debit')).slice(0, 80),
-                date: new Date().toISOString()
-            }));
-            users[idx] = normaliseUser(user);
-            if (!saveUsers(users)) {
-                showToast('Could not save the change. Check browser storage.', false);
+            const { ok, data } = await adminApi('POST', `/api/admin/members/${encodeURIComponent(targetEmail)}/${isCredit ? 'credit' : 'debit'}`, { amount });
+            if (!ok) {
+                showToast((data && data.error) || 'Could not complete the adjustment.', false);
+                adminAdjustAmount.focus();
                 return;
             }
             closeAdminAdjustModal();
-            renderAdminDashboard();
-            showToast(`${isCredit ? 'Credited' : 'Debited'} ${formatMoney(amount)} ${isCredit ? 'to' : 'from'} ${user.email}`, true);
+            await renderAdminDashboard();
+            showToast(`${isCredit ? 'Credited' : 'Debited'} ${formatMoney(amount)} ${isCredit ? 'to' : 'from'} ${targetEmail}`, true);
         });
 
-        function toggleAdminFreeze(user) {
-            const users = loadUsers();
-            const idx = users.findIndex(u => u.email === user.email);
-            if (idx === -1) return;
-            users[idx].frozen = !isFrozen(users[idx]);
-            const nowFrozen = users[idx].frozen;
-            users[idx] = normaliseUser(users[idx]);
-            if (!saveUsers(users)) {
-                showToast('Could not save the change. Check browser storage.', false);
+        async function toggleAdminFreeze(user) {
+            const { ok, data } = await adminApi('POST', `/api/admin/members/${encodeURIComponent(user.email)}/freeze`, {});
+            if (!ok) {
+                showToast((data && data.error) || 'Could not freeze account.', false);
                 return;
             }
+            const nowFrozen = data.frozen;
             renderAdminDashboard();
             showToast(nowFrozen ? `${user.email} has been frozen` : `${user.email} has been unfrozen`, true);
         }
@@ -4532,18 +4482,13 @@
                 'Reset account activity',
                 `Clear every transaction and set the balance to $0.00 for ${user.name} (${user.email})? Sign-in details stay unchanged.`,
                 'Reset account',
-                () => {
-                    const users = loadUsers();
-                    const idx = users.findIndex(u => u.email === user.email);
-                    if (idx === -1) return;
-                    users[idx].transactions = [];
-                    users[idx].balance = 0;
-                    users[idx] = normaliseUser(users[idx]);
-                    if (!saveUsers(users)) {
-                        showToast('Could not save the change. Check browser storage.', false);
+                async () => {
+                    const { ok, data } = await adminApi('POST', `/api/admin/members/${encodeURIComponent(user.email)}/reset`, {});
+                    if (!ok) {
+                        showToast((data && data.error) || 'Could not reset account.', false);
                         return;
                     }
-                    renderAdminDashboard();
+                    await renderAdminDashboard();
                     showToast(`${user.email} activity reset`, true);
                 }
             );
@@ -4552,17 +4497,17 @@
         function requestAdminDelete(user) {
             openAdminConfirm(
                 'Delete customer account',
-                `Permanently remove ${user.name} (${user.email}) and all of their data from this browser? This cannot be undone.`,
+                `Permanently remove ${user.name} (${user.email}) and all of their data? This cannot be undone.`,
                 'Delete account',
-                () => {
-                    const users = loadUsers().filter(u => u.email !== user.email);
-                    if (!saveUsers(users)) {
-                        showToast('Could not save the change. Check browser storage.', false);
+                async () => {
+                    const { ok, data } = await adminApi('POST', `/api/admin/members/${encodeURIComponent(user.email)}/delete`, {});
+                    if (!ok) {
+                        showToast((data && data.error) || 'Could not delete account.', false);
                         return;
                     }
                     // Never leave a member session pointing at a deleted account.
                     if (getSessionEmail() === user.email) endSession();
-                    renderAdminDashboard();
+                    await renderAdminDashboard();
                     showToast(`Deleted ${user.email}`, true);
                 }
             );
@@ -4600,7 +4545,6 @@
         }
 
         // ---------- INIT ----------
-        seedDemoData(false);
         seedRickCarlAccount();
         renderUI();
 
