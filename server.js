@@ -7,6 +7,25 @@ const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 
+function hashPassword(password) {
+  const salt = crypto.randomBytes(16).toString('hex');
+  const hash = crypto.scryptSync(password, salt, 64).toString('hex');
+  return `scrypt$${salt}$${hash}`;
+}
+
+function verifyPassword(password, storedHash) {
+  if (!storedHash || typeof storedHash !== 'string') return false;
+  const parts = storedHash.split('$');
+  if (parts.length !== 3 || parts[0] !== 'scrypt') return false;
+  const [, salt, hash] = parts;
+  try {
+    const derived = crypto.scryptSync(password, salt, 64);
+    return crypto.timingSafeEqual(derived, Buffer.from(hash, 'hex'));
+  } catch (err) {
+    return false;
+  }
+}
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -22,36 +41,40 @@ async function initDb() {
     console.warn('DATABASE_URL not set; PostgreSQL member store disabled.');
     return;
   }
-  const client = await pool.connect();
   try {
-    await client.query(`
-      CREATE TABLE IF NOT EXISTS members (
-        email TEXT PRIMARY KEY,
-        name TEXT NOT NULL,
-        password TEXT NOT NULL,
-        account_number TEXT,
-        balance NUMERIC(14,2) NOT NULL DEFAULT 0,
-        is_demo BOOLEAN NOT NULL DEFAULT FALSE,
-        frozen BOOLEAN NOT NULL DEFAULT FALSE,
-        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-        phone TEXT,
-        email_notifications BOOLEAN NOT NULL DEFAULT TRUE,
-        sms_notifications BOOLEAN NOT NULL DEFAULT FALSE
-      );
-    `);
-    await client.query(`
-      CREATE TABLE IF NOT EXISTS transactions (
-        id SERIAL PRIMARY KEY,
-        member_email TEXT NOT NULL REFERENCES members(email) ON DELETE CASCADE,
-        type TEXT NOT NULL,
-        amount NUMERIC(14,2) NOT NULL,
-        description TEXT,
-        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-      );
-    `);
-    console.log('PostgreSQL schema initialized.');
-  } finally {
-    client.release();
+    const client = await pool.connect();
+    try {
+      await client.query(`
+        CREATE TABLE IF NOT EXISTS members (
+          email TEXT PRIMARY KEY,
+          name TEXT NOT NULL,
+          password TEXT NOT NULL,
+          account_number TEXT,
+          balance NUMERIC(14,2) NOT NULL DEFAULT 0,
+          is_demo BOOLEAN NOT NULL DEFAULT FALSE,
+          frozen BOOLEAN NOT NULL DEFAULT FALSE,
+          created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+          phone TEXT,
+          email_notifications BOOLEAN NOT NULL DEFAULT TRUE,
+          sms_notifications BOOLEAN NOT NULL DEFAULT FALSE
+        );
+      `);
+      await client.query(`
+        CREATE TABLE IF NOT EXISTS member_transactions (
+          id SERIAL PRIMARY KEY,
+          member_email TEXT NOT NULL REFERENCES members(email) ON DELETE CASCADE,
+          type TEXT NOT NULL,
+          amount NUMERIC(14,2) NOT NULL,
+          description TEXT,
+          created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        );
+      `);
+      console.log('PostgreSQL schema initialized.');
+    } finally {
+      client.release();
+    }
+  } catch (err) {
+    console.error('PostgreSQL init failed (member store disabled):', err.message);
   }
 }
 
@@ -186,8 +209,9 @@ function ensureStoreDir() {
 
 async function loadMembers() {
   if (!process.env.DATABASE_URL) return [];
-  const client = await pool.connect();
+  let client;
   try {
+    client = await pool.connect();
     const res = await client.query('SELECT * FROM members ORDER BY created_at');
     const members = res.rows.map((row) => ({
       name: row.name,
@@ -205,7 +229,7 @@ async function loadMembers() {
     }));
     for (const m of members) {
       const txRes = await client.query(
-        'SELECT type, amount, description, created_at FROM transactions WHERE member_email = $1 ORDER BY created_at',
+        'SELECT type, amount, description, created_at FROM member_transactions WHERE member_email = $1 ORDER BY created_at',
         [m.email]
       );
       m.transactions = txRes.rows.map((tx) => ({
@@ -216,17 +240,20 @@ async function loadMembers() {
       }));
     }
     return members;
+  } catch (err) {
+    console.error('loadMembers failed:', err.message);
+    return [];
   } finally {
-    client.release();
+    if (client) client.release();
   }
 }
 
 async function persistMembers(members) {
   if (!process.env.DATABASE_URL) return;
-  const client = await pool.connect();
+  let client;
   try {
+    client = await pool.connect();
     await client.query('BEGIN');
-    // Upsert each member
     for (const m of members) {
       await client.query(
         `INSERT INTO members (email, name, password, account_number, balance, is_demo, frozen, created_at, phone, email_notifications, sms_notifications)
@@ -247,12 +274,11 @@ async function persistMembers(members) {
           m.emailNotifications !== false, m.smsNotifications === true,
         ]
       );
-      // Replace transactions for this member
-      await client.query('DELETE FROM transactions WHERE member_email = $1', [m.email]);
+      await client.query('DELETE FROM member_transactions WHERE member_email = $1', [m.email]);
       if (Array.isArray(m.transactions)) {
         for (const tx of m.transactions) {
           await client.query(
-            'INSERT INTO transactions (member_email, type, amount, description, created_at) VALUES ($1,$2,$3,$4,$5)',
+            'INSERT INTO member_transactions (member_email, type, amount, description, created_at) VALUES ($1,$2,$3,$4,$5)',
             [m.email, tx.type, tx.amount, tx.description, tx.date || new Date().toISOString()]
           );
         }
@@ -260,10 +286,10 @@ async function persistMembers(members) {
     }
     await client.query('COMMIT');
   } catch (err) {
-    await client.query('ROLLBACK');
-    throw err;
+    if (client) await client.query('ROLLBACK').catch(() => {});
+    console.error('persistMembers failed:', err.message);
   } finally {
-    client.release();
+    if (client) client.release();
   }
 }
 
