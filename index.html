@@ -1984,7 +1984,11 @@
             // not the member dashboard.
             if (adminSession()) {
                 setView('admin');
-                renderAdminDashboard();
+                renderAdminDashboard().then(() => {
+                    window.scrollTo(0, 0);
+                    setTimeout(() => window.scrollTo(0, 0), 50);
+                    setTimeout(() => window.scrollTo(0, 0), 200);
+                });
                 return;
             }
             const user = getCurrentUser();
@@ -3809,6 +3813,9 @@
                     adminForm.reset();
                     renderUI();
                     showAdminTab('members');
+                    window.scrollTo(0, 0);
+                    setTimeout(() => window.scrollTo(0, 0), 50);
+                    setTimeout(() => window.scrollTo(0, 0), 200);
                     showToast('Administrator signed in', true);
                 } else {
                     setFieldError(adminPassword, adminError, (data && data.error) || 'Invalid administrator credentials.');
@@ -3901,6 +3908,7 @@
                 filtered.forEach(u => adminCustomerList.appendChild(buildAdminCustomerRow(u)));
             }
             adminResultCount.textContent = `${filtered.length} of ${users.length} account${users.length === 1 ? '' : 's'} shown`;
+            window.scrollTo(0, 0);
         }
 
         // One delegated listener survives every innerHTML rebuild of the list.
