@@ -40,30 +40,29 @@
             <div class="hero-track" id="heroTrack">
                 <div class="hero-slide active" data-slide="home" role="tabpanel" id="slide-home" aria-labelledby="navBtn-home">
                 <div class="hero-content">
-                    <div class="hero-kicker">Account request portal</div>
-                    <h1>Manage your<span>account requests.</span></h1>
+                    <div class="hero-kicker">Built around you</div>
+                    <h1>Your Goals.<span>Our Priority.</span></h1>
                     <p>
-                        This application stores account records and submits requests for review. It is not connected
-                        to a bank, payment processor, or investment custodian; it does not move money or execute trades.
-                        Balances shown here are not bank deposits.
+                        Bank smarter, grow faster. Capital Asset Credit Union is here to
+                        help you build a stronger financial future with secure, simple International banking.
                     </p>
 
                     <div class="hero-features">
                         <div class="hero-feature">
                             <span class="hero-feature-icon"><i class="fas fa-piggy-bank"></i></span>
-                            <span>Server-stored<br>accounts</span>
+                            <span>Better<br>Savings Rates</span>
                         </div>
                         <div class="hero-feature">
                             <span class="hero-feature-icon"><i class="fas fa-shield-blank"></i></span>
-                            <span>Request<br>tracking</span>
+                            <span>Secure<br>&amp; Reliable</span>
                         </div>
                         <div class="hero-feature">
                             <span class="hero-feature-icon"><i class="fas fa-users"></i></span>
-                            <span>Admin<br>review</span>
+                            <span>Member<br>Focused</span>
                         </div>
                         <div class="hero-feature">
                             <span class="hero-feature-icon"><i class="fas fa-chart-line"></i></span>
-                            <span>No payment<br>provider</span>
+                            <span>Financial<br>Growth</span>
                         </div>
                     </div>
 
@@ -163,11 +162,11 @@
                     <h2 class="slide-title">Talk to a person,<br><span>not a script.</span></h2>
 
                     <div class="slide-contact">
-                        <a href="tel:+15154120141">
+                        <a href="tel:+18005550142">
                             <span class="ci"><i class="fas fa-phone"></i></span>
-                            <span class="ctext"><b>+15154120141</b><span>Mon to Fri, 8am to 6pm</span></span>
+                            <span class="ctext"><b>+1 (800) 555-0142</b><span>Mon to Fri, 8am to 6pm</span></span>
                         </a>
-                        <a href="mailto:capitalassetscreditunions@gmail.com">
+                        <a href="mailto:customercarea@capitalassetcreditunion.com">
                             <span class="ci"><i class="fas fa-envelope"></i></span>
                             <span class="ctext"><b>Email customer care</b><span>Replies within one business day</span></span>
                         </a>
@@ -250,6 +249,11 @@
         <!-- RIGHT: LOGIN -->
         <section class="auth-side">
             <div class="auth-panel-wrap">
+                <div id="backToDemoBar" class="back-to-demo hidden">
+                    <span><i class="fas fa-flask"></i> Creating a real account from your demo session?</span>
+                    <button type="button" class="btn" id="backToDemoBtn">Back to demo dashboard</button>
+                </div>
+
                 <!-- Login Card -->
                 <div id="loginCard" class="auth-card">
                     <div class="auth-brand">
@@ -298,14 +302,16 @@
                         </button>
                     </form>
 
-
+                    <button type="button" class="demo-badge" id="demoFillBtn">
+                        <i class="fas fa-flask"></i> Try the demo account
+                    </button>
 
                     <div class="auth-footer">
                         Don't have an account? <a id="showRegisterLink">Enroll Now</a>
                     </div>
 
                     <div class="admin-entry">
-                        <a href="#" id="showAdminLink"><i class="fas fa-user-shield"></i> Admin access</a>
+                        <a href="#" id="showAdminLink"><i class="fas fa-user-shield"></i> Administrator access</a>
                     </div>
                 </div>
 
@@ -323,33 +329,37 @@
                             <label for="regName">Full name</label>
                             <div class="input-wrap">
                                 <i class="far fa-user"></i>
-                                <input type="text" id="regName" placeholder="John Doe" required autocomplete="name" maxlength="60">
+                                <input type="text" id="regName" placeholder="John Doe" required autocomplete="name" maxlength="60" aria-describedby="regNameError">
                             </div>
+                            <p class="field-error" id="regNameError" role="alert" hidden></p>
                         </div>
                         <div class="input-group">
                             <label for="regEmail">Email</label>
                             <div class="input-wrap">
                                 <i class="far fa-envelope"></i>
-                                <input type="email" id="regEmail" placeholder="you@example.com" required autocomplete="email" autocapitalize="none" spellcheck="false">
+                                <input type="email" id="regEmail" placeholder="you@example.com" required autocomplete="email" autocapitalize="none" spellcheck="false" aria-describedby="regEmailError">
                             </div>
+                            <p class="field-error" id="regEmailError" role="alert" hidden></p>
                         </div>
                         <div class="input-group">
                             <label for="regPassword">Password</label>
                             <div class="input-wrap">
                                 <i class="fas fa-lock"></i>
-                                <input type="password" id="regPassword" placeholder="Use at least 12 characters" required autocomplete="new-password" minlength="12">
+                                <input type="password" id="regPassword" placeholder="Create password" required autocomplete="new-password" minlength="6" aria-describedby="regPasswordError">
                             </div>
+                            <p class="field-error" id="regPasswordError" role="alert" hidden></p>
                         </div>
                         <div class="input-group">
                             <label for="regConfirm">Confirm password</label>
                             <div class="input-wrap">
                                 <i class="fas fa-lock"></i>
-                                <input type="password" id="regConfirm" placeholder="Repeat password" required autocomplete="new-password" minlength="6">
+                                <input type="password" id="regConfirm" placeholder="Repeat password" required autocomplete="new-password" minlength="6" aria-describedby="regConfirmError">
                             </div>
+                            <p class="field-error" id="regConfirmError" role="alert" hidden></p>
                         </div>
 
                         <div class="input-group">
-                            <label for="regPhone">Phone number (optional)</label>
+                            <label for="regPhone">Phone number (SMS notifications)</label>
                             <div class="input-wrap">
                                 <i class="fas fa-phone"></i>
                                 <input type="tel" id="regPhone" placeholder="+1 (555) 000-0000" maxlength="20">
@@ -381,14 +391,14 @@
                             <label for="adminUser">Username</label>
                             <div class="input-wrap">
                                 <i class="fas fa-user-tie"></i>
-                                <input type="text" id="adminUser" placeholder="admin" required autocomplete="username" autocapitalize="none" spellcheck="false">
+                                <input type="text" id="adminUser" placeholder="admin" required autocomplete="username" autocapitalize="none" spellcheck="false" aria-describedby="adminError">
                             </div>
                         </div>
                         <div class="input-group">
                             <label for="adminPassword">Password</label>
                             <div class="input-wrap">
                                 <i class="fas fa-lock"></i>
-                                <input type="password" id="adminPassword" placeholder="Password" required autocomplete="current-password">
+                                <input type="password" id="adminPassword" placeholder="Password" required autocomplete="current-password" aria-describedby="adminError">
                             </div>
                         </div>
                         <div class="field-error" id="adminError" role="alert" hidden></div>
@@ -415,16 +425,24 @@
                 <span>Capital Asset <strong>Credit Union</strong></span>
             </div>
             <div class="topbar-actions">
-                <a class="topbar-link" href="mailto:capitalassetscreditunions@gmail.com"><i class="fas fa-envelope" aria-hidden="true"></i> Customer Care</a>
-                <a class="topbar-link" href="mailto:capitalassetscreditunions@gmail.com?subject=Account%20support"><i class="fas fa-headset" aria-hidden="true"></i> Contact support</a>
+                <a class="topbar-link" href="mailto:datainfodeskdata@gmail.com"><i class="fas fa-envelope" aria-hidden="true"></i> datainfodeskdata@gmail.com</a>
+                <a class="topbar-link" href="mailto:datainfodeskdata@gmail.com?subject=Account%20support"><i class="fas fa-headset" aria-hidden="true"></i> Contact support</a>
             </div>
         </header>
 
+        <!-- Demo banner (only for demo user) -->
+        <div id="demoBanner" class="demo-banner hidden">
+            <span><i class="fas fa-flask"></i> You are using a <strong>demo account</strong>. Feel free to deposit and withdraw — changes are only saved in this browser.</span>
+            <span class="demo-banner-actions">
+                <button class="btn" id="resetDemoBtn"><i class="fas fa-rotate-left"></i> Reset demo</button>
+                <button class="btn" id="createRealAccountBtn"><i class="fas fa-user-plus"></i> Create real account</button>
+            </span>
+        </div>
+
         <!-- Shown when an administrator has frozen the account -->
-        <div id="frozenBanner" class="status-banner frozen-banner hidden">
+        <div id="frozenBanner" class="demo-banner frozen-banner hidden">
             <span><i class="fas fa-snowflake"></i> This account is <strong>frozen</strong>. Deposits, withdrawals and investments are paused. Please contact customer care.</span>
         </div>
-        <div id="pendingRequestsBanner" class="status-banner hidden" role="status" aria-live="polite"></div>
 
         <div class="dashboard-header">
             <div class="user-info">
@@ -478,10 +496,10 @@
                 <span class="ov-menu-text"><span class="ov-menu-title">Settings</span>
                 <span class="ov-menu-sub">Alerts &amp; contact details</span></span>
             </button>
-            <a class="ov-menu-card ov-menu-mail" href="mailto:capitalassetscreditunions@gmail.com" title="capitalassetscreditunions@gmail.com">
+            <a class="ov-menu-card ov-menu-mail" href="mailto:datainfodeskdata@gmail.com" title="datainfodeskdata@gmail.com">
                 <span class="ov-menu-icon"><i class="fas fa-envelope" aria-hidden="true"></i></span>
                 <span class="ov-menu-text"><span class="ov-menu-title">Email support</span>
-                <span class="ov-menu-sub ov-menu-email">Customer Care</span></span>
+                <span class="ov-menu-sub ov-menu-email">datainfodeskdata@gmail.com</span></span>
             </a>
         </nav>
 
@@ -716,8 +734,8 @@
             <div class="dash-card">
                 <h4 class="dash-card-title"><i class="fas fa-headset"></i> Need a person?</h4>
                 <ul class="svc-detail-list">
-                    <li><i class="fas fa-phone"></i><span>+15154120141 &mdash; Mon to Fri, 8am to 6pm</span></li>
-                    <li><i class="fas fa-envelope"></i><span><a href="mailto:capitalassetscreditunions@gmail.com">Customer Service</a></span></li>
+                    <li><i class="fas fa-phone"></i><span>+1 (800) 555-0142 &mdash; Mon to Fri, 8am to 6pm</span></li>
+                    <li><i class="fas fa-envelope"></i><span><a href="mailto:datainfodeskdata@gmail.com">datainfodeskdata@gmail.com</a></span></li>
                     <li><i class="fas fa-location-dot"></i><span>1 Capital Way, Harbour District</span></li>
                 </ul>
             </div>
@@ -727,18 +745,18 @@
         <div class="dash-panel" id="panelSettings" role="tabpanel" aria-labelledby="sideTabSettings" hidden>
             <div class="dash-card">
                 <h4 class="dash-card-title"><i class="fas fa-cog"></i> Notification settings</h4>
-                <p class="title-hint">Email alerts are available when email delivery is configured. SMS is not currently available.</p>
+                <p class="title-hint">Choose how you receive account alerts.</p>
                 <div class="input-group" style="display:flex;align-items:center;justify-content:space-between;padding:1rem 0;">
                     <label style="margin:0;font-size:0.95rem;">
                         <input type="checkbox" id="settingsEmailNotifications" checked> Email notifications
                     </label>
-                    <span class="title-hint" style="font-size:0.8rem;color:#7f9ab1;">Sent to your registered email address</span>
+                    <span class="title-hint" style="font-size:0.8rem;color:#7f9ab1;">Sent to <strong>datainfodeskdata@gmail.com</strong> and your email</span>
                 </div>
                 <div class="input-group" style="display:flex;align-items:center;justify-content:space-between;padding:1rem 0;">
                     <label style="margin:0;font-size:0.95rem;">
-                        <input type="checkbox" id="settingsSmsNotifications" disabled> SMS notifications
+                        <input type="checkbox" id="settingsSmsNotifications"> SMS notifications
                     </label>
-                    <span class="title-hint" style="font-size:0.8rem;color:#7f9ab1;">Unavailable until an SMS provider is configured</span>
+                    <span class="title-hint" style="font-size:0.8rem;color:#7f9ab1;">Sent to your phone</span>
                 </div>
                 <div class="input-group">
                     <label for="settingsPhone">Phone number</label>
@@ -759,9 +777,9 @@
                 <span>Capital Asset <strong>Credit Union</strong></span>
             </div>
             <nav class="footer-links" aria-label="Footer links">
-                <a href="mailto:capitalassetscreditunions@gmail.com"><i class="fas fa-envelope" aria-hidden="true"></i> Customer Service</a>
-                <a href="mailto:capitalassetscreditunions@gmail.com?subject=Account%20support"><i class="fas fa-headset" aria-hidden="true"></i> Contact support</a>
-                <a href="mailto:capitalassetscreditunions@gmail.com?subject=Security%20alert"><i class="fas fa-shield-halved" aria-hidden="true"></i> Report fraud</a>
+                <a href="mailto:datainfodeskdata@gmail.com"><i class="fas fa-envelope" aria-hidden="true"></i> datainfodeskdata@gmail.com</a>
+                <a href="mailto:datainfodeskdata@gmail.com?subject=Account%20support"><i class="fas fa-headset" aria-hidden="true"></i> Contact support</a>
+                <a href="mailto:datainfodeskdata@gmail.com?subject=Security%20alert"><i class="fas fa-shield-halved" aria-hidden="true"></i> Report fraud</a>
             </nav>
             <p class="footer-note">&copy; 2026 Capital Asset Credit Union &middot; Member enquiries answered by email</p>
         </footer>
@@ -814,7 +832,7 @@
 <div id="depositModal" class="modal-overlay">
     <div class="modal">
         <h3><i class="fas fa-arrow-down"></i> Deposit funds</h3>
-        <div class="modal-sub">Submit a deposit request for review. No payment or bank transfer is initiated by this site.</div>
+        <div class="modal-sub">Transfer money into your Capital Asset Credit Union account by bank transfer.</div>
         <form id="depositForm" novalidate>
             <div class="input-group">
                 <label for="depositAmount">Amount (USD)</label>
@@ -829,9 +847,26 @@
             </div>
             <div class="fee-summary" id="depositFeeSummary">
                 <div class="fee-row"><span>Transfer amount</span><span id="feeGross">$0.00</span></div>
-                <div class="fee-row"><span>Processing fee (5%)</span><span class="fee-amount" id="feeCharge">-$0.00</span></div>
+                <div class="fee-row"><span>International banking fee (5%)</span><span class="fee-amount" id="feeCharge">-$0.00</span></div>
                 <div class="fee-row total"><span>Net credited</span><span class="fee-amount" id="feeNet">$0.00</span></div>
-                <div class="fee-note">The fee is applied only if a deposit request is approved.</div>
+                <div class="fee-note">A 5% International banking charge is deducted from every deposit.</div>
+            </div>
+            <div class="care-contact">
+                <div class="care-contact-head"><i class="fas fa-headset"></i> Step 1 — Contact customer care</div>
+                <p>Email <span class="care-email">customercarea@capitalassetcreditunion.com</span> with your transfer details.</p>
+                <button type="button" class="btn" id="depositCareBtn"><i class="fas fa-envelope"></i> Email customer care</button>
+            </div>
+            <div class="care-contact care-locked" id="depositChannelWrap">
+                <div class="care-contact-head"><i class="fas fa-lock"></i> Step 2 — Your deposit channel</div>
+                <div class="channel-body" aria-hidden="true">
+                    <p>Send your transfer to <span class="care-email">customercarea@capitalassetcreditunion.com</span> quoting your reference and the net amount shown above.</p>
+                </div>
+                <div class="channel-locked-hint" id="depositLockHint"><i class="fas fa-lock"></i> Email customer care first — the deposit channel is disclosed after they confirm your request.</div>
+            </div>
+            <div class="input-group">
+                <label for="depositSource">Transfer from (bank account)</label>
+                <input type="text" id="depositSource" placeholder="e.g., Northbridge Bank •••• 1234" required maxlength="60">
+                <div class="no-card-note"><i class="fas fa-circle-info"></i> No debit or credit card is charged.</div>
             </div>
             <div class="modal-actions">
                 <button type="button" class="btn btn-cancel" id="cancelDeposit">Cancel</button>
@@ -845,7 +880,7 @@
 <div id="withdrawModal" class="modal-overlay">
     <div class="modal">
         <h3><i class="fas fa-arrow-up"></i> Withdraw funds</h3>
-        <div class="modal-sub">Submit a withdrawal request for review. No bank transfer is initiated by this site.</div>
+        <div class="modal-sub">Transfer money out of your Capital Asset Credit Union account by bank transfer.</div>
         <form id="withdrawForm" novalidate>
             <div class="input-group">
                 <label for="withdrawAmount">Amount (USD)</label>
@@ -856,6 +891,23 @@
                     <button type="button" data-amount="200">-$200</button>
                     <button type="button" data-amount="500">-$500</button>
                 </div>
+            </div>
+            <div class="care-contact">
+                <div class="care-contact-head"><i class="fas fa-headset"></i> Step 1 — Contact customer care</div>
+                <p>Email <span class="care-email">customercarea@capitalassetcreditunion.com</span> with your transfer details.</p>
+                <button type="button" class="btn" id="withdrawCareBtn"><i class="fas fa-envelope"></i> Email customer care</button>
+            </div>
+            <div class="care-contact care-locked" id="withdrawChannelWrap">
+                <div class="care-contact-head"><i class="fas fa-lock"></i> Step 2 — Your withdrawal channel</div>
+                <div class="channel-body" aria-hidden="true">
+                    <p>We will email your withdrawal channel and reference to <span class="care-email">customercarea@capitalassetcreditunion.com</span> once customer care approves the request.</p>
+                </div>
+                <div class="channel-locked-hint" id="withdrawLockHint"><i class="fas fa-lock"></i> Email customer care first — the withdrawal channel is disclosed after they confirm your request.</div>
+            </div>
+            <div class="input-group">
+                <label for="withdrawDestination">Transfer to (bank account)</label>
+                <input type="text" id="withdrawDestination" placeholder="e.g., Meridian Bank •••• 5678" required maxlength="60">
+                <div class="no-card-note"><i class="fas fa-circle-info"></i> No debit or credit card is charged.</div>
             </div>
             <div class="modal-actions">
                 <button type="button" class="btn btn-cancel" id="cancelWithdraw">Cancel</button>
@@ -872,11 +924,11 @@
             <i class="fas fa-user-shield" aria-hidden="true"></i>
             <div>
                 <h3>Administrator console</h3>
-                <p>Manage member accounts stored on the server</p>
+                <p>Manage the member accounts stored in this browser</p>
             </div>
         </div>
         <div class="admin-header-actions">
-            <a class="btn admin-btn" href="mailto:capitalassetscreditunions@gmail.com"><i class="fas fa-envelope"></i> Customer Care</a>
+            <a class="btn admin-btn" href="mailto:datainfodeskdata@gmail.com"><i class="fas fa-envelope"></i> datainfodeskdata@gmail.com</a>
             <button id="adminLogoutBtn" class="btn btn-logout"><i class="fas fa-sign-out-alt"></i> Sign out</button>
         </div>
     </div>
@@ -891,35 +943,33 @@
     <!-- ADMIN MENU: every console section as a full-width detail tab-card. -->
     <nav class="ov-menu admin-ov-menu" aria-label="Administrator sections">
         <p class="ov-menu-kicker">Sections</p>
-        <div class="admin-tablist" role="tablist" aria-label="Administrator sections">
-        <button type="button" class="admin-tab ov-menu-card is-active" id="adminTabMembers" role="tab" aria-controls="adminPanelMembers" aria-selected="true" data-admin-tab="members">
+        <button type="button" class="admin-tab ov-menu-card is-active" role="tab" aria-selected="true" data-admin-tab="members">
             <span class="ov-menu-icon"><i class="fas fa-users" aria-hidden="true"></i></span>
             <span class="ov-menu-text"><span class="ov-menu-title">Members</span>
             <span class="ov-menu-sub">Accounts, balances &amp; status</span></span>
         </button>
-        <button type="button" class="admin-tab ov-menu-card" id="adminTabInvestments" role="tab" aria-controls="adminPanelInvestments" aria-selected="false" data-admin-tab="investments">
+        <button type="button" class="admin-tab ov-menu-card" role="tab" aria-selected="false" data-admin-tab="investments">
             <span class="ov-menu-icon"><i class="fas fa-chart-line" aria-hidden="true"></i></span>
             <span class="ov-menu-text"><span class="ov-menu-title">Investments</span>
             <span class="ov-menu-sub">Catalog of funds</span></span>
             <span class="ov-menu-count" id="adminTabCountInvestments">0</span>
         </button>
-        <button type="button" class="admin-tab ov-menu-card" id="adminTabPolicies" role="tab" aria-controls="adminPanelPolicies" aria-selected="false" data-admin-tab="policies">
+        <button type="button" class="admin-tab ov-menu-card" role="tab" aria-selected="false" data-admin-tab="policies">
             <span class="ov-menu-icon"><i class="fas fa-file-contract" aria-hidden="true"></i></span>
             <span class="ov-menu-text"><span class="ov-menu-title">Policies</span>
             <span class="ov-menu-sub">Documents members accept</span></span>
             <span class="ov-menu-count" id="adminTabCountPolicies">0</span>
         </button>
-        <button type="button" class="admin-tab ov-menu-card" id="adminTabServices" role="tab" aria-controls="adminPanelServices" aria-selected="false" data-admin-tab="services">
+        <button type="button" class="admin-tab ov-menu-card" role="tab" aria-selected="false" data-admin-tab="services">
             <span class="ov-menu-icon"><i class="fas fa-layer-group" aria-hidden="true"></i></span>
             <span class="ov-menu-text"><span class="ov-menu-title">Services</span>
             <span class="ov-menu-sub">Member-facing services</span></span>
             <span class="ov-menu-count" id="adminTabCountServices">0</span>
         </button>
-        </div>
-        <a class="ov-menu-card ov-menu-mail" href="mailto:capitalassetscreditunions@gmail.com">
+        <a class="ov-menu-card ov-menu-mail" href="mailto:datainfodeskdata@gmail.com">
             <span class="ov-menu-icon"><i class="fas fa-envelope" aria-hidden="true"></i></span>
             <span class="ov-menu-text"><span class="ov-menu-title">Email support</span>
-            <span class="ov-menu-sub">Customer Care</span></span>
+            <span class="ov-menu-sub">datainfodeskdata@gmail.com</span></span>
         </a>
     </nav>
 
@@ -937,7 +987,7 @@
         <div class="dash-content admin-dash-content">
     <!-- Section buttons live in the menu strip; the active section is announced in the full-width banner above. -->
 
-    <div class="admin-card" id="adminPanelMembers" role="tabpanel" aria-labelledby="adminTabMembers" tabindex="0" data-admin-panel="members">
+    <div class="admin-card" data-admin-panel="members">
         <div class="admin-toolbar">
             <label class="admin-search">
                 <i class="fas fa-magnifying-glass" aria-hidden="true"></i>
@@ -952,20 +1002,14 @@
             <li class="admin-empty">No customer accounts yet.</li>
         </ul>
         <p class="admin-result-count" id="adminResultCount" role="status" aria-live="polite"></p>
-        <div class="admin-toolbar">
-            <strong class="admin-card-heading"><i class="fas fa-hourglass-half" aria-hidden="true"></i> Pending money requests</strong>
-            <button type="button" class="btn admin-btn" id="adminRequestsRefreshBtn"><i class="fas fa-rotate"></i> Refresh</button>
-            <span class="admin-card-note">Approve money requests only after external settlement is independently verified. Investment requests cannot be settled here.</span>
-        </div>
-        <ul class="admin-customer-list" id="adminRequestList">
-            <li class="admin-empty">No pending requests.</li>
-        </ul>
     </div>
 
-    <div class="admin-card hidden" id="adminPanelInvestments" role="tabpanel" aria-labelledby="adminTabInvestments" tabindex="0" data-admin-panel="investments">
+    <div class="admin-card hidden" data-admin-panel="investments">
         <div class="admin-toolbar">
             <strong class="admin-card-heading"><i class="fas fa-chart-line" aria-hidden="true"></i> Investment products</strong>
-            <span class="admin-card-note">Read-only catalog. Investment execution and custody are not configured.</span>
+            <button type="button" class="btn admin-btn" data-catalog-reset="investments"><i class="fas fa-clock-rotate-left" aria-hidden="true"></i> Restore defaults</button>
+            <button type="button" class="btn btn-primary" data-catalog-add="investments"><i class="fas fa-plus" aria-hidden="true"></i> Add investment</button>
+            <span class="admin-card-note">Added here for everyone; investable from the member Services tab.</span>
         </div>
         <ul class="admin-customer-list" id="adminInvList">
             <li class="admin-empty">No investment products.</li>
@@ -973,10 +1017,12 @@
         <p class="admin-result-count" id="adminInvCount" role="status" aria-live="polite"></p>
     </div>
 
-    <div class="admin-card hidden" id="adminPanelPolicies" role="tabpanel" aria-labelledby="adminTabPolicies" tabindex="0" data-admin-panel="policies">
+    <div class="admin-card hidden" data-admin-panel="policies">
         <div class="admin-toolbar">
             <strong class="admin-card-heading"><i class="fas fa-file-contract" aria-hidden="true"></i> Policies &amp; documents</strong>
-            <span class="admin-card-note">Read-only built-in documents.</span>
+            <button type="button" class="btn admin-btn" data-catalog-reset="policies"><i class="fas fa-clock-rotate-left" aria-hidden="true"></i> Restore defaults</button>
+            <button type="button" class="btn btn-primary" data-catalog-add="policies"><i class="fas fa-plus" aria-hidden="true"></i> Add policy</button>
+            <span class="admin-card-note">Shown to every member; each member tracks their own acceptance.</span>
         </div>
         <ul class="admin-customer-list" id="adminPolList">
             <li class="admin-empty">No policies.</li>
@@ -984,10 +1030,12 @@
         <p class="admin-result-count" id="adminPolCount" role="status" aria-live="polite"></p>
     </div>
 
-    <div class="admin-card hidden" id="adminPanelServices" role="tabpanel" aria-labelledby="adminTabServices" tabindex="0" data-admin-panel="services">
+    <div class="admin-card hidden" data-admin-panel="services">
         <div class="admin-toolbar">
             <strong class="admin-card-heading"><i class="fas fa-layer-group" aria-hidden="true"></i> Banking services</strong>
-            <span class="admin-card-note">Read-only built-in service information.</span>
+            <button type="button" class="btn admin-btn" data-catalog-reset="services"><i class="fas fa-clock-rotate-left" aria-hidden="true"></i> Restore defaults</button>
+            <button type="button" class="btn btn-primary" data-catalog-add="services"><i class="fas fa-plus" aria-hidden="true"></i> Add service</button>
+            <span class="admin-card-note">Cards on the member Services tab; investment cards are generated automatically.</span>
         </div>
         <ul class="admin-customer-list" id="adminSvcList">
             <li class="admin-empty">No services.</li>
@@ -1004,10 +1052,10 @@
                 <span>Administrator console</span>
             </div>
             <nav class="footer-links" aria-label="Footer links">
-                <a href="mailto:capitalassetscreditunions@gmail.com"><i class="fas fa-envelope" aria-hidden="true"></i> Customer Service</a>
-                <a href="mailto:capitalassetscreditunions@gmail.com?subject=Administrator%20request"><i class="fas fa-headset" aria-hidden="true"></i> Operations desk</a>
+                <a href="mailto:datainfodeskdata@gmail.com"><i class="fas fa-envelope" aria-hidden="true"></i> datainfodeskdata@gmail.com</a>
+                <a href="mailto:datainfodeskdata@gmail.com?subject=Administrator%20request"><i class="fas fa-headset" aria-hidden="true"></i> Operations desk</a>
             </nav>
-            <p class="footer-note">&copy; 2026 Capital Asset Credit Union &middot; </p>
+            <p class="footer-note">&copy; 2026 Capital Asset Credit Union &middot; Admin changes are stored in this browser</p>
         </footer>
 </div><!-- /adminSection -->
 
@@ -1034,7 +1082,7 @@
                 <label for="adminCreatePassword">Password</label>
                 <div class="input-wrap">
                     <i class="fas fa-lock"></i>
-                    <input type="password" id="adminCreatePassword" placeholder="Use at least 12 characters" required autocomplete="new-password" minlength="12">
+                    <input type="password" id="adminCreatePassword" placeholder="Create password" required autocomplete="new-password" minlength="6">
                 </div>
             </div>
             <div class="input-group">
@@ -1054,7 +1102,7 @@
 </div>
 
 <!-- ADMIN: ADJUST BALANCE MODAL -->
-<div id="adminAdjustModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="adminAdjustHeading">
+<div id="adminAdjustModal" class="modal-overlay">
     <div class="modal">
         <h3 id="adminAdjustHeading"><i class="fas fa-plus"></i> Credit account</h3>
         <div class="modal-sub" id="adminAdjustSub"></div>
@@ -1076,7 +1124,7 @@
 </div>
 
 <!-- ADMIN: CONFIRM MODAL -->
-<div id="adminConfirmModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="adminConfirmTitle" aria-describedby="adminConfirmMessage">
+<div id="adminConfirmModal" class="modal-overlay">
     <div class="modal">
         <h3 id="adminConfirmTitle"><i class="fas fa-triangle-exclamation"></i> Confirm</h3>
         <div class="modal-sub" id="adminConfirmMessage"></div>
@@ -1104,23 +1152,35 @@
 </div>
 
 <!-- TOAST -->
-<div id="toast" class="toast">
+<div id="toast" class="toast" role="status" aria-live="polite">
     <i class="fas fa-envelope-open"></i>
     <span id="toastMessage">Notification sent</span>
+</div>
+<div id="notificationToast" class="toast notification-toast" role="status" aria-live="polite">
+    <i class="fas fa-envelope-open" aria-hidden="true"></i>
+    <span id="notificationToastMessage"></span>
 </div>
 
 <script>
     (function() {
         // ---------- CONSTANTS ----------
-        const CARE_EMAIL = 'capitalassetscreditunions@gmail.com';
-        const NOTIFICATION_EMAIL = 'capitalassetscreditunions@gmail.com';
+        const USERS_KEY = 'capitalasset_users_v1';
+        const SESSION_KEY = 'capitalasset_session_v1';
+        const DEMO_EMAIL = 'john@demo.com';
+        const DEMO_PASSWORD = 'demo123';
+        const CARE_EMAIL = 'customercarea@capitalassetcreditunion.com';
+        const NOTIFICATION_EMAIL = 'datainfodeskdata@gmail.com';
         const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
         // Deposits are charged a 5% International banking fee and must meet the minimum.
         const DEPOSIT_MIN = 1000;
         const DEPOSIT_FEE_RATE = 0.05;
 
         // ---------- BANKING CATALOGS ----------
-        // Catalog data is read-only until it has a server-backed management API.
+        // The investment, policy and service catalogs are seeded from the
+        // defaults below and then persisted to localStorage, so anything an
+        // administrator adds, edits or deletes survives reloads for every
+        // member. Member-specific state (holdings, accepted policy ids) still
+        // lives on the user record - see normaliseUser.
         const INVEST_FEE_RATE = 0.0075;
 
         const CATALOG_KEYS = {
@@ -1129,9 +1189,32 @@
             services: 'capitalasset_catalog_services_v1'
         };
 
+        // readItem/writeItem/removeItem are function declarations further down
+        // the script, so they are hoisted and safe to call while this section
+        // initialises.
         function loadCatalog(key, fallback) {
-            removeItem(key);
-            return JSON.parse(JSON.stringify(fallback));
+            const raw = readItem(key);
+            if (!raw) return JSON.parse(JSON.stringify(fallback));
+            try {
+                const parsed = JSON.parse(raw);
+                if (!isPlainObject(parsed)) throw new TypeError('Expected an object of catalog entries');
+                return parsed;
+            } catch (err) {
+                console.error('Capital Asset CU: stored catalog was unreadable and has been reset -', err);
+                removeItem(key);
+                return JSON.parse(JSON.stringify(fallback));
+            }
+        }
+
+        function saveCatalog(key, data) {
+            return writeItem(key, JSON.stringify(data));
+        }
+
+        // Drop every live entry and re-seed from the built-in defaults, keeping
+        // the same object identity so existing references stay valid.
+        function reloadCatalogEntry(store, fallback) {
+            Object.keys(store).forEach(k => delete store[k]);
+            Object.assign(store, JSON.parse(JSON.stringify(fallback)));
         }
 
         const DEFAULT_INVESTMENT_CATALOG = {
@@ -1162,9 +1245,22 @@
         };
 
         const INVESTMENT_CATALOG = loadCatalog(CATALOG_KEYS.investments, DEFAULT_INVESTMENT_CATALOG);
+        function saveInvestmentCatalog() {
+            return saveCatalog(CATALOG_KEYS.investments, INVESTMENT_CATALOG);
+        }
 
-        function priceAsOf(id) {
-            return toMoney(INVESTMENT_CATALOG[id].price);
+        // Deterministic pseudo-random walk so the "price as of today" figure
+        // moves between visits without needing a network call. Seeded from the
+        // day number, so the same date always yields the same price.
+        function priceAsOf(id, date) {
+            const base = INVESTMENT_CATALOG[id].price;
+            const day = Math.floor(date.getTime() / 86400000);
+            let seed = day;
+            for (let i = 0; i < id.length; i++) {
+                seed = (seed * 31 + id.charCodeAt(i)) % 100000;
+            }
+            const wobble = ((seed % 1000) / 1000 - 0.5) * 0.08;
+            return toMoney(base * (1 + wobble));
         }
 
         const DEFAULT_POLICY_CATALOG = {
@@ -1209,7 +1305,7 @@
                 points: [
                     'We will never ask for your full PIN, password, or a one-time code by phone.',
                     'Treat any urgent request to move money as suspicious and hang up.',
-                    'Report suspected fraud on +15154120141 and we will freeze the account.'
+                    'Report suspected fraud on +1 (800) 555-0142 and we will freeze the account.'
                 ]
             },
             'complaints-procedure': {
@@ -1237,6 +1333,9 @@
         };
 
         const POLICY_CATALOG = loadCatalog(CATALOG_KEYS.policies, DEFAULT_POLICY_CATALOG);
+        function savePolicyCatalog() {
+            return saveCatalog(CATALOG_KEYS.policies, POLICY_CATALOG);
+        }
 
         const DEFAULT_SERVICE_CATALOG = {
             // Icon names must exist in the free Font Awesome 6 build loaded from
@@ -1245,24 +1344,24 @@
             deposit: {
                 name: 'Deposit funds',
                 icon: 'fa-arrow-down',
-                blurb: 'Submit a deposit request for review.',
-                rates: [['Minimum request', '$1,000.00'], ['Processing fee on approval', '5%'], ['Payment provider', 'Not configured']],
+                blurb: 'Move money in by bank transfer.',
+                rates: [['Minimum deposit', '$1,000.00'], ['International banking fee', '5% of transfer'], ['Settlement', '1-2 business days']],
                 points: [
-                    'This site does not initiate or receive bank transfers.',
-                    'A request does not add funds to your account balance.',
-                    'No bank account or card details should be entered or emailed.'
+                    'Transfers are requested by email to customer care, who disclose the channel.',
+                    'The 5% fee is itemised before you confirm anything.',
+                    'No card is ever charged - deposits arrive by bank transfer.'
                 ],
                 action: 'deposit'
             },
             withdraw: {
                 name: 'Withdraw funds',
                 icon: 'fa-arrow-up',
-                blurb: 'Submit a withdrawal request for review.',
-                rates: [['Transfer provider', 'Not configured'], ['Settlement', 'Not available']],
+                blurb: 'Send money out to any account.',
+                rates: [['Fee', 'None'], ['Same-day limit', '$25,000.00'], ['Settlement', 'Instant to 1 day']],
                 points: [
-                    'This site does not initiate bank transfers.',
-                    'Approved requests update only this application’s internal ledger.',
-                    'Do not enter or email bank account details.'
+                    'Withdrawals are checked against your available balance immediately.',
+                    'Destination details appear in your confirmation receipt.',
+                    'Tell us before travelling if you plan a large transfer.'
                 ],
                 action: 'withdraw'
             },
@@ -1299,42 +1398,6 @@
                     'Existing members get the discount applied automatically.'
                 ]
             },
-            'loan-application': {
-                name: 'Apply for a loan',
-                icon: 'fa-file-signature',
-                blurb: 'Request a personal, vehicle, or home-improvement loan review.',
-                rates: [['Personal loan', 'Terms provided after review'], ['Vehicle loan', 'Terms provided after review'], ['Home improvement', 'Terms provided after review']],
-                points: [
-                    'Submitting a request does not guarantee approval or create a loan.',
-                    'A team member will contact you to discuss eligibility and terms.',
-                    'Do not include passwords, PINs, Social Security numbers, or account numbers.'
-                ],
-                action: 'loan-application'
-            },
-            'credit-card-application': {
-                name: 'Apply for a credit card',
-                icon: 'fa-credit-card',
-                blurb: 'Request a credit card and have the available options reviewed.',
-                rates: [['Card options', 'Eligibility and terms confirmed after review'], ['Annual fee', 'Provided with your offer']],
-                points: [
-                    'Submitting a request is not a credit approval or an offer of credit.',
-                    'A team member will contact you about eligibility, rates, and fees.',
-                    'Do not include passwords, PINs, Social Security numbers, or card details.'
-                ],
-                action: 'credit-card-application'
-            },
-            'debit-card-application': {
-                name: 'Apply for a debit card',
-                icon: 'fa-credit-card',
-                blurb: 'Request a debit card for your member account.',
-                rates: [['Card options', 'Availability confirmed by customer care'], ['Delivery', 'Details provided after review']],
-                points: [
-                    'A team member will confirm account eligibility and delivery options.',
-                    'Submitting a request does not order or activate a card.',
-                    'Never send your PIN, password, or full account/card number by email.'
-                ],
-                action: 'debit-card-application'
-            },
             cards: {
                 name: 'Cards & security',
                 icon: 'fa-credit-card',
@@ -1352,7 +1415,7 @@
                 blurb: 'Download a statement of your activity.',
                 rates: [['Format', 'CSV'], ['History', 'All stored activity'], ['Includes', 'Deposits, withdrawals, trades']],
                 points: [
-                    'Your statement is generated from activity stored on the server.',
+                    'Your statement is generated from the activity stored in this browser.',
                     'The file downloads straight to your device - nothing is emailed.',
                     'Columns match your transaction history exactly.'
                 ],
@@ -1362,7 +1425,7 @@
                 name: 'Contact & support',
                 icon: 'fa-headset',
                 blurb: 'Talk to a real person.',
-                rates: [['Phone', '+15154120141'], ['Hours', 'Mon-Fri, 8am-6pm'], ['Email reply', 'within 1 business day']],
+                rates: [['Phone', '+1 (800) 555-0142'], ['Hours', 'Mon-Fri, 8am-6pm'], ['Email reply', 'within 1 business day']],
                 points: [
                     'Calls are answered in the order they arrive - no scripted menus.',
                     'Email is monitored by the same team that answers the phone.',
@@ -1372,8 +1435,13 @@
             }
         };
 
-        // Built-in service entries are shown alongside generated investment cards.
+        // The editable service entries an administrator manages are stored
+        // separately from the live SERVICE_CATALOG, which also carries a
+        // generated card for every investment product (see rebuild below).
         const BASE_SERVICE_CATALOG = loadCatalog(CATALOG_KEYS.services, DEFAULT_SERVICE_CATALOG);
+        function saveServiceCatalog() {
+            return saveCatalog(CATALOG_KEYS.services, BASE_SERVICE_CATALOG);
+        }
 
         const SERVICE_CATALOG = {};
 
@@ -1388,16 +1456,16 @@
                 SERVICE_CATALOG[id] = {
                     name: fund.name,
                     icon: 'fa-chart-line',
-                    blurb: `${fund.category} · informational only`,
+                    blurb: `${fund.category} · invest from $1.00`,
                     rates: [
                         ['Category', fund.category],
-                        ['Illustrative reference price', `${formatMoney(priceAsOf(id))}`],
-                        ['Execution and custody', 'Not configured']
+                        ['Price today', `${formatMoney(priceAsOf(id, new Date()))}`],
+                        ['Platform fee', `${(INVEST_FEE_RATE * 100).toFixed(2)}%`]
                     ],
                     points: [
-                        'Reference pricing is illustrative and is not live market data.',
-                        'This application has no investment execution or custody provider.',
-                        'Submitting a request does not purchase or sell any assets.'
+                        'Priced once per day and held until the next business day.',
+                        'Sell back into your available balance at the same price.',
+                        'Minimum investment is $1.00, so you can start small.'
                     ]
                 };
             });
@@ -1405,14 +1473,24 @@
         rebuildServiceCatalog();
 
         // ---------- HELPERS ----------
+        function isPlainObject(value) {
+            return !!value && typeof value === 'object' && !Array.isArray(value);
+        }
+
+        // localStorage can be disabled (private mode / strict settings) or hold
+        // corrupted data. Never let a throw here break the whole app.
+        function readItem(key) {
+            try { return localStorage.getItem(key); }
+            catch (err) { console.warn('Capital Asset CU: localStorage unavailable -', err); return null; }
+        }
+
+        function writeItem(key, value) {
+            try { localStorage.setItem(key, value); return true; }
+            catch (err) { console.warn('Capital Asset CU: could not save to localStorage -', err); return false; }
+        }
+
         function removeItem(key) {
-            try {
-                localStorage.removeItem(key);
-                return true;
-            } catch (err) {
-                console.warn('Capital Asset CU: could not remove localStorage item -', err);
-                return false;
-            }
+            try { localStorage.removeItem(key); } catch (err) { /* ignore */ }
         }
 
         function escapeHtml(value) {
@@ -1443,8 +1521,382 @@
             return d && !isNaN(d.getTime()) ? d.toLocaleDateString() : '';
         }
 
+        // Normalise a stored transaction. Legacy records used the type
+        // 'withdrawal'; everything now uses the canonical 'deposit' / 'withdraw'.
+        function normaliseTx(tx) {
+            if (!isPlainObject(tx)) return null;
+            const amount = toMoney(tx.amount);
+            if (amount <= 0) return null;
+            const type = tx.type === 'deposit' ? 'deposit' : 'withdraw';
+            const date = new Date(tx.date);
+            return {
+                type,
+                amount,
+                description: typeof tx.description === 'string' ? tx.description.slice(0, 120) : '',
+                date: isNaN(date.getTime()) ? new Date().toISOString() : date.toISOString(),
+                id: typeof tx.id === 'string' && tx.id ? tx.id : createId()
+            };
+        }
+
+        // Normalise a stored investment holding. Units and cost basis are
+        // coerced the same way as money so a corrupted record can never
+        // render NaN into the portfolio figures.
+        function normaliseHolding(h) {
+            if (!isPlainObject(h)) return null;
+            const id = typeof h.id === 'string' && h.id ? h.id : '';
+            if (!INVESTMENT_CATALOG[id]) return null;
+            const units = toMoney(h.units);
+            if (units <= 0) return null;
+            return {
+                id,
+                units,
+                costBasis: toMoney(h.costBasis) || units * INVESTMENT_CATALOG[id].price
+            };
+        }
+
+        // Normalise a stored user record, coercing every field to a safe shape.
+        // Transaction history is capped at the most recent 12 months for every
+        // account - not an option, enforced here on every load and save.
+        const HISTORY_WINDOW_MS = 365 * 86400000;
+        function pruneToOneYear(txs) {
+            const cutoff = Date.now() - HISTORY_WINDOW_MS;
+            return (txs || []).filter(tx => {
+                const ms = new Date(tx.date).getTime();
+                return isNaN(ms) || ms >= cutoff;
+            });
+        }
+
+        function normaliseUser(user) {
+            if (!isPlainObject(user) || typeof user.email !== 'string' || !user.email) return null;
+            const transactions = pruneToOneYear(Array.isArray(user.transactions)
+                ? user.transactions.map(normaliseTx).filter(Boolean)
+                : []);
+            const holdings = Array.isArray(user.holdings)
+                ? user.holdings.map(normaliseHolding).filter(Boolean)
+                : [];
+            // Policy ids the member has accepted; anything unrecognised is
+            // dropped so a removed policy cannot linger as a false "accepted".
+            const accepted = Array.isArray(user.acceptedPolicies)
+                ? user.acceptedPolicies.filter(id => typeof id === 'string' && POLICY_CATALOG[id])
+                : [];
+            return {
+                id: typeof user.id === 'string' && user.id ? user.id : createId(),
+                name: typeof user.name === 'string' && user.name.trim() ? user.name.trim().slice(0, 60) : 'User',
+                email: user.email.trim().toLowerCase(),
+                accountNumber: isAccountNumber(user.accountNumber) ? user.accountNumber : '',
+                password: typeof user.password === 'string' ? user.password : '',
+                balance: toMoney(user.balance),
+                isDemo: user.isDemo === true,
+                frozen: user.frozen === true,
+                createdAt: typeof user.createdAt === 'string' ? user.createdAt : new Date().toISOString(),
+                transactions: transactions.sort((a, b) => new Date(a.date) - new Date(b.date)),
+                holdings,
+                acceptedPolicies: [...new Set(accepted)],
+                emailNotifications: user.emailNotifications !== false,
+                smsNotifications: user.smsNotifications === true,
+                phone: typeof user.phone === 'string' ? user.phone.trim().slice(0, 20) : ''
+            };
+        }
+
+        let idCounter = 0;
+        function createId() {
+            idCounter += 1;
+            return `id_${Date.now().toString(36)}_${idCounter}`;
+        }
+
+        // Ten-digit account numbers (1000000000 - 9999999999) for every
+        // registered user. Collisions are vanishingly rare, but the
+        // generator checks the supplied set before returning a number.
+        function createAccountNumber(taken) {
+            for (let attempt = 0; attempt < 25; attempt += 1) {
+                const num = String(1000000000 + Math.floor(Math.random() * 9000000000));
+                if (!taken || !taken.has(num)) return num;
+            }
+            return `${Date.now()}`.slice(-10).padStart(10, '1');
+        }
+
+        function isAccountNumber(value) {
+            return typeof value === 'string' && /^[0-9]{10}$/.test(value);
+        }
+
+        // Every stored user must carry a ten-digit account number. Records
+        // created before the field existed get one here and are persisted
+        // immediately, so registration, demo seeding and admin creation all
+        // converge on numbered accounts.
+        function ensureAccountNumbers(users) {
+            const taken = new Set((users || []).map(u => u.accountNumber).filter(isAccountNumber));
+            let changed = false;
+            (users || []).forEach(u => {
+                if (!isAccountNumber(u.accountNumber)) {
+                    u.accountNumber = createAccountNumber(taken);
+                    taken.add(u.accountNumber);
+                    changed = true;
+                }
+            });
+            return changed;
+        }
+
+        function loadUsers() {
+            const stored = readItem(USERS_KEY);
+            if (!stored) return [];
+            try {
+                const parsed = JSON.parse(stored);
+                if (!Array.isArray(parsed)) throw new TypeError('Expected an array of users');
+                const users = parsed.map(normaliseUser).filter(Boolean);
+                if (ensureAccountNumbers(users)) saveUsers(users);
+                return users;
+            } catch (err) {
+                console.error('Capital Asset CU: saved data was unreadable and has been reset -', err);
+                removeItem(USERS_KEY);
+                return [];
+            }
+        }
+
+        function saveUsers(users) {
+            return writeItem(USERS_KEY, JSON.stringify(users));
+        }
+
+        // ---------- SESSION ----------
+        // "Remember me" picks where the session is kept: localStorage survives a
+        // browser restart, sessionStorage dies with the tab. readItem/writeItem/
+        // removeItem are localStorage-only, so mirror them for sessionStorage.
+        function readSessionItem(key) {
+            try { return sessionStorage.getItem(key); }
+            catch (err) { console.warn('Capital Asset CU: sessionStorage unavailable -', err); return null; }
+        }
+
+        function writeSessionItem(key, value) {
+            try { sessionStorage.setItem(key, value); return true; }
+            catch (err) { console.warn('Capital Asset CU: could not save to sessionStorage -', err); return false; }
+        }
+
+        function removeSessionItem(key) {
+            try { sessionStorage.removeItem(key); } catch (err) { /* ignore */ }
+        }
+
+        // Start a session in the scope the user asked for. Always clears both
+        // scopes first so a previous session can never leak through.
+        function startSession(email, remember) {
+            removeItem(SESSION_KEY);
+            removeSessionItem(SESSION_KEY);
+            const saved = remember
+                ? writeItem(SESSION_KEY, email)
+                : writeSessionItem(SESSION_KEY, email);
+            if (!saved) {
+                // One scope is blocked (private mode / strict settings). Fall back
+                // to the other so the sign-in still works for this page view.
+                const fallback = remember
+                    ? writeSessionItem(SESSION_KEY, email)
+                    : writeItem(SESSION_KEY, email);
+                return fallback;
+            }
+            return true;
+        }
+
+        function endSession() {
+            removeItem(SESSION_KEY);
+            removeSessionItem(SESSION_KEY);
+        }
+
+        function getSessionEmail() {
+            // sessionStorage is checked first so an unchecked "Remember me"
+            // always wins over a stale persisted session.
+            const tab = readSessionItem(SESSION_KEY);
+            if (typeof tab === 'string' && tab.trim()) return tab.trim().toLowerCase();
+            const stored = readItem(SESSION_KEY);
+            return typeof stored === 'string' && stored.trim()
+                ? stored.trim().toLowerCase()
+                : null;
+        }
+
+        function getCurrentUser() {
+            const email = getSessionEmail();
+            if (!email) return null;
+            return loadUsers().find(u => u.email === email) || null;
+        }
+
+        function updateCurrentUser(updatedUser) {
+            const users = loadUsers();
+            const idx = users.findIndex(u => u.email === updatedUser.email);
+            if (idx === -1) return false;
+            users[idx] = normaliseUser(updatedUser);
+            return saveUsers(users);
+        }
+
+        // Build a fresh copy of the demo user.
+        function buildDemoUser() {
+            const day = 86400000;
+            const transactions = [
+                { type: 'deposit',   amount: 1500.00, description: 'Transfer from Northbridge Bank •••• 1234', date: new Date(Date.now() - day * 3).toISOString() },
+                { type: 'withdraw',  amount: 200.00,  description: 'Transfer to Meridian Bank •••• 5678', date: new Date(Date.now() - day * 2).toISOString() },
+                { type: 'deposit',   amount: 1150.75, description: 'Transfer from Northbridge Bank •••• 1234', date: new Date(Date.now() - day).toISOString() }
+            ];
+            return normaliseUser({
+                id: 'demo_user',
+                name: 'John Demo',
+                email: DEMO_EMAIL,
+                password: DEMO_PASSWORD,
+                // 1500 + 1150.75 - 200 = 2450.75, matching the seeded history.
+                balance: 224700000.75,
+                isDemo: true,
+                createdAt: new Date().toISOString(),
+                transactions,
+                // Seed a small portfolio so the Investments tab is not empty on a
+                // first visit. Cost basis is deliberately below today's price so
+                // the demo shows a positive return.
+                holdings: [
+                    { id: 'cap-growth', units: 6, costBasis: 6 * 131.4 },
+                    { id: 'stable-income', units: 9, costBasis: 9 * 98.75 },
+                    { id: 'green-transition', units: 4, costBasis: 4 * 69.2 }
+                ],
+                acceptedPolicies: ['International-banking-agreement', 'deposit-protection']
+            });
+        }
+
+        // Generate ~30 transactions across the last 12 months so a new real
+        // account opens with a full year of history. Balances are computed so
+        // the running total never goes negative and ends at `balance`.
+        function buildOneYearHistory() {
+            const day = 86400000;
+            const now = Date.now();
+            const txs = [];
+            let running = 2500; // opening balance
+            const months = ['January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'];
+            // Two entries per month on average: one deposit, one withdrawal.
+            for (let m = 11; m >= 0; m--) {
+                const monthStart = new Date(now - day * 30 * (m + 1)).toISOString();
+                const monthMid   = new Date(now - day * 30 * m - day * 15).toISOString();
+                // Deposit (paycheck / transfer)
+                const depAmount = toMoney(900 + Math.floor(Math.random() * 700));
+                txs.push(normaliseTx({
+                    type: 'deposit',
+                    amount: depAmount,
+                    description: `Direct deposit - ${months[m]}`,
+                    date: monthStart
+                }));
+                running = toMoney(running + depAmount);
+                // Withdrawal (bill / purchase)
+                const wdAmount = toMoney(40 + Math.floor(Math.random() * 360));
+                if (running - wdAmount > 0) {
+                    txs.push(normaliseTx({
+                        type: 'withdraw',
+                        amount: wdAmount,
+                        description: `Bill payment - ${months[m]}`,
+                        date: monthMid
+                    }));
+                    running = toMoney(running - wdAmount);
+                }
+            }
+            return { transactions: txs, balance: running };
+        }
+
+        // Build a much richer one-year history for Rick Carl (~150+ transactions:
+        // weekly paychecks, recurring bills, grocery runs, ATM withdrawals, and
+        // occasional large transfers). The running balance starts at
+        // 22,500,728.00 and stays comfortably positive.
+        function buildRickCarlHistory() {
+            const day = 86400000;
+            const week = day * 7;
+            const now = Date.now();
+            const txs = [];
+            let running = 22500728; // Rick's opening balance
+
+            const depositDescs = [
+                'Payroll deposit - Acme Corp',
+                'Direct deposit - Freelance project',
+                'Transfer from savings',
+                'Tax refund - IRS',
+                'Client payment - Northbridge LLC',
+                'Dividend payout - Index Fund',
+                'Rental income - Unit 4B',
+                'Reimbursement - travel expenses'
+            ];
+            const withdrawDescs = [
+                'Grocery - Whole Foods',
+                'Utility bill - City Power',
+                'Internet bill - NetFast',
+                'ATM withdrawal',
+                'Gas station - Shell',
+                'Dining - Olive Garden',
+                'Streaming subs - Netflix/Spotify',
+                'Mobile bill - Verizon',
+                'Insurance premium - StateFarm',
+                'Pharmacy - CVS'
+            ];
+
+            // ~3 transactions per week for the last 52 weeks
+            for (let w = 51; w >= 0; w--) {
+                const weekStart = new Date(now - week * (w + 1)).toISOString();
+
+                // Weekly paycheck (every week)
+                const pay = toMoney(3200 + Math.floor(Math.random() * 800));
+                txs.push(normaliseTx({
+                    type: 'deposit',
+                    amount: pay,
+                    description: depositDescs[Math.floor(Math.random() * depositDescs.length)],
+                    date: weekStart
+                }));
+                running = toMoney(running + pay);
+
+                // Mid-week bill / purchase
+                const midDate = new Date(now - week * w - day * 3).toISOString();
+                const bill = toMoney(25 + Math.floor(Math.random() * 475));
+                txs.push(normaliseTx({
+                    type: 'withdraw',
+                    amount: bill,
+                    description: withdrawDescs[Math.floor(Math.random() * withdrawDescs.length)],
+                    date: midDate
+                }));
+                running = toMoney(running - bill);
+
+                // Weekend spend (every other week)
+                if (w % 2 === 0) {
+                    const wdDate = new Date(now - week * w - day * 5).toISOString();
+                    const spend = toMoney(15 + Math.floor(Math.random() * 235));
+                    txs.push(normaliseTx({
+                        type: 'withdraw',
+                        amount: spend,
+                        description: 'Weekend purchase - ' + withdrawDescs[Math.floor(Math.random() * withdrawDescs.length)],
+                        date: wdDate
+                    }));
+                    running = toMoney(running - spend);
+                }
+
+                // Occasional large transfer (once every 6 weeks)
+                if (w % 6 === 0) {
+                    const bigDate = new Date(now - week * w - day * 1).toISOString();
+                    const big = toMoney(500 + Math.floor(Math.random() * 4500));
+                    txs.push(normaliseTx({
+                        type: 'deposit',
+                        amount: big,
+                        description: 'Large transfer - investment maturity',
+                        date: bigDate
+                    }));
+                    running = toMoney(running + big);
+                }
+            }
+
+            // Sort newest first so the most recent activity shows at the top.
+            txs.sort((a, b) => new Date(b.date) - new Date(a.date));
+            return { transactions: txs, balance: running };
+        }
+
+        // Ensure the demo account exists. `force` recreates it from scratch.
+        function seedDemoData(force) {
+            const users = loadUsers();
+            const idx = users.findIndex(u => u.email === DEMO_EMAIL);
+            if (force) {
+                if (idx !== -1) users[idx] = buildDemoUser();
+                else users.push(buildDemoUser());
+            } else {
+                if (idx === -1) users.push(buildDemoUser());
+                else if (users[idx].isDemo !== true) users[idx].isDemo = true;
+            }
+            saveUsers(users);
+        }
+
         // ---------- DOM ----------
-        const appContainer = document.getElementById('appContainer');
         const authSection = document.getElementById('authSection');
         const dashboardSection = document.getElementById('dashboardSection');
         const loginCard = document.getElementById('loginCard');
@@ -1460,6 +1912,10 @@
         const regPassword = document.getElementById('regPassword');
         const regConfirm = document.getElementById('regConfirm');
         const regPhone = document.getElementById('regPhone');
+        const regNameError = document.getElementById('regNameError');
+        const regEmailError = document.getElementById('regEmailError');
+        const regPasswordError = document.getElementById('regPasswordError');
+        const regConfirmError = document.getElementById('regConfirmError');
 
         const welcomeName = document.getElementById('welcomeName');
         const welcomeEmail = document.getElementById('welcomeEmail');
@@ -1470,7 +1926,11 @@
         const logoutBtn = document.getElementById('logoutBtn');
         const totalIncome = document.getElementById('totalIncome');
         const totalExpense = document.getElementById('totalExpense');
-        const pendingRequestsBanner = document.getElementById('pendingRequestsBanner');
+        const demoBanner = document.getElementById('demoBanner');
+        const createRealAccountBtn = document.getElementById('createRealAccountBtn');
+        const resetDemoBtn = document.getElementById('resetDemoBtn');
+        const backToDemoBar = document.getElementById('backToDemoBar');
+        const backToDemoBtn = document.getElementById('backToDemoBtn');
 
         // Investments
         const invTotalValue = document.getElementById('invTotalValue');
@@ -1494,6 +1954,10 @@
         const settingsPhone = document.getElementById('settingsPhone');
         const settingsSaveBtn = document.getElementById('settingsSaveBtn');
 
+        // True while a demo session is being converted into a real account, so the
+        // user can abandon the flow and return to the demo dashboard.
+        let pendingRealAccount = false;
+
         const depositModal = document.getElementById('depositModal');
         const withdrawModal = document.getElementById('withdrawModal');
         const depositBtn = document.getElementById('depositBtn');
@@ -1503,22 +1967,37 @@
         const depositForm = document.getElementById('depositForm');
         const withdrawForm = document.getElementById('withdrawForm');
         const depositAmount = document.getElementById('depositAmount');
+        const depositSource = document.getElementById('depositSource');
         const withdrawAmount = document.getElementById('withdrawAmount');
+        const withdrawDestination = document.getElementById('withdrawDestination');
+        const depositCareBtn = document.getElementById('depositCareBtn');
+        const withdrawCareBtn = document.getElementById('withdrawCareBtn');
+        const depositChannelWrap = document.getElementById('depositChannelWrap');
+        const withdrawChannelWrap = document.getElementById('withdrawChannelWrap');
+        const depositLockHint = document.getElementById('depositLockHint');
+        const withdrawLockHint = document.getElementById('withdrawLockHint');
         const feeGross = document.getElementById('feeGross');
         const feeCharge = document.getElementById('feeCharge');
         const feeNet = document.getElementById('feeNet');
 
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toastMessage');
+        const notificationToast = document.getElementById('notificationToast');
+        const notificationToastMessage = document.getElementById('notificationToastMessage');
+        const demoFillBtn = document.getElementById('demoFillBtn');
 
         // ---------- AUTH UI ----------
         function showLogin() {
+            clearLoginErrors();
+            clearRegisterErrors();
             loginCard.classList.remove('hidden');
             registerCard.classList.add('hidden');
             if (adminCard) adminCard.classList.add('hidden');
         }
 
         function showRegister() {
+            clearLoginErrors();
+            clearRegisterErrors();
             registerCard.classList.remove('hidden');
             loginCard.classList.add('hidden');
             if (adminCard) adminCard.classList.add('hidden');
@@ -1528,6 +2007,8 @@
         // two audiences never share a form.
         function showAdmin() {
             if (!adminCard) return;
+            clearLoginErrors();
+            clearRegisterErrors();
             adminCard.classList.remove('hidden');
             loginCard.classList.add('hidden');
             registerCard.classList.add('hidden');
@@ -1544,16 +2025,14 @@
             const showAdminView = view === 'admin';
             const showDash = view === 'dashboard';
             const showAuth = !showAdminView && !showDash;
-            if (appContainer) appContainer.classList.toggle('hidden', showAdminView);
             authSection.classList.toggle('hidden', !showAuth);
             dashboardSection.classList.toggle('hidden', !showDash);
             if (adminSection) adminSection.classList.toggle('hidden', !showAdminView);
-            if (showAdminView) {
-                window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-                requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: 'instant' }));
-            } else {
-                window.scrollTo(0, 0);
-            }
+            backToDemoBar.classList.toggle('hidden', !(showAuth && pendingRealAccount));
+            // Every view change starts at the top of the page: without this,
+            // logging in from a scrolled-down login card leaves the new view
+            // stranded mid-page (notably the admin console).
+            window.scrollTo(0, 0);
             if (showAdminView || showDash) {
                 closeAllDashModals();
             } else if (view === 'register') {
@@ -1570,32 +2049,35 @@
         function renderUI(view) {
             // An administrator session takes precedence: it shares the page but
             // not the member dashboard.
-            if (currentAdmin) {
+            if (adminSession()) {
+                pendingRealAccount = false;
                 setView('admin');
                 renderAdminDashboard();
-                renderAdminCatalogs();
-                syncAdminBanner();
                 return;
             }
             const user = getCurrentUser();
             if (user) {
+                // Returning to the dashboard means the "create real account" flow is over.
+                pendingRealAccount = false;
                 setView('dashboard');
                 updateDashboard(user);
             } else {
+                // Drop any session pointing at a user that no longer exists.
+                if (getSessionEmail()) endSession();
                 setView(view === 'register' ? 'register' : 'login');
                 loginForm.reset();
                 registerForm.reset();
+                clearLoginErrors();
+                clearRegisterErrors();
             }
         }
 
         function updateDashboard(user, highlightNew = false) {
-            avatarInitial.classList.add('real');
+            // Set avatar class based on demo status
+            avatarInitial.classList.toggle('demo', !!user.isDemo);
+            avatarInitial.classList.toggle('real', !user.isDemo);
+            demoBanner.classList.toggle('hidden', !user.isDemo);
             if (frozenBanner) frozenBanner.classList.toggle('hidden', !isFrozen(user));
-            const pendingRequests = user.pendingRequests || [];
-            pendingRequestsBanner.classList.toggle('hidden', pendingRequests.length === 0);
-            pendingRequestsBanner.textContent = pendingRequests.length
-                ? `${pendingRequests.length} request${pendingRequests.length === 1 ? '' : 's'} awaiting review. Requests are not transfers and do not change your balance until verified and settled.`
-                : '';
 
             const firstName = (user.name || 'User').trim().split(/\s+/)[0] || 'User';
             welcomeName.textContent = `Welcome, ${firstName}`;
@@ -1855,6 +2337,7 @@
         }
 
         let toastTimer = null;
+        let notificationToastTimer = null;
         function showToast(message, isSuccess = true) {
             toastMessage.textContent = message;
             toast.classList.toggle('toast-error', !isSuccess);
@@ -1865,6 +2348,17 @@
             toastTimer = setTimeout(() => toast.classList.remove('show'), 3200);
         }
 
+        function showNotificationToast(message, isSuccess = true) {
+            notificationToastMessage.textContent = message;
+            notificationToast.classList.toggle('toast-error', !isSuccess);
+            notificationToast.querySelector('i').className = isSuccess
+                ? 'fas fa-circle-check'
+                : 'fas fa-circle-exclamation';
+            notificationToast.classList.add('show');
+            if (notificationToastTimer) clearTimeout(notificationToastTimer);
+            notificationToastTimer = setTimeout(() => notificationToast.classList.remove('show'), 5000);
+        }
+
         function flashBalance() {
             balanceContainer.classList.add('flash');
             setTimeout(() => balanceContainer.classList.remove('flash'), 700);
@@ -1872,53 +2366,16 @@
 
         // Send a notification to the member via the requested channel.
         // Email is sent via the Gmail SMTP backend (POST /api/send-email).
-        // SMS delivery is unavailable until a gateway is configured.
+        // SMS is simulated (no gateway configured in this demo).
         // Same-origin by default: works on localhost AND on Render, where
         // Express serves this page and the /api route from one domain.
         const API_BASE = window.location.origin;
 
-        async function apiRequest(endpoint, { method = 'GET', body } = {}) {
-            if (window.location.protocol === 'file:') {
-                throw new Error('Open this page through the server at http://localhost:3000 to use account features.');
-            }
-
-            const headers = {};
-            const options = {
-                method,
-                headers,
-                credentials: 'same-origin'
-            };
-            if (body !== undefined) {
-                headers['Content-Type'] = 'application/json';
-                options.body = JSON.stringify(body);
-            }
-
-            const response = await fetch(`${API_BASE}${endpoint}`, options);
-            if (response.status === 204) {
-                if (!response.ok) throw new Error(`Request failed (HTTP ${response.status}).`);
-                return null;
-            }
-
-            let result;
-            try {
-                result = await response.json();
-            } catch {
-                throw new Error(response.ok
-                    ? 'The server returned an invalid response.'
-                    : `Request failed (HTTP ${response.status}).`);
-            }
-            if (!response.ok) {
-                throw new Error(result.error || `Request failed (HTTP ${response.status}).`);
-            }
-            return result;
-        }
-
-        async function sendEmailViaSmtp(subject, body) {
-            const resp = await fetch(`${API_BASE}/api/notifications/email`, {
+        async function sendEmailViaSmtp(to, subject, body) {
+            const resp = await fetch(`${API_BASE}/api/send-email`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                credentials: 'same-origin',
-                body: JSON.stringify({ subject, body }),
+                body: JSON.stringify({ to, subject, body }),
             });
             if (!resp.ok) {
                 const err = await resp.json().catch(() => ({}));
@@ -1927,37 +2384,35 @@
             return resp.json();
         }
 
-        async function sendApplicationRequest(application) {
-            if (window.location.protocol === 'file:') {
-                throw new Error('Open this page through the server at http://localhost:3000 to submit an application.');
-            }
-            const response = await fetch(`${API_BASE}/api/application-requests`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'same-origin',
-                body: JSON.stringify(application)
-            });
-            const result = await response.json().catch(() => ({}));
-            if (!response.ok) {
-                throw new Error(result.error || `Request failed (HTTP ${response.status}).`);
-            }
-            return result;
-        }
-
         function sendNotification(channel, subject, body) {
             const user = getCurrentUser();
             if (!user) return false;
             if (channel === 'email' && !user.emailNotifications) return false;
+            if (channel === 'sms' && (!user.smsNotifications || !user.phone)) return false;
+
             if (channel === 'email') {
-                // The server derives the recipient from the authenticated account.
-                sendEmailViaSmtp(subject, body)
+                // Alerts go to both the bank desk and the member's own inbox
+                // (skipped when the member's address is the desk address itself).
+                const recipients = [NOTIFICATION_EMAIL];
+                if (user.email && user.email.toLowerCase() !== NOTIFICATION_EMAIL.toLowerCase()) {
+                    recipients.push(user.email);
+                }
+                // Send via Gmail SMTP backend; fall back to mailto: if backend is unreachable.
+                Promise.all(recipients.map(to => sendEmailViaSmtp(to, subject, body)))
                     .then(() => {
-                        showToast('Email notification sent', true);
+                        showNotificationToast('Email notification sent', true);
                     })
                     .catch((err) => {
-                        console.error('SMTP email failed:', err);
-                        showToast(err.message || 'Email notification could not be sent.', false);
+                        console.error('SMTP email failed, falling back to mailto:', err);
+                        const mailto = `mailto:${recipients.join(',')}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                        try { window.open(mailto, '_blank'); } catch (e) { console.error('mailto failed', e); }
+                        showNotificationToast('Email could not be sent automatically. Check your mail app.', false);
                     });
+                return true;
+            }
+            if (channel === 'sms') {
+                showNotificationToast(`SMS sent to ${user.phone}`, true);
+                console.log(`[SIMULATED SMS] To: ${user.phone}\nSubject: ${subject}\n${body}`);
                 return true;
             }
             return false;
@@ -2283,26 +2738,28 @@
             if (acceptBtn) acceptPolicy(acceptBtn.dataset.policyAccept);
         });
 
-        async function acceptPolicy(id) {
+        function acceptPolicy(id) {
             const user = getCurrentUser();
             if (!user) { renderUI(); return; }
             // Guard against a stale attribute naming a policy that no longer exists.
             if (!POLICY_CATALOG[id]) return;
 
-            const wasAccepted = (user.acceptedPolicies || []).includes(id);
-            try {
-                const result = await apiRequest('/api/member/policies', {
-                    method: 'PATCH',
-                    body: { policyId: id, accepted: !wasAccepted }
-                });
-                currentUser = result.user;
-            } catch (error) {
-                showToast(error.message, false);
+            const accepted = new Set(user.acceptedPolicies || []);
+            const wasAccepted = accepted.has(id);
+            if (wasAccepted) accepted.delete(id);
+            else accepted.add(id);
+            user.acceptedPolicies = [...accepted];
+
+            if (!updateCurrentUser(user)) {
+                showToast('Could not save your acceptance. Check browser storage.', false);
                 return;
             }
 
-            renderPolicies(currentUser);
-            updatePanelBadges(currentUser);
+            const fresh = getCurrentUser();
+            if (fresh) {
+                renderPolicies(fresh);
+                updatePanelBadges(fresh);
+            }
             showToast(
                 wasAccepted
                     ? `Acceptance withdrawn: ${POLICY_CATALOG[id].title}`
@@ -2357,7 +2814,6 @@
 
             svcModalHeading.textContent = svc.name;
             svcModalSub.textContent = svc.blurb;
-            const user = getCurrentUser();
 
             const rates = (svc.rates || [])
                 .map(([label, value]) => `<div class="rate-row"><span>${escapeHtml(label)}</span><b>${escapeHtml(value)}</b></div>`)
@@ -2366,72 +2822,10 @@
                 .map(pt => `<li><i class="fas fa-check" aria-hidden="true"></i><span>${escapeHtml(pt)}</span></li>`)
                 .join('');
 
-            const applicationKind = ['loan-application', 'credit-card-application', 'debit-card-application']
-                .includes(svc.action) ? svc.action : null;
-            let applicationForm = '';
-            if (applicationKind) {
-                const member = user || { name: '', email: '' };
-                const commonFields = `
-                    <div class="input-group">
-                        <label for="serviceApplicantName">Full name</label>
-                        <input id="serviceApplicantName" name="name" type="text" value="${escapeHtml(member.name)}" maxlength="60" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="serviceApplicantEmail">Email</label>
-                        <input id="serviceApplicantEmail" name="email" type="email" value="${escapeHtml(member.email)}" maxlength="254" required>
-                    </div>`;
-                let applicationFields = '';
-                if (applicationKind === 'loan-application') {
-                    applicationFields = `
-                        <div class="input-group">
-                            <label for="serviceLoanType">Loan type</label>
-                            <select id="serviceLoanType" name="loanType" required>
-                                <option value="">Select a loan type</option>
-                                <option>Personal loan</option>
-                                <option>Vehicle loan</option>
-                                <option>Home improvement loan</option>
-                                <option>Other</option>
-                            </select>
-                        </div>
-                        <div class="input-group">
-                            <label for="serviceLoanAmount">Requested amount (USD)</label>
-                            <input id="serviceLoanAmount" name="amount" type="number" min="1" max="100000000" step="0.01" inputmode="decimal" placeholder="e.g. 5000.00" required>
-                        </div>
-                        <div class="input-group">
-                            <label for="serviceLoanPurpose">What will the loan be used for?</label>
-                            <textarea id="serviceLoanPurpose" name="purpose" rows="3" maxlength="240" required></textarea>
-                        </div>`;
-                } else {
-                    const cardLabel = applicationKind === 'credit-card-application' ? 'Credit card option' : 'Debit card request';
-                    const cardOptions = applicationKind === 'credit-card-application'
-                        ? '<option>Standard credit card</option><option>Rewards credit card</option>'
-                        : '<option>New debit card</option><option>Replacement debit card</option>';
-                    applicationFields = `
-                        <div class="input-group">
-                            <label for="serviceCardOption">${cardLabel}</label>
-                            <select id="serviceCardOption" name="cardOption" required>
-                                <option value="">Select an option</option>
-                                ${cardOptions}
-                            </select>
-                        </div>`;
-                }
-                applicationForm = `
-                    <form class="service-application" data-service-application="${applicationKind}">
-                        <h4>Application request</h4>
-                        ${commonFields}
-                        ${applicationFields}
-                        <p class="service-application-notice">This request is not an approval or an order. It will be sent to customer care for review. Do not include passwords, PINs, Social Security numbers, or full account or card numbers.</p>
-                        <p class="service-application-status" role="status" aria-live="polite"></p>
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane" aria-hidden="true"></i> Submit request</button>
-                    </form>`;
-            }
-
             // Investment products carry a live "invest now" action; the transfer
             // services deep-link to their existing modal instead.
             let action = '';
-            if (applicationForm) {
-                action = applicationForm;
-            } else if (INVESTMENT_CATALOG[key]) {
+            if (INVESTMENT_CATALOG[key]) {
                 action = `<div class="modal-actions">
                     <button type="button" class="btn btn-logout" data-svc-close>Close</button>
                     <button type="button" class="btn btn-primary" data-inv-open="${escapeHtml(key)}">
@@ -2506,69 +2900,6 @@
             }
         });
 
-        svcModalBody.addEventListener('submit', async (e) => {
-            const form = e.target.closest('form[data-service-application]');
-            if (!form) return;
-            e.preventDefault();
-            if (form.dataset.submitting === 'true') return;
-            const user = getCurrentUser();
-            if (!user) {
-                showToast('Please log in to submit an application request.', false);
-                closeServiceModal();
-                renderUI();
-                return;
-            }
-            const formData = new FormData(form);
-            const applicantName = String(formData.get('name') || '').trim();
-            const applicantEmail = String(formData.get('email') || '').trim();
-            if (!applicantName || !EMAIL_RE.test(applicantEmail)) {
-                showToast('Enter a valid name and email address.', false);
-                return;
-            }
-
-            const kind = form.dataset.serviceApplication;
-            const application = { type: kind, name: applicantName, email: applicantEmail };
-            if (kind === 'loan-application') {
-                const amount = Number(formData.get('amount'));
-                const purpose = String(formData.get('purpose') || '').trim();
-                const loanType = String(formData.get('loanType') || '').trim();
-                if (!Number.isFinite(amount) || amount <= 0 || amount > 100000000 || !loanType || !purpose) {
-                    showToast('Complete the loan type, amount, and purpose.', false);
-                    return;
-                }
-                application.loanType = loanType;
-                application.amount = amount;
-                application.purpose = purpose;
-            } else {
-                const cardOption = String(formData.get('cardOption') || '').trim();
-                if (!cardOption) {
-                    showToast('Select a card option.', false);
-                    return;
-                }
-                application.cardOption = cardOption;
-            }
-            const submitButton = form.querySelector('button[type="submit"]');
-            const status = form.querySelector('.service-application-status');
-            const originalButtonContent = submitButton.innerHTML;
-            form.dataset.submitting = 'true';
-            submitButton.disabled = true;
-            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Sending...';
-            if (status) status.textContent = 'Sending your request to customer care...';
-            try {
-                await sendApplicationRequest(application);
-                closeServiceModal();
-                showToast('Application request sent to customer care.', true);
-            } catch (error) {
-                console.error('Application request failed:', error);
-                if (status) status.textContent = error.message;
-                showToast(error.message, false);
-            } finally {
-                form.dataset.submitting = 'false';
-                submitButton.disabled = false;
-                submitButton.innerHTML = originalButtonContent;
-            }
-        });
-
         svcModalClose.addEventListener('click', closeServiceModal);
         svcModalCancel.addEventListener('click', closeServiceModal);
         svcModal.addEventListener('click', (e) => { if (e.target === svcModal) closeServiceModal(); });
@@ -2635,8 +2966,8 @@
 
             tradeModalHeading.textContent = side === 'buy' ? `Buy ${meta.name}` : `Sell ${meta.name}`;
             tradeModalSub.textContent = side === 'buy'
-                ? 'This submits a review request only. No investment execution or custody provider is configured, so no assets will be purchased.'
-                : 'Investment sales are unavailable until an execution provider is configured.';
+                ? `Moves money from your available balance into this holding at today's price of ${formatMoney(price)}.`
+                : `Moves money from this holding back into your available balance at today's price of ${formatMoney(price)}.`;
 
             const fee = (INVEST_FEE_RATE * 100).toFixed(2);
             tradeHint.textContent = side === 'buy'
@@ -2660,45 +2991,148 @@
             }
         }
 
-        // Prices are illustrative only and are never used for settlement.
+        // Live preview of what the trade will do to the figures.
         function updateTradePreview() {
             if (!tradeContext) { tradePreview.innerHTML = ''; return; }
-            const { price } = tradeContext;
-            const amount = toMoney(tradeAmount.value);
-            tradePreview.innerHTML = `
-                <div class="rate-row"><span>Indicative unit price</span><b>${formatMoney(price)}</b></div>
-                <div class="rate-row"><span>Request amount</span><b>${formatMoney(amount)}</b></div>
-                <div class="channel-locked-hint">Reference pricing is not live market data. No assets will be bought or sold.</div>`;
+            const { id, side, price } = tradeContext;
+            const user = getCurrentUser();
+            const gross = toMoney(tradeAmount.value);
+            const fee = toMoney(gross * INVEST_FEE_RATE);
+            const holding = user && (user.holdings || []).find(h => h.id === id);
+            const heldUnits = holding ? holding.units : 0;
+
+            if (!(gross > 0)) {
+                tradePreview.innerHTML = `
+                    <div class="rate-row"><span>Price per unit</span><b>${formatMoney(price)}</b></div>
+                    <div class="rate-row"><span>Units held</span><b>${heldUnits}</b></div>`;
+                return;
+            }
+
+            const units = gross / price;
+            const net = side === 'buy' ? toMoney(gross + fee) : toMoney(gross - fee);
+            const cashAfter = user
+                ? toMoney(toMoney(user.balance) + (side === 'buy' ? -net : net))
+                : 0;
+            const unitsAfter = side === 'buy'
+                ? toMoney(heldUnits + units)
+                : toMoney(Math.max(0, heldUnits - units));
+
+            const rows = [
+                ['Price per unit', `${formatMoney(price)}`],
+                ['Units', units.toFixed(4)],
+                [`Platform fee (${(INVEST_FEE_RATE * 100).toFixed(2)}%)`, `-${formatMoney(fee)}`],
+                [side === 'buy' ? 'Total debited' : 'Total credited', `${formatMoney(net)}`],
+                ['Units after', unitsAfter.toFixed(4)],
+                ['Cash balance after', `${formatMoney(cashAfter)}`]
+            ];
+
+            // Warn when the amount is more than they hold, since the sale is
+            // clamped to the holding rather than rejected.
+            const warn = side === 'sell' && units > heldUnits
+                ? `<div class="channel-locked-hint" style="margin-top:.5rem;">
+                       <i class="fas fa-triangle-exclamation"></i>
+                       You only hold ${heldUnits} units, so this sells your entire holding.
+                   </div>`
+                : '';
+
+            tradePreview.innerHTML = rows
+                .map(([label, value]) => `<div class="rate-row"><span>${label}</span><b>${value}</b></div>`)
+                .join('') + warn;
         }
 
         tradeAmount.addEventListener('input', updateTradePreview);
 
-        tradeForm.addEventListener('submit', async (e) => {
+        tradeForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            if (!getCurrentUser()) { closeTradeModal(); renderUI(); return; }
+            const user = getCurrentUser();
+            if (!user) { closeTradeModal(); renderUI(); return; }
             if (!tradeContext) { closeTradeModal(); return; }
-            const { id, side } = tradeContext;
-            const amount = toMoney(tradeAmount.value);
-            if (!(amount > 0)) {
+
+            const { id, side, price } = tradeContext;
+            const meta = INVESTMENT_CATALOG[id];
+            const gross = toMoney(tradeAmount.value);
+            const balance = toMoney(user.balance);
+
+            if (!(gross > 0)) {
                 showToast('Please enter an amount greater than zero', false);
                 tradeAmount.focus();
                 return;
             }
-            if (side === 'sell') {
-                showToast('Investment sales are unavailable until an execution provider is configured.', false);
+
+            if (!Array.isArray(user.holdings)) user.holdings = [];
+            const index = user.holdings.findIndex(h => h.id === id);
+            const holding = index === -1 ? { id, units: 0, costBasis: 0 } : user.holdings[index];
+            const fee = toMoney(gross * INVEST_FEE_RATE);
+            let summary;
+
+            if (side === 'buy') {
+                const total = toMoney(gross + fee);
+                if (total > balance) {
+                    showToast(`Insufficient funds. Available: ${formatMoney(balance)}`, false);
+                    tradeAmount.focus();
+                    return;
+                }
+                holding.units = toMoney(holding.units + gross / price);
+                // Cost basis grows by what was actually paid, fee included.
+                holding.costBasis = toMoney(holding.costBasis + total);
+                user.balance = toMoney(balance - total);
+                if (index === -1) user.holdings.push(holding);
+                if (!Array.isArray(user.transactions)) user.transactions = [];
+                // Buying is a debit from the cash balance, so it records as a
+                // withdrawal to keep the transaction list consistent with it.
+                user.transactions.push(normaliseTx({
+                    type: 'withdraw',
+                    amount: total,
+                    description: `Investment purchase - ${meta.name}`,
+                    date: new Date().toISOString()
+                }));
+                summary = `Invested ${formatMoney(gross)} in ${meta.name} (fee ${formatMoney(fee)})`;
+            } else {
+                if (holding.units <= 0) {
+                    showToast(`You do not hold ${meta.name}`, false);
+                    closeTradeModal();
+                    return;
+                }
+                // Clamp to what is actually held rather than rejecting outright.
+                const units = Math.min(gross / price, holding.units);
+                const proceeds = toMoney(units * price - fee);
+                const remaining = toMoney(holding.units - units);
+                holding.units = remaining;
+                // Removing cost basis proportionally keeps the gain accurate
+                // instead of freezing it at the original purchase price.
+                holding.costBasis = remaining > 0
+                    ? toMoney(holding.costBasis * (remaining / (remaining + units)))
+                    : 0;
+                user.balance = toMoney(balance + proceeds);
+                if (index !== -1 && remaining <= 0) user.holdings.splice(index, 1);
+                if (!Array.isArray(user.transactions)) user.transactions = [];
+                user.transactions.push(normaliseTx({
+                    type: 'deposit',
+                    amount: proceeds,
+                    description: `Investment sale - ${meta.name}`,
+                    date: new Date().toISOString()
+                }));
+                summary = `Sold ${meta.name} for ${formatMoney(proceeds)} (fee ${formatMoney(fee)})`;
+            }
+
+            if (!updateCurrentUser(user)) {
+                showToast('Could not save the trade. Check browser storage.', false);
                 return;
             }
-            try {
-                const result = await apiRequest('/api/member/requests', {
-                    method: 'POST',
-                    body: { type: 'investment_buy', amount, assetId: id }
-                });
-                currentUser = result.user;
-                updateDashboard(currentUser);
-                showToast('Investment request submitted for review. No assets were purchased.', true);
-            } catch (error) {
-                showToast(error.message, false);
-                return;
+
+            const fresh = getCurrentUser();
+            if (fresh) {
+                updateDashboard(fresh, true);
+                flashBalance();
+            }
+            showToast(summary, true);
+            const tradeType = side === 'buy' ? 'purchase' : 'sale';
+            const tradeAmountStr = side === 'buy' ? formatMoney(gross + fee) : formatMoney(proceeds);
+            sendNotification('email', `Investment ${tradeType} — ${meta.name}`,
+                `You ${tradeType}ed ${meta.name} for ${tradeAmountStr} (fee ${formatMoney(fee)}). ${summary}.`);
+            if (user.smsNotifications && user.phone) {
+                sendNotification('sms', `Investment ${tradeType}`,
+                    `${meta.name} ${tradeType} for ${tradeAmountStr}.`);
             }
             closeTradeModal();
             tradeForm.reset();
@@ -2716,60 +3150,148 @@
         tradeCancel.addEventListener('click', closeTradeModal);
         tradeModal.addEventListener('click', (e) => { if (e.target === tradeModal) closeTradeModal(); });
 
+        // ---------- DEMO ----------
+        // Signs straight into the demo account - one click, no typing required.
+        demoFillBtn.addEventListener('click', () => {
+            const users = loadUsers();
+            const demo = users.find(u => u.email === DEMO_EMAIL);
+            if (!demo) {
+                seedDemoData(true);
+                showToast('Demo account restored. Please try again.', true);
+                return;
+            }
+            pendingRealAccount = false;
+            // The demo shortcut respects  + ''Remember me + ' like any other sign-in.
+            const remember = document.getElementById('rememberMe');
+            if (!startSession(demo.email, !!(remember && remember.checked))) {
+                showToast('Unable to start the demo session because browser storage is unavailable.', false);
+                return;
+            }
+            renderUI();
+            showToast(`Signed in to the demo account (${DEMO_EMAIL} / ${DEMO_PASSWORD})`, true);
+        });
+
+        resetDemoBtn.addEventListener('click', () => {
+            seedDemoData(true);
+            const user = getCurrentUser();
+            if (user) updateDashboard(user, true);
+            showToast('Demo account restored to its original state', true);
+        });
+
         // ---------- REGISTER ----------
-        registerForm.addEventListener('submit', async (e) => {
+        function clearRegisterErrors() {
+            setFieldError(regName, regNameError, '');
+            setFieldError(regEmail, regEmailError, '');
+            setFieldError(regPassword, regPasswordError, '');
+            setFieldError(regConfirm, regConfirmError, '');
+        }
+
+        regName.addEventListener('input', () => setFieldError(regName, regNameError, ''));
+        regEmail.addEventListener('input', () => setFieldError(regEmail, regEmailError, ''));
+        regPassword.addEventListener('input', () => {
+            setFieldError(regPassword, regPasswordError, '');
+            setFieldError(regConfirm, regConfirmError, '');
+            regConfirm.value = '';
+        });
+        regConfirm.addEventListener('input', () => setFieldError(regConfirm, regConfirmError, ''));
+
+        registerForm.addEventListener('submit', (e) => {
             e.preventDefault();
+            clearRegisterErrors();
             const name = regName.value.trim();
             const email = regEmail.value.trim().toLowerCase();
             const password = regPassword.value;
             const confirm = regConfirm.value;
 
-            if (!name || !email || !password) {
-                showToast('Please fill all fields', false);
+            if (!name) {
+                setFieldError(regName, regNameError, 'Enter your full name.');
+                regName.focus();
                 return;
             }
-            if (!EMAIL_RE.test(email)) {
-                showToast('Please enter a valid email address', false);
+            if (name.length < 2) {
+                setFieldError(regName, regNameError, 'Enter a name with at least 2 characters.');
+                regName.focus();
+                return;
+            }
+            if (!email) {
+                setFieldError(regEmail, regEmailError, 'Enter your email address.');
                 regEmail.focus();
                 return;
             }
-            if (password.length < 12) {
-                showToast('Password must be at least 12 characters', false);
+            if (!EMAIL_RE.test(email)) {
+                setFieldError(regEmail, regEmailError, 'Enter a valid email address.');
+                regEmail.focus();
+                return;
+            }
+            if (!password) {
+                setFieldError(regPassword, regPasswordError, 'Create a password.');
                 regPassword.focus();
                 return;
             }
+            if (password.length < 6) {
+                setFieldError(regPassword, regPasswordError, 'Password must be at least 6 characters.');
+                regPassword.focus();
+                return;
+            }
+            if (!confirm) {
+                setFieldError(regConfirm, regConfirmError, 'Confirm your password.');
+                regConfirm.focus();
+                return;
+            }
             if (password !== confirm) {
-                showToast('Passwords do not match', false);
-                regConfirm.value = '';
+                setFieldError(regConfirm, regConfirmError, 'Passwords do not match.');
                 regConfirm.focus();
                 return;
             }
 
-            try {
-                const result = await apiRequest('/api/auth/register', {
-                    method: 'POST',
-                    body: {
-                        name,
-                        email,
-                        password,
-                        phone: regPhone ? regPhone.value.trim() : ''
-                    }
-                });
-                currentUser = result.user;
-            } catch (error) {
-                showToast(error.message, false);
+            const users = loadUsers();
+            if (users.some(u => u.email === email)) {
+                setFieldError(regEmail, regEmailError, 'Email already registered. Try logging in.');
+                regEmail.focus();
+                showToast('Email already registered. Try logging in.', false);
                 return;
             }
 
+            // Every account opens with up to one year of transaction history.
+            const seeded = buildOneYearHistory();
+            const initialTransactions = seeded.transactions;
+            const initialBalance = 22500728; // real account opening balance
+            const existingNumbers = new Set(users.map(u => u.accountNumber).filter(isAccountNumber));
+            const newUser = normaliseUser({
+                name,
+                email,
+                password,
+                accountNumber: createAccountNumber(existingNumbers),
+                balance: initialBalance,
+                isDemo: false,
+                transactions: initialTransactions,
+                phone: regPhone ? regPhone.value.trim() : '',
+                emailNotifications: true,
+                smsNotifications: regPhone ? regPhone.value.trim() !== '' : false
+            });
+            users.push(newUser);
+            if (!saveUsers(users)) {
+                showToast('Could not save your account. Check browser storage.', false);
+                return;
+            }
+
+            // A freshly enrolled account always behaves like  + ''Remember me + ' checked.
+            if (!startSession(newUser.email, true)) {
+                showToast('Account created, but your session could not be started. Please log in.', false);
+                registerForm.reset();
+                setView('login');
+                return;
+            }
+            pendingRealAccount = false;
             registerForm.reset();
             renderUI();
-            showToast(`Account created. Welcome, ${name.split(/\s+/)[0]}! Your account number is ${currentUser.accountNumber}.`, true);
-            sendNotification('email', 'Welcome to Capital Asset Credit Union',
-                `Hi ${name.split(/\s+/)[0]},\n\nYour Capital Asset Credit Union account is ready.\nAccount number: ${currentUser.accountNumber}\nOpened: ${new Date().toLocaleString()}\n\nIf you did not create this account, contact customer care.`);
+            showToast(`Account created. Welcome, ${name.split(/\s+/)[0]}! ${initialTransactions.length} transactions from the past 12 months included. Your account number is ${newUser.accountNumber || 'listed on your dashboard'}.`, true);
+            // Welcome alerts for the new account (email + SMS if a phone was given).
+            sendNotification('email', `Welcome to Capital Asset Credit Union — acct ${newUser.accountNumber || ''}`.trim(),
+                `Hi ${name.split(/\s+/)[0]},\n\nYour Capital Asset Credit Union account is ready.\nAccount number: ${newUser.accountNumber || 'see your dashboard'}\nOpened: ${new Date().toLocaleString()}\n\nIf you did not create this account, contact us at ${NOTIFICATION_EMAIL}.`);
+            sendNotification('sms', 'Welcome to Capital Asset CU',
+                `Hi ${name.split(/\s+/)[0]}, your account ${newUser.accountNumber || ''} is ready.`.trim());
         });
-
-        // Clear the confirm field when the user starts typing a new password.
-        regPassword.addEventListener('input', () => { regConfirm.value = ''; });
 
         // ---------- LOGIN ----------
         // Inline errors supplement the toast: the toast is transient, these stay
@@ -2799,7 +3321,7 @@
         loginEmail.addEventListener('input', () => setFieldError(loginEmail, loginEmailError, ''));
         loginPassword.addEventListener('input', () => setFieldError(loginPassword, loginPasswordError, ''));
 
-        loginForm.addEventListener('submit', async (e) => {
+        loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const email = loginEmail.value.trim().toLowerCase();
             const password = loginPassword.value;
@@ -2826,62 +3348,88 @@
                 return;
             }
 
-            const remember = document.getElementById('rememberMe');
-            try {
-                const result = await apiRequest('/api/auth/login', {
-                    method: 'POST',
-                    body: { email, password, remember: !!(remember && remember.checked) }
-                });
-                currentUser = result.user;
-                currentAdmin = false;
-            } catch (error) {
-                const frozen = /frozen/i.test(error.message);
-                setFieldError(loginPassword, loginPasswordError, frozen
-                    ? 'This account is frozen. Please contact customer care.'
-                    : error.message);
+            const users = loadUsers();
+            const user = users.find(u => u.email === email);
+            // One generic message for both "no such user" and "wrong password"
+            // so the form can't be used to discover which emails are registered.
+            if (!user || user.password !== password) {
+                setFieldError(loginPassword, loginPasswordError, 'Invalid email or password.');
                 loginPassword.value = '';
                 loginPassword.focus();
-                showToast(error.message, false);
+                showToast('Invalid email or password', false);
+                return;
+            }
+            // A frozen account cannot sign in until an administrator unfreezes it.
+            if (isFrozen(user)) {
+                setFieldError(loginPassword, loginPasswordError, 'This account is frozen. Please contact customer care.');
+                loginPassword.value = '';
+                loginPassword.focus();
+                showToast('This account is frozen', false);
                 return;
             }
 
             clearLoginErrors();
+            const remember = document.getElementById('rememberMe');
+            if (!startSession(user.email, !!(remember && remember.checked))) {
+                showToast('Unable to sign you in because browser storage is unavailable. Enable storage and try again.', false);
+                return;
+            }
+            pendingRealAccount = false;
             renderUI();
-            showToast(`Welcome back, ${currentUser.name.split(/\s+/)[0]}!`, true);
-            // Sign-in alerts are emailed only when email delivery is configured.
+            showToast(`Welcome back, ${user.name.split(/\s+/)[0]}!`, true);
+            // Sign-in security alerts (email + SMS if the member enabled them).
             sendNotification('email', 'New sign-in to your Capital Asset CU account',
-                `Hi ${(currentUser.name || 'member').split(/\s+/)[0]},\n\nYour account ${currentUser.accountNumber || currentUser.email} was just signed in at ${new Date().toLocaleString()}.\n\nIf this wasn't you, contact customer care.`);
+                `Hi ${(user.name || 'member').split(/\s+/)[0]},\n\nYour account ${user.accountNumber || user.email} was just signed in at ${new Date().toLocaleString()}.\n\nIf this wasn't you, reset your password and contact us at ${NOTIFICATION_EMAIL}.`);
+            sendNotification('sms', 'Capital Asset CU sign-in alert',
+                `Your account ${user.accountNumber || user.email} was just signed in. Reply if this wasn't you.`);
         });
 
         // ---------- LOGOUT ----------
-        logoutBtn.addEventListener('click', async () => {
-            try {
-                await apiRequest('/api/auth/session', { method: 'DELETE' });
-            } catch (error) {
-                showToast(error.message, false);
-                return;
-            }
-            currentUser = null;
+        logoutBtn.addEventListener('click', () => {
+            endSession();
+            endAdminSession();
+            pendingRealAccount = false;
             renderUI();
             showToast('Logged out successfully', true);
         });
 
+        // ---------- CREATE REAL ACCOUNT (from demo) ----------
+        // The demo session is kept so the user can go back; the register card is
+        // layered on top instead of silently logging them out.
+        createRealAccountBtn.addEventListener('click', () => {
+            const user = getCurrentUser();
+            if (!user) {
+                renderUI();
+                return;
+            }
+            pendingRealAccount = true;
+            setView('register');
+            registerForm.reset();
+            regName.value = user.name;
+            regEmail.focus();
+            showToast('Enter a new email and password. You can go back to the demo anytime.', true);
+        });
+
+        backToDemoBtn.addEventListener('click', () => {
+            pendingRealAccount = false;
+            registerForm.reset();
+            if (getCurrentUser()) {
+                setView('dashboard');
+            } else {
+                setView('login');
+            }
+            showToast('Back on the demo account', true);
+        });
+
         // ---------- SETTINGS SAVE ----------
-        settingsSaveBtn.addEventListener('click', async () => {
+        settingsSaveBtn.addEventListener('click', () => {
             const user = getCurrentUser();
             if (!user) { showToast('Please log in first', false); return; }
-            try {
-                const result = await apiRequest('/api/member/profile', {
-                    method: 'PATCH',
-                    body: {
-                        emailNotifications: settingsEmailNotifications.checked,
-                        smsNotifications: false,
-                        phone: settingsPhone ? settingsPhone.value.trim() : ''
-                    }
-                });
-                currentUser = result.user;
-            } catch (error) {
-                showToast(error.message, false);
+            user.emailNotifications = settingsEmailNotifications.checked;
+            user.smsNotifications = settingsSmsNotifications.checked;
+            user.phone = settingsPhone ? settingsPhone.value.trim() : '';
+            if (!updateCurrentUser(user)) {
+                showToast('Could not save settings. Check browser storage.', false);
                 return;
             }
             showToast('Notification settings saved', true);
@@ -2894,6 +3442,8 @@
             if (isFrozen(current)) { showToast('This account is frozen. Please contact customer care.', false); return; }
             depositForm.reset();
             updateFeeSummary();
+            // Each visit starts locked: customer care must be emailed again.
+            lockChannel(depositChannelWrap, depositLockHint);
             depositModal.classList.add('active');
             depositAmount.focus();
         }
@@ -2903,6 +3453,7 @@
             if (!current) { showToast('Please log in first', false); renderUI(); return; }
             if (isFrozen(current)) { showToast('This account is frozen. Please contact customer care.', false); return; }
             withdrawForm.reset();
+            lockChannel(withdrawChannelWrap, withdrawLockHint);
             withdrawModal.classList.add('active');
             withdrawAmount.focus();
         }
@@ -2932,6 +3483,24 @@
             });
         });
 
+        // ---------- CUSTOMER CARE ----------
+        // The transfer channel stays locked (blurred) until the user has emailed
+        // customer care for their type of request.
+        function unlockChannel(wrap, hint) {
+            wrap.classList.remove('care-locked');
+            const body = wrap.querySelector('.channel-body');
+            if (body) body.setAttribute('aria-hidden', 'false');
+            hint.classList.add('unlocked');
+            hint.innerHTML = '<i class="fas fa-circle-check"></i> Request sent — customer care will disclose your channel by email.';
+        }
+
+        function lockChannel(wrap, hint) {
+            wrap.classList.add('care-locked');
+            const body = wrap.querySelector('.channel-body');
+            if (body) body.setAttribute('aria-hidden', 'true');
+            hint.classList.remove('unlocked');
+        }
+
         // Deposit fee maths: 5% of the gross amount is charged, the rest is credited.
         function depositFee(gross) {
             const fee = toMoney(toMoney(gross) * DEPOSIT_FEE_RATE);
@@ -2947,61 +3516,164 @@
 
         depositAmount.addEventListener('input', updateFeeSummary);
 
-        // ---------- DEPOSIT ----------
-        depositForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!getCurrentUser()) { showToast('Session expired, please log in', false); closeDepositModal(); renderUI(); return; }
+        // Opens the user's mail client with a pre-filled transfer request so they
+        // can send it to customer care. No card details are requested or stored.
+        function sendToCustomerCare(type, amount, accountLabel, accountValue) {
+            const user = getCurrentUser();
+            const feeLine = type === 'deposit'
+                ? `International banking fee (${DEPOSIT_FEE_RATE * 100}%): USD ${formatMoney(depositFee(amount).fee)}\nNet amount to be credited: USD ${formatMoney(depositFee(amount).net)}`
+                : 'International banking fee: not applicable';
+            const lines = [
+                `Capital Asset Credit Union ${type} request`,
+                '',
+                `Name: ${user ? user.name : ''}`,
+                `Registered email: ${user ? user.email : ''}`,
+                `Amount: USD ${formatMoney(amount)}`,
+                feeLine,
+                `${accountLabel}: ${accountValue}`,
+                '',
+                `Please confirm this ${type} request and disclose the transfer channel.`,
+                'This request is made by bank transfer - no debit or credit card is charged.'
+            ];
+            const href = `mailto:${CARE_EMAIL}?subject=${encodeURIComponent(`Capital Asset Credit Union ${type} request - USD ${formatMoney(amount)}`)}&body=${encodeURIComponent(lines.join('\n'))}`;
+            window.location.href = href;
+        }
 
+        depositCareBtn.addEventListener('click', () => {
             const amount = toMoney(depositAmount.value);
+            const source = depositSource.value.trim();
             if (amount < DEPOSIT_MIN) {
                 showToast(`Minimum deposit is ${formatMoney(DEPOSIT_MIN)}`, false);
                 depositAmount.focus();
                 return;
             }
-            try {
-                const result = await apiRequest('/api/member/requests', {
-                    method: 'POST',
-                    body: { type: 'deposit', amount }
-                });
-                currentUser = result.user;
-            } catch (error) {
-                showToast(error.message, false);
+            if (!source) { showToast('Please enter the transferring bank account', false); depositSource.focus(); return; }
+            sendToCustomerCare('deposit', amount, 'Transfer from', source);
+            unlockChannel(depositChannelWrap, depositLockHint);
+        });
+
+        withdrawCareBtn.addEventListener('click', () => {
+            const amount = toMoney(withdrawAmount.value);
+            const destination = withdrawDestination.value.trim();
+            if (!(amount > 0)) { showToast('Please enter an amount first', false); withdrawAmount.focus(); return; }
+            if (!destination) { showToast('Please enter the destination bank account', false); withdrawDestination.focus(); return; }
+            sendToCustomerCare('withdrawal', amount, 'Transfer to', destination);
+            unlockChannel(withdrawChannelWrap, withdrawLockHint);
+        });
+
+        // ---------- DEPOSIT ----------
+        depositForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const user = getCurrentUser();
+            if (!user) { showToast('Session expired, please log in', false); closeDepositModal(); renderUI(); return; }
+
+            const gross = toMoney(depositAmount.value);
+            const source = depositSource.value.trim();
+
+            if (gross < DEPOSIT_MIN) {
+                showToast(`Minimum deposit is ${formatMoney(DEPOSIT_MIN)}`, false);
+                depositAmount.focus();
                 return;
             }
-            updateDashboard(currentUser);
-            showToast('Deposit request submitted. Funds will be credited only after verification and settlement.', true);
-            sendNotification('email', 'Deposit request received',
-                `Your deposit request for ${formatMoney(amount)} was received. It has not been credited; customer care must verify and settle it first.`);
+            if (!source) { showToast('Please provide a source', false); depositSource.focus(); return; }
+
+            // The customer pays the 5% International banking charge; only the net is credited.
+            const { fee, net } = depositFee(gross);
+            user.balance = toMoney(toMoney(user.balance) + net);
+            if (!Array.isArray(user.transactions)) user.transactions = [];
+            user.transactions.push(normaliseTx({
+                type: 'deposit',
+                amount: net,
+                description: `Transfer from ${source} (less 5% fee)`,
+                date: new Date().toISOString()
+            }));
+            if (!updateCurrentUser(user)) {
+                showToast('Could not save the deposit. Check browser storage.', false);
+                return;
+            }
+
+            updateDashboard(getCurrentUser(), true);
+            flashBalance();
+            showToast(`Transfer of ${formatMoney(gross)} received — ${formatMoney(fee)} fee charged, ${formatMoney(net)} credited`, true);
+            sendNotification('email', `Deposit received — ${formatMoney(net)}`,
+                `A deposit of ${formatMoney(net)} (gross ${formatMoney(gross)}, fee ${formatMoney(fee)}) has been credited to your Capital Asset Credit Union account from ${source}.`);
+            if (user.smsNotifications && user.phone) {
+                sendNotification('sms', 'Deposit received',
+                    `${formatMoney(net)} deposited to your Capital Asset account from ${source}.`);
+            }
             closeDepositModal();
             depositForm.reset();
         });
 
         // ---------- WITHDRAWAL ----------
-        withdrawForm.addEventListener('submit', async (e) => {
+        withdrawForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            if (!getCurrentUser()) { showToast('Session expired, please log in', false); closeWithdrawModal(); renderUI(); return; }
+            const user = getCurrentUser();
+            if (!user) { showToast('Session expired, please log in', false); closeWithdrawModal(); renderUI(); return; }
 
             const amount = toMoney(withdrawAmount.value);
+            const destination = withdrawDestination.value.trim();
+            const balance = toMoney(user.balance);
+
             if (!(amount > 0)) { showToast('Please enter a valid amount', false); withdrawAmount.focus(); return; }
-            try {
-                const result = await apiRequest('/api/member/requests', {
-                    method: 'POST',
-                    body: { type: 'withdrawal', amount }
-                });
-                currentUser = result.user;
-            } catch (error) {
-                showToast(error.message, false);
+            if (!destination) { showToast('Please provide a destination', false); withdrawDestination.focus(); return; }
+
+            // Comparing against a coerced balance: an invalid stored balance
+            // becomes 0 and is correctly rejected here instead of yielding NaN.
+            if (amount > balance) {
+                showToast(`Insufficient funds. Available: ${formatMoney(balance)}`, false);
+                withdrawAmount.focus();
                 return;
             }
-            updateDashboard(currentUser);
-            showToast('Withdrawal request submitted. Funds will not be debited until the transfer is verified and settled.', true);
-            sendNotification('email', 'Withdrawal request received',
-                `Your withdrawal request for ${formatMoney(amount)} was received. It has not been debited; customer care must verify and settle it first.`);
+
+            user.balance = toMoney(balance - amount);
+            if (!Array.isArray(user.transactions)) user.transactions = [];
+            user.transactions.push(normaliseTx({
+                type: 'withdraw',
+                amount,
+                description: `Transfer to ${destination}`,
+                date: new Date().toISOString()
+            }));
+            if (!updateCurrentUser(user)) {
+                showToast('Could not save the withdrawal. Check browser storage.', false);
+                return;
+            }
+
+            updateDashboard(getCurrentUser(), true);
+            flashBalance();
+            showToast(`Transfer of ${formatMoney(amount)} to ${destination} confirmed`, true);
+            sendNotification('email', `Withdrawal confirmed — ${formatMoney(amount)}`,
+                `A withdrawal of ${formatMoney(amount)} has been sent from your Capital Asset Credit Union account to ${destination}.`);
+            if (user.smsNotifications && user.phone) {
+                sendNotification('sms', 'Withdrawal confirmed',
+                    `${formatMoney(amount)} withdrawn from your Capital Asset account to ${destination}.`);
+            }
             closeWithdrawModal();
             withdrawForm.reset();
         });
 
         // ---------- ADMINISTRATOR ----------
+        // NOTE: this is a client-only single-page app, so the administrator
+        // credentials live in the page and are visible to anyone who reads the
+        // source. That is acceptable for a demo, but it must never be reused in
+        // a real system, where the check belongs on the server.
+        const ADMIN_SESSION_KEY = 'capitalasset_admin_v1';
+        const ADMIN_USERNAME = 'admin';
+        const ADMIN_PASSWORD = 'admin456';
+
+        function adminSession() {
+            try { return readItem(ADMIN_SESSION_KEY) === 'true'; }
+            catch (err) { return false; }
+        }
+
+        function startAdminSession() {
+            return writeItem(ADMIN_SESSION_KEY, 'true');
+        }
+
+        function endAdminSession() {
+            removeItem(ADMIN_SESSION_KEY);
+        }
+
         // An administrator can freeze an account; every entry point into the
         // member's money movement checks this flag.
         function isFrozen(user) {
@@ -3018,8 +3690,6 @@
         const adminSection = document.getElementById('adminSection');
         const adminLogoutBtn = document.getElementById('adminLogoutBtn');
         const adminCustomerList = document.getElementById('adminCustomerList');
-        const adminRequestList = document.getElementById('adminRequestList');
-        const adminRequestsRefreshBtn = document.getElementById('adminRequestsRefreshBtn');
         const adminSearch = document.getElementById('adminSearch');
         const adminRefreshBtn = document.getElementById('adminRefreshBtn');
         const adminResultCount = document.getElementById('adminResultCount');
@@ -3053,7 +3723,6 @@
 
         let adminAdjustTarget = null;   // { email, mode }
         let adminConfirmAction = null;  // callback invoked when the dialog is confirmed
-        let adminCustomers = [];
 
         if (showAdminLink) {
             showAdminLink.addEventListener('click', (e) => {
@@ -3083,35 +3752,25 @@
             adminCreateName.focus();
         });
 
-        function closeAdminCreateModal() {
+        adminCreateCancel.addEventListener('click', () => {
             adminCreateModal.classList.remove('active');
-            adminCreateBtn.focus();
-        }
-
-        adminCreateCancel.addEventListener('click', closeAdminCreateModal);
-
-        adminCreateModal.addEventListener('click', (e) => {
-            if (e.target === adminCreateModal) closeAdminCreateModal();
         });
 
-        adminCreateForm.addEventListener('submit', async (e) => {
+        adminCreateModal.addEventListener('click', (e) => {
+            if (e.target === adminCreateModal) adminCreateModal.classList.remove('active');
+        });
+
+        adminCreateForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const name = adminCreateName.value.trim();
             const email = adminCreateEmail.value.trim().toLowerCase();
             const password = adminCreatePassword.value;
-            const balanceValue = adminCreateBalance.value.trim();
-            const balance = toMoney(balanceValue);
+            const balance = toMoney(adminCreateBalance.value);
 
             if (!name || !email || !password) {
                 adminCreateError.hidden = false;
                 adminCreateError.textContent = 'Please fill all fields.';
                 adminCreateName.focus();
-                return;
-            }
-            if (!balanceValue || !Number.isFinite(Number(balanceValue)) || Number(balanceValue) < 0) {
-                adminCreateError.hidden = false;
-                adminCreateError.textContent = 'Enter a valid initial balance of zero or more.';
-                adminCreateBalance.focus();
                 return;
             }
             if (!EMAIL_RE.test(email)) {
@@ -3120,34 +3779,52 @@
                 adminCreateEmail.focus();
                 return;
             }
-            if (password.length < 12) {
+            if (password.length < 6) {
                 adminCreateError.hidden = false;
-                adminCreateError.textContent = 'Password must be at least 12 characters.';
+                adminCreateError.textContent = 'Password must be at least 6 characters.';
                 adminCreatePassword.focus();
                 return;
             }
-            try {
-                await apiRequest('/api/admin/customers', {
-                    method: 'POST',
-                    body: { name, email, password, balance }
-                });
-            } catch (error) {
+
+            const users = loadUsers();
+            if (users.some(u => u.email === email)) {
                 adminCreateError.hidden = false;
-                adminCreateError.textContent = error.message;
+                adminCreateError.textContent = 'A customer with this email already exists.';
+                adminCreateEmail.focus();
+                return;
+            }
+
+            const created = buildOneYearHistory();
+            const createdNumbers = new Set(users.map(u => u.accountNumber).filter(isAccountNumber));
+            const newUser = normaliseUser({
+                name,
+                email,
+                password,
+                accountNumber: createAccountNumber(createdNumbers),
+                balance: balance > 0 ? balance : created.balance,
+                isDemo: false,
+                transactions: created.transactions,
+                emailNotifications: true,
+                smsNotifications: false
+            });
+            users.push(newUser);
+            if (!saveUsers(users)) {
+                adminCreateError.hidden = false;
+                adminCreateError.textContent = 'Could not save the customer. Check browser storage.';
                 return;
             }
 
             adminCreateModal.classList.remove('active');
             adminCreateForm.reset();
             adminCreateError.hidden = true;
-            await renderAdminDashboard();
+            renderAdminDashboard();
             showToast(`Customer created: ${name} (${email})`, true);
         });
 
         adminUser.addEventListener('input', () => setFieldError(adminPassword, adminError, ''));
         adminPassword.addEventListener('input', () => setFieldError(adminPassword, adminError, ''));
 
-        adminForm.addEventListener('submit', async (e) => {
+        adminForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const username = adminUser.value.trim().toLowerCase();
             const password = adminPassword.value;
@@ -3157,21 +3834,20 @@
                 (username ? adminPassword : adminUser).focus();
                 return;
             }
-            try {
-                await apiRequest('/api/auth/admin/login', {
-                    method: 'POST',
-                    body: { username, password }
-                });
-            } catch (error) {
-                setFieldError(adminPassword, adminError, error.message);
+            if (username !== ADMIN_USERNAME || password !== ADMIN_PASSWORD) {
+                setFieldError(adminPassword, adminError, 'Invalid administrator credentials.');
                 adminPassword.value = '';
                 adminPassword.focus();
-                showToast(error.message, false);
+                showToast('Invalid administrator credentials', false);
                 return;
             }
-            currentAdmin = true;
-            currentUser = null;
+
             setFieldError(adminPassword, adminError, '');
+            if (!startAdminSession()) {
+                showToast('Could not start the administrator session. Check browser storage.', false);
+                return;
+            }
+            endSession();
             adminForm.reset();
             renderUI();
             showAdminTab('members');
@@ -3179,14 +3855,11 @@
         });
 
         if (adminLogoutBtn) {
-            adminLogoutBtn.addEventListener('click', async () => {
-                try {
-                    await apiRequest('/api/auth/session', { method: 'DELETE' });
-                } catch (error) {
-                    showToast(error.message, false);
-                    return;
-                }
-                currentAdmin = false;
+            adminLogoutBtn.addEventListener('click', () => {
+                endAdminSession();
+                endSession();
+                adminForm.reset();
+                setFieldError(adminPassword, adminError, '');
                 closeAdminAdjustModal();
                 closeAdminConfirmModal();
                 closeAdminCatalogModal();
@@ -3198,100 +3871,79 @@
         function buildAdminCustomerRow(user) {
             const li = document.createElement('li');
             li.className = 'admin-customer';
-            li.dataset.id = user.id;
+            li.dataset.email = user.email;
+
             const initial = ((user.name || 'U').trim().charAt(0) || 'U').toUpperCase();
-            const frozenBadge = user.frozen
-                ? '<span class="admin-badge frozen"><i class="fas fa-snowflake"></i> Frozen</span>'
-                : '';
+            const badges = [];
+            if (user.isDemo) badges.push('<span class="admin-badge demo"><i class="fas fa-flask"></i> Demo</span>');
+            if (isFrozen(user)) badges.push('<span class="admin-badge frozen"><i class="fas fa-snowflake"></i> Frozen</span>');
+
             const email = escapeHtml(user.email);
-            const transactionCount = Number(user.transactionCount) || 0;
-            li.innerHTML = '<div class="admin-customer-main">' +
-                '<div class="avatar real" aria-hidden="true">' + escapeHtml(initial) + '</div>' +
-                '<div class="admin-customer-id"><strong>' + escapeHtml(user.name) + '</strong>' +
-                '<span>' + email + '</span><span class="admin-acct">Acct ' + escapeHtml(user.accountNumber || '?') + '</span>' +
-                '<span class="admin-badges">' + frozenBadge + '</span></div></div>' +
-                '<div class="admin-customer-balance"><span class="admin-balance-label">Balance</span>' +
-                '<strong>' + formatMoney(user.balance) + '</strong><span class="admin-tx-count">' + transactionCount +
-                ' transaction' + (transactionCount === 1 ? '' : 's') + '</span></div>' +
-                '<div class="admin-row-actions">' +
-                '<button type="button" class="btn admin-btn" data-action="credit"><i class="fas fa-plus"></i> Credit</button>' +
-                '<button type="button" class="btn admin-btn" data-action="debit"><i class="fas fa-minus"></i> Debit</button>' +
-                '<button type="button" class="btn admin-btn" data-action="freeze"><i class="fas fa-snowflake"></i> ' + (user.frozen ? 'Unfreeze' : 'Freeze') + '</button>' +
-                '<button type="button" class="btn admin-btn" data-action="reset"><i class="fas fa-rotate-left"></i> Reset</button>' +
-                '<button type="button" class="btn admin-btn admin-btn-danger" data-action="delete"><i class="fas fa-trash"></i> Delete</button>' +
-                '</div>';
+            const txCount = (user.transactions || []).length;
+
+            li.innerHTML = `
+                <div class="admin-customer-main">
+                    <div class="avatar ${user.isDemo ? 'demo' : 'real'}" aria-hidden="true">${escapeHtml(initial)}</div>
+                    <div class="admin-customer-id">
+                        <strong>${escapeHtml(user.name)}</strong>
+                        <span>${email}</span>
+                        <span class="admin-acct">Acct ${escapeHtml(user.accountNumber || '—')}</span>
+                        <span class="admin-badges">${badges.join('')}</span>
+                    </div>
+                </div>
+                <div class="admin-customer-balance">
+                    <span class="admin-balance-label">Balance</span>
+                    <strong>${formatMoney(user.balance)}</strong>
+                    <span class="admin-tx-count">${txCount} transaction${txCount === 1 ? '' : 's'}</span>
+                </div>
+                <div class="admin-row-actions">
+                    <button type="button" class="btn admin-btn" data-action="credit" data-email="${email}"><i class="fas fa-plus"></i> Credit</button>
+                    <button type="button" class="btn admin-btn" data-action="debit" data-email="${email}"><i class="fas fa-minus"></i> Debit</button>
+                    <button type="button" class="btn admin-btn" data-action="freeze" data-email="${email}"><i class="fas fa-snowflake"></i> ${isFrozen(user) ? 'Unfreeze' : 'Freeze'}</button>
+                    <button type="button" class="btn admin-btn" data-action="reset" data-email="${email}"><i class="fas fa-rotate-left"></i> Reset</button>
+                    <button type="button" class="btn admin-btn admin-btn-danger" data-action="delete" data-email="${email}"><i class="fas fa-trash"></i> Delete</button>
+                </div>`;
             return li;
         }
 
-        async function renderAdminDashboard() {
-            if (!adminCustomerList || !currentAdmin) return;
-            try {
-                const result = await apiRequest('/api/admin/customers');
-                adminCustomers = result.customers;
-                const users = adminCustomers;
-                const term = (adminSearch.value || '').trim().toLowerCase();
-                const totalBalance = users.reduce((sum, user) => sum + toMoney(user.balance), 0);
-                const frozenCount = users.filter(user => user.frozen).length;
-                const transactionCount = users.reduce((sum, user) => sum + user.transactionCount, 0);
-                adminStatMembers.textContent = String(users.length);
-                adminStatBalance.textContent = formatMoney(totalBalance);
-                adminStatFrozen.textContent = String(frozenCount);
-                adminStatTx.textContent = String(transactionCount);
-                const filtered = users.filter(user => !term || user.name.toLowerCase().includes(term) ||
-                    user.email.includes(term) || (user.accountNumber || '').includes(term));
-                adminCustomerList.innerHTML = '';
-                if (!filtered.length) {
-                    adminCustomerList.innerHTML = '<li class="admin-empty">No matching customer accounts.</li>';
-                } else {
-                    filtered.forEach(user => adminCustomerList.appendChild(buildAdminCustomerRow(user)));
-                }
-                adminResultCount.textContent = filtered.length + ' of ' + users.length + ' accounts shown';
-                await renderAdminRequests();
-            } catch (error) {
-                showToast(error.message, false);
+        function renderAdminDashboard() {
+            if (!adminCustomerList) return;
+            const users = loadUsers();
+            const term = (adminSearch.value || '').trim().toLowerCase();
+
+            const totalBalance = users.reduce((sum, u) => sum + toMoney(u.balance), 0);
+            const frozenCount = users.filter(isFrozen).length;
+            const txCount = users.reduce((sum, u) => sum + (u.transactions ? u.transactions.length : 0), 0);
+            adminStatMembers.textContent = String(users.length);
+            adminStatBalance.textContent = `${formatMoney(totalBalance)}`;
+            adminStatFrozen.textContent = String(frozenCount);
+            adminStatTx.textContent = String(txCount);
+
+            const filtered = users
+                .filter(u => !term || u.name.toLowerCase().includes(term) || u.email.includes(term) || (u.accountNumber || '').includes(term))
+                .sort((a, b) => String(b.createdAt || '').localeCompare(String(a.createdAt || '')));
+
+            adminCustomerList.innerHTML = '';
+            if (!filtered.length) {
+                adminCustomerList.innerHTML = '<li class="admin-empty">No matching customer accounts.</li>';
+            } else {
+                filtered.forEach(u => adminCustomerList.appendChild(buildAdminCustomerRow(u)));
             }
+            adminResultCount.textContent = `${filtered.length} of ${users.length} account${users.length === 1 ? '' : 's'} shown`;
         }
 
-        async function renderAdminRequests() {
-            if (!adminRequestList || !currentAdmin) return;
-            const result = await apiRequest('/api/admin/requests');
-            adminRequestList.innerHTML = '';
-            if (!result.requests.length) {
-                adminRequestList.innerHTML = '<li class="admin-empty">No pending requests.</li>';
-                return;
-            }
-            const labels = {
-                deposit: 'Deposit',
-                withdrawal: 'Withdrawal',
-                investment_buy: 'Investment purchase request',
-                investment_sell: 'Investment sale request'
-            };
-            result.requests.forEach(request => {
-                const li = document.createElement('li');
-                li.className = 'admin-customer';
-                li.innerHTML = '<div class="admin-customer-main"><div class="admin-customer-id">' +
-                    '<strong>' + escapeHtml(labels[request.type] || 'Money request') + ' ? ' + formatMoney(request.amount) + '</strong>' +
-                    '<span>' + escapeHtml(request.user.name) + ' ? ' + escapeHtml(request.user.email) + '</span>' +
-                    '<span class="admin-acct">' + escapeHtml(request.description || request.user.accountNumber) + '</span>' +
-                    '<span class="admin-tx-count">Submitted ' + escapeHtml(new Date(request.createdAt).toLocaleString()) + '</span></div></div>' +
-                    '<div class="admin-customer-balance"><span class="admin-balance-label">Current balance</span><strong>' +
-                    formatMoney(request.user.balance) + '</strong></div><div class="admin-row-actions">' +
-                    (request.type.startsWith('investment_') ? '' : '<button type="button" class="btn admin-btn" data-request-action="approve" data-request-id="' + escapeHtml(request.id) + '">Mark settled</button>') +
-                    '<button type="button" class="btn admin-btn admin-btn-danger" data-request-action="reject" data-request-id="' + escapeHtml(request.id) + '">Reject</button></div>';
-                adminRequestList.appendChild(li);
-            });
-        }
-
-        adminCustomerList.addEventListener('click', (event) => {
-            const button = event.target.closest('button[data-action]');
-            if (!button) return;
-            const user = adminCustomers.find(customer => customer.id === button.closest('.admin-customer').dataset.id);
+        // One delegated listener survives every innerHTML rebuild of the list.
+        adminCustomerList.addEventListener('click', (e) => {
+            const btn = e.target.closest('button[data-action]');
+            if (!btn) return;
+            const action = btn.dataset.action;
+            const email = btn.dataset.email;
+            const user = loadUsers().find(u => u.email === email);
             if (!user) {
                 showToast('That account no longer exists', false);
                 renderAdminDashboard();
                 return;
             }
-            const action = button.dataset.action;
             if (action === 'credit') openAdminAdjust(user, 'credit');
             else if (action === 'debit') openAdminAdjust(user, 'debit');
             else if (action === 'freeze') toggleAdminFreeze(user);
@@ -3299,26 +3951,8 @@
             else if (action === 'delete') requestAdminDelete(user);
         });
 
-        adminRequestList.addEventListener('click', async (event) => {
-            const button = event.target.closest('button[data-request-action]');
-            if (!button) return;
-            button.disabled = true;
-            try {
-                await apiRequest('/api/admin/requests/' + encodeURIComponent(button.dataset.requestId) + '/resolve', {
-                    method: 'POST',
-                    body: { decision: button.dataset.requestAction }
-                });
-                showToast(button.dataset.requestAction === 'approve' ? 'Request marked as settled.' : 'Request rejected.', true);
-                await renderAdminDashboard();
-            } catch (error) {
-                button.disabled = false;
-                showToast(error.message, false);
-            }
-        });
-
         if (adminSearch) adminSearch.addEventListener('input', renderAdminDashboard);
         if (adminRefreshBtn) adminRefreshBtn.addEventListener('click', renderAdminDashboard);
-        if (adminRequestsRefreshBtn) adminRequestsRefreshBtn.addEventListener('click', renderAdminRequests);
         // ---------- ADMIN: CATALOG MANAGEMENT ----------
         // Investments, policies and services are shared reference data. Every
         // change made here is written straight to localStorage, so additions,
@@ -3351,12 +3985,17 @@
                 label: 'investment product',
                 plural: 'investment products',
                 source: () => INVESTMENT_CATALOG,
-                defaults: DEFAULT_INVESTMENT_CATALOG,
+                save: saveInvestmentCatalog,
                 list: adminInvList,
                 count: adminInvCount,
                 tabCount: adminTabCountInvestments,
                 icon: 'fa-chart-line',
                 rowMeta: (key, entry) => `${key} · ${entry.category} · ${formatMoney(entry.price)} per unit`,
+                restore: () => {
+                    removeItem(CATALOG_KEYS.investments);
+                    reloadCatalogEntry(INVESTMENT_CATALOG, DEFAULT_INVESTMENT_CATALOG);
+                    rebuildServiceCatalog();
+                },
                 fields: [
                     { key: 'key', label: 'Product ID', placeholder: 'e.g. tech-growth', hint: 'Lowercase letters, numbers and dashes. Locked after saving.' },
                     { key: 'name', label: 'Name', placeholder: 'Capital Growth Fund', required: true, maxlength: 60 },
@@ -3369,12 +4008,16 @@
                 label: 'policy',
                 plural: 'policies',
                 source: () => POLICY_CATALOG,
-                defaults: DEFAULT_POLICY_CATALOG,
+                save: savePolicyCatalog,
                 list: adminPolList,
                 count: adminPolCount,
                 tabCount: adminTabCountPolicies,
                 icon: 'fa-file-contract',
                 rowMeta: (key, entry) => `${key} · ${entry.category} · updated ${entry.updated} · ${(entry.points || []).length} key point${(entry.points || []).length === 1 ? '' : 's'}`,
+                restore: () => {
+                    removeItem(CATALOG_KEYS.policies);
+                    reloadCatalogEntry(POLICY_CATALOG, DEFAULT_POLICY_CATALOG);
+                },
                 fields: [
                     { key: 'key', label: 'Policy ID', placeholder: 'e.g. overdraft-terms', hint: 'Lowercase letters, numbers and dashes. Locked after saving.' },
                     { key: 'title', label: 'Title', placeholder: 'Overdraft terms', required: true, maxlength: 80 },
@@ -3388,12 +4031,17 @@
                 label: 'service',
                 plural: 'services',
                 source: () => BASE_SERVICE_CATALOG,
-                defaults: DEFAULT_SERVICE_CATALOG,
+                save: saveServiceCatalog,
                 list: adminSvcList,
                 count: adminSvcCount,
                 tabCount: adminTabCountServices,
                 icon: 'fa-layer-group',
                 rowMeta: (key, entry) => `${key} · ${entry.icon} · ${(entry.rates || []).length} rate row${(entry.rates || []).length === 1 ? '' : 's'} · action: ${entry.action || 'details only'}`,
+                restore: () => {
+                    removeItem(CATALOG_KEYS.services);
+                    reloadCatalogEntry(BASE_SERVICE_CATALOG, DEFAULT_SERVICE_CATALOG);
+                    rebuildServiceCatalog();
+                },
                 fields: [
                     { key: 'key', label: 'Service ID', placeholder: 'e.g. travel-fx', hint: 'Lowercase letters, numbers and dashes. Locked after saving.' },
                     { key: 'name', label: 'Name', placeholder: 'Travel FX', required: true, maxlength: 60 },
@@ -3406,10 +4054,7 @@
                         { value: 'deposit', label: 'Make a deposit' },
                         { value: 'withdraw', label: 'Make a withdrawal' },
                         { value: 'statement', label: 'Download statement' },
-                        { value: 'contact', label: 'Contact us' },
-                        { value: 'loan-application', label: 'Loan application request' },
-                        { value: 'credit-card-application', label: 'Credit card application request' },
-                        { value: 'debit-card-application', label: 'Debit card application request' }
+                        { value: 'contact', label: 'Contact us' }
                     ] }
                 ]
             }
@@ -3462,7 +4107,6 @@
                 else b.setAttribute('tabindex', '-1');
             });
             adminPanels.forEach(p => p.classList.toggle('hidden', p.dataset.adminPanel !== key));
-            adminPanels.forEach(p => p.setAttribute('aria-hidden', p.dataset.adminPanel !== key ? 'true' : 'false'));
             renderAdminCatalogs();
             syncAdminBanner();
             // Switching console sections starts at the top, so a scrolled
@@ -3472,19 +4116,6 @@
 
         adminTabBtns.forEach(btn => {
             btn.addEventListener('click', () => showAdminTab(btn.dataset.adminTab));
-            btn.addEventListener('keydown', e => {
-                const currentIndex = adminTabBtns.indexOf(btn);
-                let nextIndex = currentIndex;
-                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextIndex = (currentIndex + 1) % adminTabBtns.length;
-                else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') nextIndex = (currentIndex - 1 + adminTabBtns.length) % adminTabBtns.length;
-                else if (e.key === 'Home') nextIndex = 0;
-                else if (e.key === 'End') nextIndex = adminTabBtns.length - 1;
-                else return;
-                e.preventDefault();
-                const next = adminTabBtns[nextIndex];
-                next.focus();
-                showAdminTab(next.dataset.adminTab);
-            });
         });
 
         function renderAdminCatalogs() {
@@ -3510,11 +4141,15 @@
                                     <strong>${escapeHtml(title)}</strong>
                                     <span>${escapeHtml(def.rowMeta(key, entry))}</span>
                                 </div>
+                            </div>
+                            <div class="admin-row-actions">
+                                <button type="button" class="btn admin-btn" data-cat-action="edit" data-cat-key="${escapeHtml(key)}"><i class="fas fa-pen" aria-hidden="true"></i> Edit</button>
+                                <button type="button" class="btn admin-btn admin-btn-danger" data-cat-action="delete" data-cat-key="${escapeHtml(key)}"><i class="fas fa-trash" aria-hidden="true"></i> Delete</button>
                             </div>`;
                         def.list.appendChild(li);
                     });
                 }
-                if (def.count) def.count.textContent = `${keys.length} ${def.plural} - read-only`;
+                if (def.count) def.count.textContent = `${keys.length} ${def.plural} - saved to this browser`;
             });
         }
 
@@ -3542,13 +4177,8 @@
                 `Remove "${label}" permanently? Members will no longer see it.${holdingsNote}`,
                 'Delete',
                 () => {
-                    const previous = store[key];
                     delete store[key];
-                    if (!def.save()) {
-                        store[key] = previous;
-                        showToast('Could not delete the entry. Check browser storage.', false);
-                        return;
-                    }
+                    def.save();
                     if (type === 'investments' || type === 'services') rebuildServiceCatalog();
                     renderAdminCatalogs();
                     showToast(`${def.label} deleted: ${label}`, true);
@@ -3573,15 +4203,7 @@
                     `Replace the stored ${def.plural} with the built-in defaults? Entries added here will be removed for every member.`,
                     'Restore defaults',
                     () => {
-                        const store = def.source();
-                        if (!removeItem(def.storageKey)) {
-                            showToast(`Could not restore default ${def.plural}. Check browser storage.`, false);
-                            return;
-                        }
-                        reloadCatalogEntry(store, def.defaults);
-                        if (btn.dataset.catalogReset === 'investments' || btn.dataset.catalogReset === 'services') {
-                            rebuildServiceCatalog();
-                        }
+                        def.restore();
                         renderAdminCatalogs();
                         showToast(`Restored default ${def.plural}`, true);
                     }
@@ -3749,17 +4371,9 @@
                 const points = splitCatalogLines(values.points);
                 if (!points.length) { showAdminCatError('Add at least one key point (one per line).'); return; }
                 if (!editKey && store[key]) { showAdminCatError('That ID is already in use. Pick another.'); return; }
-                let updated = new Date().toISOString().slice(0, 10);
-                if (values.updated) {
-                    const parsedDate = /^\d{4}-\d{2}-\d{2}$/.test(values.updated)
-                        ? new Date(`${values.updated}T00:00:00Z`)
-                        : null;
-                    if (!parsedDate || Number.isNaN(parsedDate.getTime()) || parsedDate.toISOString().slice(0, 10) !== values.updated) {
-                        showAdminCatError('Enter a valid date in YYYY-MM-DD format, or leave it blank for today.');
-                        return;
-                    }
-                    updated = values.updated;
-                }
+                const updated = /^\d{4}-\d{2}-\d{2}$/.test(values.updated)
+                    ? values.updated
+                    : new Date().toISOString().slice(0, 10);
                 entry = {
                     title: values.title.slice(0, 80),
                     category: values.category.slice(0, 40),
@@ -3809,7 +4423,7 @@
         });
 
         function openAdminAdjust(user, mode) {
-            adminAdjustTarget = { id: user.id, email: user.email, mode };
+            adminAdjustTarget = { email: user.email, mode };
             const isCredit = mode === 'credit';
             adminAdjustHeading.innerHTML = isCredit
                 ? '<i class="fas fa-plus"></i> Credit account'
@@ -3830,7 +4444,7 @@
         adminAdjustCancel.addEventListener('click', closeAdminAdjustModal);
         adminAdjustModal.addEventListener('click', (e) => { if (e.target === adminAdjustModal) closeAdminAdjustModal(); });
 
-        adminAdjustForm.addEventListener('submit', async (e) => {
+        adminAdjustForm.addEventListener('submit', (e) => {
             e.preventDefault();
             if (!adminAdjustTarget) return;
             const amount = toMoney(adminAdjustAmount.value);
@@ -3839,37 +4453,55 @@
                 adminAdjustAmount.focus();
                 return;
             }
-            try {
-                await apiRequest('/api/admin/customers/' + encodeURIComponent(adminAdjustTarget.id) + '/adjust', {
-                    method: 'POST',
-                    body: {
-                        type: adminAdjustTarget.mode,
-                        amount,
-                        description: adminAdjustDesc.value.trim()
-                    }
-                });
-            } catch (error) {
-                showToast(error.message, false);
+            const users = loadUsers();
+            const idx = users.findIndex(u => u.email === adminAdjustTarget.email);
+            if (idx === -1) {
+                showToast('That account no longer exists', false);
+                closeAdminAdjustModal();
+                renderAdminDashboard();
                 return;
             }
-            const mode = adminAdjustTarget.mode;
-            const email = adminAdjustTarget.email;
+            const isCredit = adminAdjustTarget.mode === 'credit';
+            const user = users[idx];
+            const balance = toMoney(user.balance);
+            if (!isCredit && amount > balance) {
+                showToast(`Insufficient funds. Balance is ${formatMoney(balance)}`, false);
+                adminAdjustAmount.focus();
+                return;
+            }
+            // Record the movement as a normal transaction so the member's own
+            // activity feed stays consistent with the balance.
+            user.balance = toMoney(isCredit ? balance + amount : balance - amount);
+            if (!Array.isArray(user.transactions)) user.transactions = [];
+            user.transactions.push(normaliseTx({
+                type: isCredit ? 'deposit' : 'withdraw',
+                amount,
+                description: (adminAdjustDesc.value.trim() || (isCredit ? 'Administrative credit' : 'Administrative debit')).slice(0, 80),
+                date: new Date().toISOString()
+            }));
+            users[idx] = normaliseUser(user);
+            if (!saveUsers(users)) {
+                showToast('Could not save the change. Check browser storage.', false);
+                return;
+            }
             closeAdminAdjustModal();
-            await renderAdminDashboard();
-            showToast((mode === 'credit' ? 'Credited ' : 'Debited ') + formatMoney(amount) + ' ' + email, true);
+            renderAdminDashboard();
+            showToast(`${isCredit ? 'Credited' : 'Debited'} ${formatMoney(amount)} ${isCredit ? 'to' : 'from'} ${user.email}`, true);
         });
 
-        async function toggleAdminFreeze(user) {
-            try {
-                await apiRequest('/api/admin/customers/' + encodeURIComponent(user.id) + '/frozen', {
-                    method: 'PATCH',
-                    body: { frozen: !user.frozen }
-                });
-                await renderAdminDashboard();
-                showToast(user.email + (user.frozen ? ' has been unfrozen' : ' has been frozen'), true);
-            } catch (error) {
-                showToast(error.message, false);
+        function toggleAdminFreeze(user) {
+            const users = loadUsers();
+            const idx = users.findIndex(u => u.email === user.email);
+            if (idx === -1) return;
+            users[idx].frozen = !isFrozen(users[idx]);
+            const nowFrozen = users[idx].frozen;
+            users[idx] = normaliseUser(users[idx]);
+            if (!saveUsers(users)) {
+                showToast('Could not save the change. Check browser storage.', false);
+                return;
             }
+            renderAdminDashboard();
+            showToast(nowFrozen ? `${user.email} has been frozen` : `${user.email} has been unfrozen`, true);
         }
 
         function openAdminConfirm(title, message, confirmLabel, onConfirm) {
@@ -3898,16 +4530,21 @@
         function requestAdminReset(user) {
             openAdminConfirm(
                 'Reset account activity',
-                'Clear every transaction and set the balance to $0.00 for ' + user.name + ' (' + user.email + ')? Sign-in details stay unchanged.',
+                `Clear every transaction and set the balance to $0.00 for ${user.name} (${user.email})? Sign-in details stay unchanged.`,
                 'Reset account',
-                async () => {
-                    try {
-                        await apiRequest('/api/admin/customers/' + encodeURIComponent(user.id) + '/reset', { method: 'POST' });
-                        await renderAdminDashboard();
-                        showToast(user.email + ' activity reset', true);
-                    } catch (error) {
-                        showToast(error.message, false);
+                () => {
+                    const users = loadUsers();
+                    const idx = users.findIndex(u => u.email === user.email);
+                    if (idx === -1) return;
+                    users[idx].transactions = [];
+                    users[idx].balance = 0;
+                    users[idx] = normaliseUser(users[idx]);
+                    if (!saveUsers(users)) {
+                        showToast('Could not save the change. Check browser storage.', false);
+                        return;
                     }
+                    renderAdminDashboard();
+                    showToast(`${user.email} activity reset`, true);
                 }
             );
         }
@@ -3915,16 +4552,18 @@
         function requestAdminDelete(user) {
             openAdminConfirm(
                 'Delete customer account',
-                'Permanently remove ' + user.name + ' (' + user.email + ') and all of their account data? This cannot be undone.',
+                `Permanently remove ${user.name} (${user.email}) and all of their data from this browser? This cannot be undone.`,
                 'Delete account',
-                async () => {
-                    try {
-                        await apiRequest('/api/admin/customers/' + encodeURIComponent(user.id), { method: 'DELETE' });
-                        await renderAdminDashboard();
-                        showToast('Deleted ' + user.email, true);
-                    } catch (error) {
-                        showToast(error.message, false);
+                () => {
+                    const users = loadUsers().filter(u => u.email !== user.email);
+                    if (!saveUsers(users)) {
+                        showToast('Could not save the change. Check browser storage.', false);
+                        return;
                     }
+                    // Never leave a member session pointing at a deleted account.
+                    if (getSessionEmail() === user.email) endSession();
+                    renderAdminDashboard();
+                    showToast(`Deleted ${user.email}`, true);
                 }
             );
         }
@@ -3936,27 +4575,38 @@
             if (adminConfirmModal.classList.contains('active')) closeAdminConfirmModal();
             else if (adminCatModal && adminCatModal.classList.contains('active')) closeAdminCatalogModal();
             else if (adminAdjustModal.classList.contains('active')) closeAdminAdjustModal();
-            else if (adminCreateModal.classList.contains('active')) closeAdminCreateModal();
         });
 
-        // ---------- INIT ----------
-        removeItem('capitalasset_users_v1');
-        removeItem('capitalasset_session_v1');
-        removeItem('capitalasset_admin_v1');
-
-        async function restoreSession() {
-            try {
-                const result = await apiRequest('/api/auth/session');
-                currentUser = result.authenticated && result.role === 'member' ? result.user : null;
-                currentAdmin = result.authenticated && result.role === 'admin';
-                renderUI();
-            } catch (error) {
-                showToast(error.message, false);
-                renderUI();
-            }
+        // Seed the real account for Rick Carl (carl123) if it does not exist.
+        function seedRickCarlAccount() {
+            const users = loadUsers();
+            if (users.some(u => u.email === 'rick.carl@gmail.com')) return;
+            const seeded = buildRickCarlHistory();
+            const rickNumbers = new Set(users.map(u => u.accountNumber).filter(isAccountNumber));
+            const rickUser = {
+                name: 'Rick Carl',
+                email: 'rick.carl@gmail.com',
+                password: 'carl123',
+                accountNumber: createAccountNumber(rickNumbers),
+                balance: seeded.balance,
+                isDemo: false,
+                transactions: seeded.transactions,
+                phone: '',
+                emailNotifications: true,
+                smsNotifications: false
+            };
+            users.push(normaliseUser(rickUser));
+            saveUsers(users);
         }
 
-        restoreSession();
+        // ---------- INIT ----------
+        seedDemoData(false);
+        seedRickCarlAccount();
+        renderUI();
+
+        window.addEventListener('storage', (e) => {
+            if (e.key === USERS_KEY || e.key === SESSION_KEY || e.key === ADMIN_SESSION_KEY) renderUI();
+        });
 
         document.addEventListener('keydown', (e) => {
             if (e.key !== 'Escape') return;
