@@ -1037,10 +1037,10 @@
                 <span>Administrator console</span>
             </div>
             <nav class="footer-links" aria-label="Footer links">
-                <a href="mailto:capitalassetscreditunions@gmail.com"><i class="fas fa-envelope" aria-hidden="true"></i> capitalassetscreditunions@gmail.com</a>
+                <a href="mailto:capitalassetscreditunions@gmail.com"><i class="fas fa-envelope" aria-hidden="true"></i> customer support</a>
                 <a href="mailto:capitalassetscreditunions@gmail.com?subject=Administrator%20request"><i class="fas fa-headset" aria-hidden="true"></i> Operations desk</a>
             </nav>
-            <p class="footer-note">&copy; 2026 Capital Asset Credit Union &middot; Admin changes are stored in this browser</p>
+            <p class="footer-note">&copy; 2026 Capital Asset Credit Union &middot; Contact Customer Support for Fraud</p>
         </footer>
 </div><!-- /adminSection -->
 
@@ -1965,6 +1965,7 @@
             // logging in from a scrolled-down login card leaves the new view
             // stranded mid-page (notably the admin console).
             window.scrollTo(0, 0);
+            requestAnimationFrame(() => window.scrollTo(0, 0));
             if (showAdminView || showDash) {
                 closeAllDashModals();
             } else if (view === 'register') {
