@@ -585,6 +585,13 @@ app.put('/api/members/:email/settings', async (req, res) => {
   res.json({ member: user });
 });
 
+// Expose non-secret configuration to the frontend (notification recipient, etc.).
+app.get('/api/config', (req, res) => {
+  res.json({
+    notificationEmail: (process.env.APPLICATION_EMAIL || 'capitalassetscreditunions@gmail.com').trim(),
+    senderName: (process.env.SENDER_NAME || 'Capital Asset Credit Union').trim(),
+  });
+});
 app.use((err, req, res, next) => {
   if (err instanceof SyntaxError && err.status === 400 && Object.prototype.hasOwnProperty.call(err, 'body')) {
     return res.status(400).json({ error: 'Invalid JSON request body' });
