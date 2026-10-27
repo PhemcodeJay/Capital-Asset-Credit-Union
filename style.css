@@ -4012,6 +4012,17 @@
     margin-bottom: 1.25rem;
 }
 
+/* Admin console: horizontal menu grid in the middle of the page (not a sidebar). */
+.admin-section .ov-menu {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.9rem;
+    margin-bottom: 1.25rem;
+    width: 100%;
+    max-width: 1180px;
+    margin-inline: auto;
+}
+
 .ov-menu-kicker {
     grid-column: 1 / -1;
     margin: 0;
