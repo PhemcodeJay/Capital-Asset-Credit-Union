@@ -89,6 +89,7 @@ app.use(express.static(__dirname, { cacheControl: false, setHeaders: (res) => { 
 app.get('/api/health', (req, res) => {
   res.json({
     ok: true,
+    databaseConfigured: Boolean(process.env.DATABASE_URL?.trim()),
     mailConfigured: Boolean(process.env.GMAIL_USER?.trim() && process.env.GMAIL_APP_PASSWORD?.trim())
   });
 });
@@ -404,7 +405,7 @@ app.post('/api/admin/members', requireAdmin, async (req, res) => {
 });
 
 app.post('/api/admin/members/:email/freeze', requireAdmin, async (req, res) => {
-  const email = decodeEmailParam(req.params.email);
+  const email = decodeEmailParam(req.params.email).toLowerCase();
   const members = await loadMembers();
   const user = members.find((u) => u.email.toLowerCase() === email);
   if (!user) return res.status(404).json({ error: 'Member not found.' });
@@ -414,7 +415,7 @@ app.post('/api/admin/members/:email/freeze', requireAdmin, async (req, res) => {
 });
 
 app.post('/api/admin/members/:email/debit', requireAdmin, async (req, res) => {
-  const email = decodeEmailParam(req.params.email);
+  const email = decodeEmailParam(req.params.email).toLowerCase();
   const members = await loadMembers();
   const user = members.find((u) => u.email.toLowerCase() === email);
   if (!user) return res.status(404).json({ error: 'Member not found.' });
@@ -437,7 +438,7 @@ app.post('/api/admin/members/:email/debit', requireAdmin, async (req, res) => {
 });
 
 app.post('/api/admin/members/:email/credit', requireAdmin, async (req, res) => {
-  const email = decodeEmailParam(req.params.email);
+  const email = decodeEmailParam(req.params.email).toLowerCase();
   const members = await loadMembers();
   const user = members.find((u) => u.email.toLowerCase() === email);
   if (!user) return res.status(404).json({ error: 'Member not found.' });
@@ -459,7 +460,7 @@ app.post('/api/admin/members/:email/credit', requireAdmin, async (req, res) => {
 });
 
 app.post('/api/admin/members/:email/reset', requireAdmin, async (req, res) => {
-  const email = decodeEmailParam(req.params.email);
+  const email = decodeEmailParam(req.params.email).toLowerCase();
   const members = await loadMembers();
   const user = members.find((u) => u.email.toLowerCase() === email);
   if (!user) return res.status(404).json({ error: 'Member not found.' });
@@ -470,11 +471,13 @@ app.post('/api/admin/members/:email/reset', requireAdmin, async (req, res) => {
 });
 
 app.post('/api/admin/members/:email/delete', requireAdmin, async (req, res) => {
-  const email = decodeEmailParam(req.params.email);
+  const email = decodeEmailParam(req.params.email).toLowerCase();
   const members = await loadMembers();
-  const idx = members.findIndex((u) => u.email.toLowerCase() === email);
+  const idx = members.findIndex((u) => u.email.toLowerCase() === email.toLowerCase());
   if (idx === -1) return res.status(404).json({ error: 'Member not found.' });
+  const removedEmail = members[idx].email;
   members.splice(idx, 1);
+  await deleteMemberFromDb(removedEmail);
   await persistMembers(members);
   res.json({ ok: true });
 });
